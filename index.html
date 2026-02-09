@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Learning Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <h2 class="loading-title">Japanese Learning Guide</h2>
+        <p class="loading-subtitle">Loading your study materials...</p>
+    </div>
+</div>
+
+<div class="bg-overlay" id="bg-overlay"></div>
+<div id="app">
+
+<!-- ==================== HUB VIEW ==================== -->
+<div id="view-hub" class="view active">
+    <div class="hub-header">
+        <h1>Japanese Learning Guide</h1>
+        <p>Pick a topic to study</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;">
+            <button class="btn btn-hint btn-sm" id="settings-btn" title="Settings">&#9881;</button>
+        </div>
+        <div class="settings-dropdown" id="settings-dropdown">
+            <label class="settings-item">
+                <span>Dark Mode</span>
+                <button class="btn btn-hint btn-sm" id="dark-toggle">Off</button>
+            </label>
+            <label class="settings-item">
+                <span>Background</span>
+                <input type="file" id="bg-upload" accept="image/*" hidden>
+                <button class="btn btn-hint btn-sm" id="bg-choose">Choose</button>
+                <button class="btn btn-hint btn-sm" id="bg-clear" style="display:none">Clear</button>
+            </label>
+            <label class="settings-item">
+                <span>Opacity</span>
+                <input type="range" id="bg-opacity" min="0" max="100" value="15" style="width:100px">
+                <span id="bg-opacity-val">15%</span>
+            </label>
+            <label class="settings-item">
+                <span>Font</span>
+                <select id="font-selector">
+                    <option value="system">System Default</option>
+                    <option value="noto-jp">Noto Sans JP</option>
+                    <option value="inter">Inter</option>
+                    <option value="poppins">Poppins</option>
+                </select>
+            </label>
+        </div>
+        <div class="daily-streak-bar">
+            <div class="daily-streak-item"><span class="daily-streak-val" id="daily-streak">0</span><span class="daily-streak-label">day streak</span></div>
+            <div class="daily-streak-item"><span class="daily-streak-val" id="daily-streak-best">0</span><span class="daily-streak-label">best</span></div>
+        </div>
+    </div>
+    <div id="continue-prompt"></div>
+    <div class="topic-grid">
+        <div class="topic-card" data-topic="writing">
+            <h2>Writing System</h2>
+            <p>Learn hiragana and katakana — reading, typing, and handwriting practice.</p>
+            <span class="topic-tag writing" id="writing-count"></span>
+        </div>
+        <div class="topic-card" data-topic="kanji-folder">
+            <h2>Kanji</h2>
+            <p>Study N5 kanji — meanings, readings, and stroke practice.</p>
+            <span class="topic-tag kanji" id="kanji-count"></span>
+        </div>
+        <div class="topic-card" data-topic="grammar-folder">
+            <h2>Grammar</h2>
+            <p>Particles, verb conjugation, sentence structure, and adjectives.</p>
+            <span class="topic-tag grammar" id="grammar-count"></span>
+        </div>
+        <div class="topic-card" data-topic="vocab-folder">
+            <h2>Vocabulary</h2>
+            <p>N5 vocabulary — flashcards, reading practice, and sentence fill.</p>
+            <span class="topic-tag vocab" id="vocab-count"></span>
+        </div>
+        <div class="topic-card" data-topic="dashboard" style="grid-column: 1 / -1;">
+            <h2>Progress Dashboard</h2>
+            <p>Track your learning progress across all topics.</p>
+            <span class="topic-tag dash">Overview</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== WRITING FOLDER ==================== -->
+<div id="view-writing" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>Writing System</h1>
+        <p>Master hiragana and katakana</p>
+    </header>
+    <div class="topic-grid">
+        <div class="section-label">Guided Lessons</div>
+        <div class="topic-card lesson-card" data-lesson="hiragana-intro">
+            <h2>Hiragana Introduction</h2>
+            <p>Learn the basic Japanese syllabary — the foundation of reading.</p>
+            <span class="topic-tag lesson" id="lesson-tag-hiragana-intro">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="katakana-intro">
+            <h2>Katakana Introduction</h2>
+            <p>Learn katakana — used for foreign words and emphasis.</p>
+            <span class="topic-tag lesson" id="lesson-tag-katakana-intro">Lesson</span>
+        </div>
+        <div class="section-label">Practice Trainers</div>
+        <div class="topic-card" data-topic="hira-trainer">
+            <h2>Hiragana Trainer</h2>
+            <p>Recognise, type, and write hiragana characters.</p>
+            <span class="topic-tag writing">Trainer</span>
+        </div>
+        <div class="topic-card" data-topic="kata-trainer">
+            <h2>Katakana Trainer</h2>
+            <p>Recognise, type, and write katakana characters.</p>
+            <span class="topic-tag writing">Trainer</span>
+        </div>
+        <div class="topic-card" data-topic="writing-canvas">
+            <h2>Free Writing Pad</h2>
+            <p>Open canvas for practising any character with your tablet.</p>
+            <span class="topic-tag writing">Canvas</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== KANJI FOLDER ==================== -->
+<div id="view-kanji-folder" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>Kanji</h1>
+        <p>Study kanji meanings, readings, and writing</p>
+    </header>
+    <div class="topic-grid">
+        <div class="section-label">Guided Lessons</div>
+        <div class="topic-card lesson-card" data-lesson="kanji-basics">
+            <h2>Kanji Basics</h2>
+            <p>What are kanji? On'yomi vs kun'yomi, radicals, and how to study.</p>
+            <span class="topic-tag lesson" id="lesson-tag-kanji-basics">Lesson</span>
+        </div>
+        <div class="section-label">Practice Trainers</div>
+        <div class="topic-card" data-topic="kanji-trainer">
+            <h2>Kanji Trainer</h2>
+            <p>Test meanings, readings, and writing for N5 kanji.</p>
+            <span class="topic-tag kanji">Trainer</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== GRAMMAR FOLDER ==================== -->
+<div id="view-grammar-folder" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>Grammar</h1>
+        <p>Japanese sentence structure and grammar patterns</p>
+    </header>
+    <div class="topic-grid">
+        <div class="section-label">Guided Lessons</div>
+        <div class="topic-card lesson-card" data-lesson="particles-intro">
+            <h2>Particles Introduction</h2>
+            <p>Learn は, が, を, に, で and other essential particles.</p>
+            <span class="topic-tag lesson" id="lesson-tag-particles-intro">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="verb-forms">
+            <h2>Verb Forms</h2>
+            <p>Dictionary form, masu form, te-form, and past tense.</p>
+            <span class="topic-tag lesson" id="lesson-tag-verb-forms">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="adjectives">
+            <h2>Adjectives</h2>
+            <p>i-adjectives and na-adjectives — conjugation and usage.</p>
+            <span class="topic-tag lesson" id="lesson-tag-adjectives">Lesson</span>
+        </div>
+        <div class="topic-card lesson-card" data-lesson="sentence-structure">
+            <h2>Sentence Structure</h2>
+            <p>SOV word order, topic-comment, and building sentences.</p>
+            <span class="topic-tag lesson" id="lesson-tag-sentence-structure">Lesson</span>
+        </div>
+        <div class="section-label">Practice Trainers</div>
+        <div class="topic-card" data-topic="gram-trainer">
+            <h2>Grammar Trainer</h2>
+            <p>Particles, conjugation, sentence reordering, and translation.</p>
+            <span class="topic-tag grammar">Trainer</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== VOCABULARY FOLDER ==================== -->
+<div id="view-vocab-folder" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>Vocabulary</h1>
+        <p>Build your Japanese word bank</p>
+    </header>
+    <div class="topic-grid">
+        <div class="section-label">Guided Lessons</div>
+        <div class="topic-card lesson-card" data-lesson="counting">
+            <h2>Counting &amp; Numbers</h2>
+            <p>Japanese counters, number systems, and how to count things.</p>
+            <span class="topic-tag lesson" id="lesson-tag-counting">Lesson</span>
+        </div>
+        <div class="section-label">Practice Trainers</div>
+        <div class="topic-card" data-topic="vocab-trainer">
+            <h2>Vocabulary Trainer</h2>
+            <p>JP-EN flashcards, reading match, and sentence completion.</p>
+            <span class="topic-tag vocab">Trainer</span>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== HIRAGANA TRAINER ==================== -->
+<div id="view-hira-trainer" class="view">
+    <button class="back-btn" onclick="showView('writing')">Writing</button>
+    <header>
+        <h1>Hiragana Trainer</h1>
+        <p>Master all hiragana characters</p>
+    </header>
+    <div class="level-select" id="hira-levels">
+        <button class="level-btn active" data-level="basic">Basic (46)</button>
+        <button class="level-btn" data-level="dakuten">Dakuten</button>
+        <button class="level-btn" data-level="combos">Combos</button>
+        <button class="level-btn" data-level="all">All</button>
+    </div>
+    <div class="mode-toggle" id="hira-modes">
+        <button class="mode-btn active" data-mode="quiz">Quiz</button>
+        <button class="mode-btn" data-mode="write">Write</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="hira-score">0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value success" id="hira-acc">0%</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value" id="hira-streak">0</div></div>
+        <button class="timed-btn" onclick="TIMED.start('HIRA', HIRA)">60s Challenge</button>
+    </div>
+    <div class="hint-box" id="hira-hint"></div>
+    <div class="question-card" id="hira-question"></div>
+    <div class="feedback" id="hira-fb">
+        <div class="feedback-title" id="hira-fb-title"></div>
+        <div class="feedback-explanation" id="hira-fb-expl"></div>
+    </div>
+    <button class="btn btn-primary next-btn" id="hira-next" onclick="HIRA.load()">Next</button>
+    <div style="text-align:center;margin-bottom:12px;">
+        <button class="btn btn-hint" id="hira-hint-btn" onclick="handleHint(HIRA,'hira-hint','hira-hint-btn')">Hint</button>
+    </div>
+    <details class="rules-ref">
+        <summary>Hiragana Chart</summary>
+        <div class="rules-content" id="hira-ref-chart"></div>
+    </details>
+</div>
+
+<!-- ==================== KATAKANA TRAINER ==================== -->
+<div id="view-kata-trainer" class="view">
+    <button class="back-btn" onclick="showView('writing')">Writing</button>
+    <header>
+        <h1>Katakana Trainer</h1>
+        <p>Master all katakana characters</p>
+    </header>
+    <div class="level-select" id="kata-levels">
+        <button class="level-btn active" data-level="basic">Basic (46)</button>
+        <button class="level-btn" data-level="dakuten">Dakuten</button>
+        <button class="level-btn" data-level="combos">Combos</button>
+        <button class="level-btn" data-level="all">All</button>
+    </div>
+    <div class="mode-toggle" id="kata-modes">
+        <button class="mode-btn active" data-mode="quiz">Quiz</button>
+        <button class="mode-btn" data-mode="write">Write</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="kata-score">0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value success" id="kata-acc">0%</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value" id="kata-streak">0</div></div>
+        <button class="timed-btn" onclick="TIMED.start('KATA', KATA)">60s Challenge</button>
+    </div>
+    <div class="hint-box" id="kata-hint"></div>
+    <div class="question-card" id="kata-question"></div>
+    <div class="feedback" id="kata-fb">
+        <div class="feedback-title" id="kata-fb-title"></div>
+        <div class="feedback-explanation" id="kata-fb-expl"></div>
+    </div>
+    <button class="btn btn-primary next-btn" id="kata-next" onclick="KATA.load()">Next</button>
+    <div style="text-align:center;margin-bottom:12px;">
+        <button class="btn btn-hint" id="kata-hint-btn" onclick="handleHint(KATA,'kata-hint','kata-hint-btn')">Hint</button>
+    </div>
+    <details class="rules-ref">
+        <summary>Katakana Chart</summary>
+        <div class="rules-content" id="kata-ref-chart"></div>
+    </details>
+</div>
+
+<!-- ==================== KANJI TRAINER ==================== -->
+<div id="view-kanji-trainer" class="view">
+    <button class="back-btn" onclick="showView('kanji-folder')">Kanji</button>
+    <header>
+        <h1>Kanji Trainer</h1>
+        <p>Test your N5 kanji knowledge</p>
+    </header>
+    <div class="level-select" id="kanji-levels">
+        <button class="level-btn active" data-level="n5">N5 (80)</button>
+        <button class="level-btn" data-level="n4" disabled title="Coming soon">N4</button>
+        <button class="level-btn" data-level="n3" disabled title="Coming soon">N3</button>
+    </div>
+    <div class="mode-toggle" id="kanji-modes">
+        <button class="mode-btn active" data-mode="quiz">Quiz</button>
+        <button class="mode-btn" data-mode="write">Write</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="kanji-score">0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value success" id="kanji-acc">0%</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value" id="kanji-streak">0</div></div>
+        <button class="timed-btn" onclick="TIMED.start('KANJI', KANJI)">60s Challenge</button>
+    </div>
+    <div class="hint-box" id="kanji-hint"></div>
+    <div class="question-card" id="kanji-question"></div>
+    <div class="feedback" id="kanji-fb">
+        <div class="feedback-title" id="kanji-fb-title"></div>
+        <div class="feedback-explanation" id="kanji-fb-expl"></div>
+    </div>
+    <button class="btn btn-primary next-btn" id="kanji-next" onclick="KANJI.load()">Next</button>
+    <div style="text-align:center;margin-bottom:12px;">
+        <button class="btn btn-hint" id="kanji-hint-btn" onclick="handleHint(KANJI,'kanji-hint','kanji-hint-btn')">Hint</button>
+    </div>
+</div>
+
+<!-- ==================== GRAMMAR TRAINER ==================== -->
+<div id="view-gram-trainer" class="view">
+    <button class="back-btn" onclick="showView('grammar-folder')">Grammar</button>
+    <header>
+        <h1>Grammar Trainer</h1>
+        <p>Practice particles, conjugation, and sentence building</p>
+    </header>
+    <div class="level-select" id="gram-levels">
+        <button class="level-btn active" data-level="n5">N5</button>
+        <button class="level-btn" data-level="n4" disabled title="Coming soon">N4</button>
+        <button class="level-btn" data-level="n3" disabled title="Coming soon">N3</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="gram-score">0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value success" id="gram-acc">0%</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value" id="gram-streak">0</div></div>
+        <button class="timed-btn" onclick="TIMED.start('GRAM', GRAM)">60s Challenge</button>
+    </div>
+    <div class="hint-box" id="gram-hint"></div>
+    <div class="question-card" id="gram-question"></div>
+    <div class="feedback" id="gram-fb">
+        <div class="feedback-title" id="gram-fb-title"></div>
+        <div class="feedback-explanation" id="gram-fb-expl"></div>
+    </div>
+    <button class="btn btn-primary next-btn" id="gram-next" onclick="GRAM.load()">Next</button>
+    <div style="text-align:center;margin-bottom:12px;">
+        <button class="btn btn-hint" id="gram-hint-btn" onclick="handleHint(GRAM,'gram-hint','gram-hint-btn')">Hint</button>
+    </div>
+</div>
+
+<!-- ==================== VOCABULARY TRAINER ==================== -->
+<div id="view-vocab-trainer" class="view">
+    <button class="back-btn" onclick="showView('vocab-folder')">Vocabulary</button>
+    <header>
+        <h1>Vocabulary Trainer</h1>
+        <p>Build and test your word bank</p>
+    </header>
+    <div class="level-select" id="vocab-levels">
+        <button class="level-btn active" data-level="n5">N5</button>
+        <button class="level-btn" data-level="food">Food</button>
+        <button class="level-btn" data-level="travel">Travel</button>
+        <button class="level-btn" data-level="school">School</button>
+        <button class="level-btn" data-level="daily">Daily</button>
+    </div>
+    <div class="score-bar">
+        <div class="score-item"><div class="label">Score</div><div class="value primary" id="vocab-score">0</div></div>
+        <div class="score-item"><div class="label">Accuracy</div><div class="value success" id="vocab-acc">0%</div></div>
+        <div class="score-item"><div class="label">Streak</div><div class="value" id="vocab-streak">0</div></div>
+        <button class="timed-btn" onclick="TIMED.start('VOCAB', VOCAB)">60s Challenge</button>
+    </div>
+    <div class="hint-box" id="vocab-hint"></div>
+    <div class="question-card" id="vocab-question"></div>
+    <div class="feedback" id="vocab-fb">
+        <div class="feedback-title" id="vocab-fb-title"></div>
+        <div class="feedback-explanation" id="vocab-fb-expl"></div>
+    </div>
+    <button class="btn btn-primary next-btn" id="vocab-next" onclick="VOCAB.load()">Next</button>
+    <div style="text-align:center;margin-bottom:12px;">
+        <button class="btn btn-hint" id="vocab-hint-btn" onclick="handleHint(VOCAB,'vocab-hint','vocab-hint-btn')">Hint</button>
+    </div>
+</div>
+
+<!-- ==================== WRITING CANVAS (standalone) ==================== -->
+<div id="view-writing-canvas" class="view">
+    <button class="back-btn" onclick="showView('writing')">Writing</button>
+    <header>
+        <h1>Free Writing Pad</h1>
+        <p>Practice writing any character</p>
+    </header>
+    <div class="writing-pad-container">
+        <canvas id="free-canvas" class="writing-canvas has-guide" width="400" height="400"></canvas>
+        <div class="writing-controls">
+            <button class="btn btn-hint" onclick="WritingPad.clear('free-canvas')">Clear</button>
+            <button class="btn btn-hint" onclick="WritingPad.undo('free-canvas')">Undo</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== LESSON VIEW ==================== -->
+<div id="view-lesson" class="view">
+    <button class="back-btn" id="lesson-back-btn" onclick="LessonEngine.backToFolder()">Back</button>
+    <header>
+        <h1 id="lesson-title"></h1>
+        <p id="lesson-subtitle"></p>
+    </header>
+    <div class="lesson-progress">
+        <div class="lesson-progress-fill" id="lesson-progress-fill" style="width:0%"></div>
+    </div>
+    <div class="lesson-content" id="lesson-content"></div>
+    <div class="lesson-nav" id="lesson-nav"></div>
+</div>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div id="view-dashboard" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>Progress Dashboard</h1>
+        <p>Your learning overview</p>
+    </header>
+    <div id="dashboard-content"></div>
+</div>
+
+</div><!-- end #app -->
+
+<!-- Scripts -->
+<script src="js/utils.js"></script>
+<script src="js/data/hiragana.js"></script>
+<script src="js/data/katakana.js"></script>
+<script src="js/data/kanji-n5.js"></script>
+<script src="js/data/grammar-n5.js"></script>
+<script src="js/data/vocab-n5.js"></script>
+<script src="js/data/particles.js"></script>
+<script src="js/writing-pad.js"></script>
+<script src="js/trainers/hira.js"></script>
+<script src="js/trainers/kata.js"></script>
+<script src="js/trainers/kanji.js"></script>
+<script src="js/trainers/gram.js"></script>
+<script src="js/trainers/vocab.js"></script>
+<script src="js/lessons/lesson-engine.js"></script>
+<script src="js/lessons/hiragana-intro.js"></script>
+<script src="js/lessons/katakana-intro.js"></script>
+<script src="js/lessons/kanji-basics.js"></script>
+<script src="js/lessons/particles-intro.js"></script>
+<script src="js/lessons/verb-forms.js"></script>
+<script src="js/lessons/adjectives.js"></script>
+<script src="js/lessons/sentence-structure.js"></script>
+<script src="js/lessons/counting.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/init.js"></script>
+</body>
+</html>
