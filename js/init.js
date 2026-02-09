@@ -184,8 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bgOpacity.addEventListener('input', () => {
         const val = bgOpacity.value;
         bgOpacityVal.textContent = val + '%';
-        const alpha = 1 - val / 100;
-        document.documentElement.style.setProperty('--bg-card-alpha', alpha.toFixed(2));
+        bgOverlay.style.opacity = val / 100;
         localStorage.setItem('jp_bgOpacity', val);
     });
 
@@ -203,8 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedOpacity) {
         bgOpacity.value = savedOpacity;
         bgOpacityVal.textContent = savedOpacity + '%';
-        const alpha = 1 - savedOpacity / 100;
-        document.documentElement.style.setProperty('--bg-card-alpha', alpha.toFixed(2));
+        bgOverlay.style.opacity = savedOpacity / 100;
     }
 
     // Font selector
