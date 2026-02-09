@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     KANJI.init();
     GRAM.init();
     VOCAB.init();
+    CONV.init();
+    CONJ.init();
+    NUM.init();
 
     // Build reference charts
     HIRA.buildRefChart();
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'kanji-folder') showView('kanji-folder');
             else if (topic === 'grammar-folder') showView('grammar-folder');
             else if (topic === 'vocab-folder') showView('vocab-folder');
+            else if (topic === 'conv-folder') showView('conv-folder');
             else if (topic === 'dashboard') { showView('dashboard'); DASHBOARD.render(); }
             // Folder → trainers
             else if (topic === 'hira-trainer') { showView('hira-trainer'); HIRA.load(); }
@@ -41,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'kanji-trainer') { showView('kanji-trainer'); KANJI.load(); }
             else if (topic === 'gram-trainer') { showView('gram-trainer'); GRAM.load(); }
             else if (topic === 'vocab-trainer') { showView('vocab-trainer'); VOCAB.load(); }
+            else if (topic === 'conv-trainer') { showView('conv-trainer'); CONV.load(); }
+            else if (topic === 'conj-trainer') { showView('conj-trainer'); CONJ.load(); }
+            else if (topic === 'num-trainer') { showView('num-trainer'); NUM.load(); }
             else if (topic === 'writing-canvas') showView('writing-canvas');
         });
     });
@@ -54,7 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'verb-forms': typeof LESSON_VERB_FORMS !== 'undefined' ? LESSON_VERB_FORMS : null,
         'adjectives': typeof LESSON_ADJECTIVES !== 'undefined' ? LESSON_ADJECTIVES : null,
         'sentence-structure': typeof LESSON_SENTENCE_STRUCTURE !== 'undefined' ? LESSON_SENTENCE_STRUCTURE : null,
-        'counting': typeof LESSON_COUNTING !== 'undefined' ? LESSON_COUNTING : null
+        'counting': typeof LESSON_COUNTING !== 'undefined' ? LESSON_COUNTING : null,
+        'conversations-intro': typeof LESSON_CONVERSATIONS_INTRO !== 'undefined' ? LESSON_CONVERSATIONS_INTRO : null,
+        'conversations-daily': typeof LESSON_CONVERSATIONS_DAILY !== 'undefined' ? LESSON_CONVERSATIONS_DAILY : null,
+        'conjugation-verbs': typeof LESSON_CONJUGATION_VERBS !== 'undefined' ? LESSON_CONJUGATION_VERBS : null,
+        'conjugation-adjectives': typeof LESSON_CONJUGATION_ADJECTIVES !== 'undefined' ? LESSON_CONJUGATION_ADJECTIVES : null,
+        'numbers-intro': typeof LESSON_NUMBERS_INTRO !== 'undefined' ? LESSON_NUMBERS_INTRO : null,
+        'numbers-counters': typeof LESSON_NUMBERS_COUNTERS !== 'undefined' ? LESSON_NUMBERS_COUNTERS : null
     };
 
     document.querySelectorAll('[data-lesson]').forEach(card => {
@@ -94,6 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setupLevels('kanji-levels', KANJI, () => KANJI.load());
     setupLevels('gram-levels', GRAM, () => GRAM.load());
     setupLevels('vocab-levels', VOCAB, () => VOCAB.load());
+    setupLevels('conv-levels', CONV, () => CONV.load());
+    setupLevels('conj-levels', CONJ, () => CONJ.load());
+    setupLevels('num-levels', NUM, () => NUM.load());
 
     // ---- Mode toggles (Quiz / Write) ----
     function setupModes(containerId, trainer, callback) {
@@ -121,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.activeElement.tagName === 'TEXTAREA')) return;
 
         // Check for visible next buttons
-        const nextBtns = ['hira-next', 'kata-next', 'kanji-next', 'gram-next', 'vocab-next'];
+        const nextBtns = ['hira-next', 'kata-next', 'kanji-next', 'gram-next', 'vocab-next', 'conv-next', 'conj-next', 'num-next'];
         for (const id of nextBtns) {
             const btn = document.getElementById(id);
             if (btn && btn.classList.contains('show')) {
@@ -251,7 +267,10 @@ document.addEventListener('DOMContentLoaded', () => {
             KATA: { name: 'Katakana Trainer', view: 'kata-trainer', loader: () => { showView('kata-trainer'); KATA.load(); } },
             KANJI: { name: 'Kanji Trainer', view: 'kanji-trainer', loader: () => { showView('kanji-trainer'); KANJI.load(); } },
             GRAM: { name: 'Grammar Trainer', view: 'gram-trainer', loader: () => { showView('gram-trainer'); GRAM.load(); } },
-            VOCAB: { name: 'Vocabulary Trainer', view: 'vocab-trainer', loader: () => { showView('vocab-trainer'); VOCAB.load(); } }
+            VOCAB: { name: 'Vocabulary Trainer', view: 'vocab-trainer', loader: () => { showView('vocab-trainer'); VOCAB.load(); } },
+            CONV: { name: 'Conversation Trainer', view: 'conv-trainer', loader: () => { showView('conv-trainer'); CONV.load(); } },
+            CONJ: { name: 'Conjugation Drill', view: 'conj-trainer', loader: () => { showView('conj-trainer'); CONJ.load(); } },
+            NUM: { name: 'Numbers Trainer', view: 'num-trainer', loader: () => { showView('num-trainer'); NUM.load(); } }
         };
 
         // Find most recent trainer
@@ -311,21 +330,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const lessonIds = {
             writing: ['hiragana-intro', 'katakana-intro'],
             'kanji-folder': ['kanji-basics'],
-            'grammar-folder': ['particles-intro', 'verb-forms', 'adjectives', 'sentence-structure'],
-            'vocab-folder': ['counting']
+            'grammar-folder': ['particles-intro', 'verb-forms', 'adjectives', 'sentence-structure', 'conjugation-verbs', 'conjugation-adjectives'],
+            'vocab-folder': ['counting', 'numbers-intro', 'numbers-counters'],
+            'conv-folder': ['conversations-intro', 'conversations-daily']
         };
         const trainerIds = {
             writing: ['HIRA', 'KATA'],
             'kanji-folder': ['KANJI'],
-            'grammar-folder': ['GRAM'],
-            'vocab-folder': ['VOCAB']
+            'grammar-folder': ['GRAM', 'CONJ'],
+            'vocab-folder': ['VOCAB', 'NUM'],
+            'conv-folder': ['CONV']
         };
 
         const tagMap = {
             writing: 'writing-count',
             'kanji-folder': 'kanji-count',
             'grammar-folder': 'grammar-count',
-            'vocab-folder': 'vocab-count'
+            'vocab-folder': 'vocab-count',
+            'conv-folder': 'conv-count'
         };
 
         for (const topic in tagMap) {

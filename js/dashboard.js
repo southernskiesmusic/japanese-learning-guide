@@ -24,17 +24,27 @@ const DASHBOARD = {
             name: 'Grammar',
             color: '#2a9d8f',
             trainers: [
-                { key: 'GRAM', label: 'Grammar' }
+                { key: 'GRAM', label: 'Grammar' },
+                { key: 'CONJ', label: 'Conjugation' }
             ],
-            lessons: ['particles-intro', 'verb-forms', 'adjectives', 'sentence-structure']
+            lessons: ['particles-intro', 'verb-forms', 'adjectives', 'sentence-structure', 'conjugation-verbs', 'conjugation-adjectives']
         },
         {
             name: 'Vocabulary',
             color: '#e9c46a',
             trainers: [
-                { key: 'VOCAB', label: 'Vocabulary' }
+                { key: 'VOCAB', label: 'Vocabulary' },
+                { key: 'NUM', label: 'Numbers' }
             ],
-            lessons: ['counting']
+            lessons: ['counting', 'numbers-intro', 'numbers-counters']
+        },
+        {
+            name: 'Conversation',
+            color: '#f77f00',
+            trainers: [
+                { key: 'CONV', label: 'Conversation' }
+            ],
+            lessons: ['conversations-intro', 'conversations-daily']
         }
     ],
 
@@ -103,7 +113,8 @@ const DASHBOARD = {
                 h += '<div class="dash-topic"><div class="dash-topic-header">Recent Practice</div>';
                 const NAMES = {
                     HIRA: 'Hiragana', KATA: 'Katakana', KANJI: 'Kanji',
-                    GRAM: 'Grammar', VOCAB: 'Vocabulary'
+                    GRAM: 'Grammar', VOCAB: 'Vocabulary', CONV: 'Conversation',
+                    CONJ: 'Conjugation', NUM: 'Numbers'
                 };
                 const recent = hist.slice(-10).reverse();
                 recent.forEach(r => {

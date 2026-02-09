@@ -68,9 +68,13 @@ body {
 .topic-tag.kanji { background: #457b9d; color: #fff; }
 .topic-tag.grammar { background: #2a9d8f; color: #fff; }
 .topic-tag.vocab { background: #e9c46a; color: #333; }
+.topic-tag.conv { background: #f77f00; color: #fff; }
 .topic-tag.dash { background: #eef0ff; color: var(--primary); }
 .topic-tag.lesson { background: var(--primary-light); color: var(--primary); }
 .topic-tag.lesson-done { background: var(--success-light); color: var(--success); font-weight: 700; }
+.topic-tag.conv { background: #f4845f; color: #fff; }
+.topic-tag.conj { background: #7209b7; color: #fff; }
+.topic-tag.num { background: #4895ef; color: #fff; }
 
 /* ---- Shared trainer styles ---- */
 header { text-align: center; margin-bottom: 24px; }
@@ -530,3 +534,39 @@ body.dark-mode.has-bg .feedback.incorrect { background: rgba(239,71,111,0.2); bo
 }
 .music-btn:hover { transform: scale(1.1); opacity: 1; }
 .music-btn.playing { background: #06d6a0; box-shadow: 0 2px 12px rgba(6,214,160,0.4); }
+
+/* ---- Conversation Trainer ---- */
+.dialogue-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px 0;
+}
+.dialogue-line {
+    padding: 6px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+.dialogue-line.blank-line {
+    padding: 8px 12px;
+    background: var(--primary-light);
+    border-radius: 8px;
+    margin: 4px 0;
+}
+.dialogue-en {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    padding: 0 0 6px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+}
+.dialogue-en:last-child { border-bottom: none; margin-bottom: 0; }
+.situation-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px 0;
+    text-align: center;
+}

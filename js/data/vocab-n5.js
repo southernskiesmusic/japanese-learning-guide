@@ -1,6 +1,6 @@
 /* ============================================================
    JLPT N5 Vocabulary Data
-   ~200 common words across 13 categories + 40 sentences
+   ~250 common words across 17 categories + 56 sentences
    ============================================================ */
 
 const VOCAB_N5 = [
@@ -207,11 +207,71 @@ const VOCAB_N5 = [
     { word: '音楽',     reading: 'おんがく',   meaning: 'music',          category: 'daily' },
     { word: '仕事',     reading: 'しごと',     meaning: 'work; job',      category: 'daily' },
     { word: '趣味',     reading: 'しゅみ',     meaning: 'hobby',          category: 'daily' },
+
+    // ── Verbs (20) ─────────────────────────────────────────
+    { word: '食べる',   reading: 'たべる',     meaning: 'to eat',         category: 'verb' },
+    { word: '飲む',     reading: 'のむ',       meaning: 'to drink',       category: 'verb' },
+    { word: '行く',     reading: 'いく',       meaning: 'to go',          category: 'verb' },
+    { word: '来る',     reading: 'くる',       meaning: 'to come',        category: 'verb' },
+    { word: 'する',     reading: 'する',       meaning: 'to do',          category: 'verb' },
+    { word: '見る',     reading: 'みる',       meaning: 'to see',         category: 'verb' },
+    { word: '聞く',     reading: 'きく',       meaning: 'to listen',      category: 'verb' },
+    { word: '読む',     reading: 'よむ',       meaning: 'to read',        category: 'verb' },
+    { word: '書く',     reading: 'かく',       meaning: 'to write',       category: 'verb' },
+    { word: '話す',     reading: 'はなす',     meaning: 'to speak',       category: 'verb' },
+    { word: '歩く',     reading: 'あるく',     meaning: 'to walk',        category: 'verb' },
+    { word: '走る',     reading: 'はしる',     meaning: 'to run',         category: 'verb' },
+    { word: '寝る',     reading: 'ねる',       meaning: 'to sleep',       category: 'verb' },
+    { word: '起きる',   reading: 'おきる',     meaning: 'to wake up',     category: 'verb' },
+    { word: '作る',     reading: 'つくる',     meaning: 'to make',        category: 'verb' },
+    { word: '遊ぶ',     reading: 'あそぶ',     meaning: 'to play',        category: 'verb' },
+    { word: '買う',     reading: 'かう',       meaning: 'to buy',         category: 'verb' },
+    { word: '売る',     reading: 'うる',       meaning: 'to sell',        category: 'verb' },
+    { word: '教える',   reading: 'おしえる',   meaning: 'to teach',       category: 'verb' },
+    { word: '習う',     reading: 'ならう',     meaning: 'to learn',       category: 'verb' },
+
+    // ── Colours (10) ───────────────────────────────────────
+    { word: '赤',       reading: 'あか',       meaning: 'red',            category: 'colour' },
+    { word: '青',       reading: 'あお',       meaning: 'blue',           category: 'colour' },
+    { word: '白',       reading: 'しろ',       meaning: 'white',          category: 'colour' },
+    { word: '黒',       reading: 'くろ',       meaning: 'black',          category: 'colour' },
+    { word: '黄色',     reading: 'きいろ',     meaning: 'yellow',         category: 'colour' },
+    { word: '緑',       reading: 'みどり',     meaning: 'green',          category: 'colour' },
+    { word: '紫',       reading: 'むらさき',   meaning: 'purple',         category: 'colour' },
+    { word: 'オレンジ', reading: 'おれんじ',   meaning: 'orange',         category: 'colour' },
+    { word: 'ピンク',   reading: 'ぴんく',     meaning: 'pink',           category: 'colour' },
+    { word: '茶色',     reading: 'ちゃいろ',   meaning: 'brown',          category: 'colour' },
+
+    // ── Shopping (12) ──────────────────────────────────────
+    { word: '店',             reading: 'みせ',             meaning: 'shop',           category: 'shopping' },
+    { word: 'レジ',           reading: 'れじ',             meaning: 'register; checkout', category: 'shopping' },
+    { word: '値段',           reading: 'ねだん',           meaning: 'price',          category: 'shopping' },
+    { word: 'お金',           reading: 'おかね',           meaning: 'money',          category: 'shopping' },
+    { word: 'おつり',         reading: 'おつり',           meaning: 'change',         category: 'shopping' },
+    { word: 'レシート',       reading: 'れしーと',         meaning: 'receipt',        category: 'shopping' },
+    { word: '袋',             reading: 'ふくろ',           meaning: 'bag',            category: 'shopping' },
+    { word: 'サイズ',         reading: 'さいず',           meaning: 'size',           category: 'shopping' },
+    { word: '色',             reading: 'いろ',             meaning: 'colour',         category: 'shopping' },
+    { word: 'クレジットカード', reading: 'くれじっとかーど', meaning: 'credit card',    category: 'shopping' },
+    { word: 'セール',         reading: 'せーる',           meaning: 'sale',           category: 'shopping' },
+    { word: '品物',           reading: 'しなもの',         meaning: 'goods',          category: 'shopping' },
+
+    // ── Restaurant (10) ────────────────────────────────────
+    { word: 'メニュー', reading: 'めにゅー',   meaning: 'menu',           category: 'restaurant' },
+    { word: '注文',     reading: 'ちゅうもん', meaning: 'order',          category: 'restaurant' },
+    { word: 'お会計',   reading: 'おかいけい', meaning: 'bill',           category: 'restaurant' },
+    { word: '飲み物',   reading: 'のみもの',   meaning: 'drink',          category: 'restaurant' },
+    { word: '料理',     reading: 'りょうり',   meaning: 'cooking; dish',  category: 'restaurant' },
+    { word: '店員',     reading: 'てんいん',   meaning: 'shop staff',     category: 'restaurant' },
+    { word: 'おすすめ', reading: 'おすすめ',   meaning: 'recommendation', category: 'restaurant' },
+    { word: '定食',     reading: 'ていしょく', meaning: 'set meal',       category: 'restaurant' },
+    { word: 'デザート', reading: 'でざーと',   meaning: 'dessert',        category: 'restaurant' },
+    { word: 'お箸',     reading: 'おはし',     meaning: 'chopsticks',     category: 'restaurant' },
 ];
 
 
 /* ============================================================
-   Fill-in-the-blank sentences (40)
+   Fill-in-the-blank sentences (56)
    ============================================================ */
 
 const VOCAB_SENTENCES = [
@@ -270,4 +330,28 @@ const VOCAB_SENTENCES = [
     { sentence: '___で友達と話しました。',         blank: '電話',     reading: 'でんわ',       meaning: 'I talked with my friend on the ___.',          hint: 'telephone' },
     { sentence: '___を見に行きましょう。',         blank: '映画',     reading: 'えいが',       meaning: 'Let\'s go see a ___.',                         hint: 'movie' },
     { sentence: '___を聞くのが好きです。',         blank: '音楽',     reading: 'おんがく',     meaning: 'I like listening to ___.',                      hint: 'music' },
+
+    // Verbs
+    { sentence: '毎日公園を___。',                 blank: '歩く',     reading: 'あるく',       meaning: 'I ___ in the park every day.',                  hint: 'walk' },
+    { sentence: '友達と___のが好きです。',         blank: '遊ぶ',     reading: 'あそぶ',       meaning: 'I like to ___ with friends.',                   hint: 'play' },
+    { sentence: '毎朝六時に___。',                 blank: '起きる',   reading: 'おきる',       meaning: 'I ___ at 6 o\'clock every morning.',            hint: 'wake up' },
+    { sentence: '母にケーキの___方を___。',         blank: '習う',     reading: 'ならう',       meaning: 'I ___ how to make cake from my mother.',        hint: 'learn' },
+
+    // Colours
+    { sentence: '空は___です。',                   blank: '青',       reading: 'あお',         meaning: 'The sky is ___.',                              hint: 'blue' },
+    { sentence: 'りんごは___です。',               blank: '赤',       reading: 'あか',         meaning: 'Apples are ___.',                              hint: 'red' },
+    { sentence: '雪は___です。',                   blank: '白',       reading: 'しろ',         meaning: 'Snow is ___.',                                 hint: 'white' },
+    { sentence: 'バナナは___です。',               blank: '黄色',     reading: 'きいろ',       meaning: 'Bananas are ___.',                             hint: 'yellow' },
+
+    // Shopping
+    { sentence: '___でパンを買いました。',         blank: '店',       reading: 'みせ',         meaning: 'I bought bread at the ___.',                   hint: 'shop' },
+    { sentence: '___はいくらですか。',             blank: '値段',     reading: 'ねだん',       meaning: 'How much is the ___?',                         hint: 'price' },
+    { sentence: '___を忘れないでください。',       blank: 'レシート', reading: 'れしーと',     meaning: 'Please don\'t forget the ___.',                 hint: 'receipt' },
+    { sentence: '___が足りません。',               blank: 'お金',     reading: 'おかね',       meaning: 'I don\'t have enough ___.',                     hint: 'money' },
+
+    // Restaurant
+    { sentence: '___を見てもいいですか。',         blank: 'メニュー', reading: 'めにゅー',     meaning: 'May I look at the ___?',                       hint: 'menu' },
+    { sentence: 'すみません、___をお願いします。', blank: 'お会計',   reading: 'おかいけい',   meaning: 'Excuse me, the ___ please.',                   hint: 'bill' },
+    { sentence: '冷たい___をください。',           blank: '飲み物',   reading: 'のみもの',     meaning: 'Please give me a cold ___.',                   hint: 'drink' },
+    { sentence: '今日の___は何ですか。',           blank: 'おすすめ', reading: 'おすすめ',     meaning: 'What is today\'s ___?',                        hint: 'recommendation' },
 ];
