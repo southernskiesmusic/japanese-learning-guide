@@ -254,6 +254,7 @@ const KANJI = {
         document.getElementById('kanji-fb-title').textContent = title;
         document.getElementById('kanji-fb-expl').innerHTML = explanation;
         document.getElementById('kanji-next').classList.add('show');
+        setTimeout(() => fb.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
     },
 
     updateUI() {

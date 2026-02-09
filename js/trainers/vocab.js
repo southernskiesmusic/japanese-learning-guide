@@ -185,6 +185,7 @@ const VOCAB = {
         document.getElementById('vocab-fb-title').textContent = title;
         document.getElementById('vocab-fb-expl').innerHTML = explanation;
         document.getElementById('vocab-next').classList.add('show');
+        setTimeout(() => fb.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
     },
 
     updateUI() {

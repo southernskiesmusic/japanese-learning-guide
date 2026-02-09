@@ -289,6 +289,7 @@ const HIRA = {
         document.getElementById('hira-fb-title').textContent = title;
         document.getElementById('hira-fb-expl').innerHTML = explanation;
         document.getElementById('hira-next').classList.add('show');
+        setTimeout(() => fb.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
     },
 
     updateUI() {
