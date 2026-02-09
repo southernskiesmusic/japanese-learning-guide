@@ -75,16 +75,16 @@ const LessonEngine = {
     },
 
     renderConcept(screen, content, nav) {
-        content.innerHTML = '<h3>' + screen.title + '</h3>' + screen.html;
+        content.innerHTML = '<h3>' + screen.title + '</h3>' + (screen.html || screen.content || '');
         nav.innerHTML = this.navButtons('Continue', 'LessonEngine.advance()');
     },
 
     renderExample(screen, content, nav) {
         this.exampleStepIdx = 0;
         let h = '<h3>' + screen.title + '</h3>' +
-            '<div class="question-prompt" style="font-size:1.15rem;margin-bottom:16px;">' + screen.problem + '</div>';
+            '<div class="question-prompt" style="font-size:1.15rem;margin-bottom:16px;">' + (screen.problem || screen.content || '') + '</div>';
         screen.steps.forEach((step, i) => {
-            h += '<div class="lesson-step" id="lesson-step-' + i + '">' + step.text + '</div>';
+            h += '<div class="lesson-step" id="lesson-step-' + i + '">' + (step.text || step.detail || '') + '</div>';
         });
         content.innerHTML = h;
         nav.innerHTML = '<div class="lesson-btn-row">' +
@@ -110,7 +110,7 @@ const LessonEngine = {
         this.practiceQ = screen.generate();
         const q = this.practiceQ;
 
-        let h = '<h3>' + (screen.intro || 'Try this one:') + '</h3>';
+        let h = '<h3>' + (screen.intro || screen.instruction || 'Try this one:') + '</h3>';
 
         if (q.text) h += '<div class="question-text">' + q.text + '</div>';
         if (q.prompt) h += '<div class="question-prompt" style="font-size:1.3rem;margin:16px 0;">' + q.prompt + '</div>';
@@ -231,7 +231,7 @@ const LessonEngine = {
             h += '<div class="lesson-score">Practice score: <strong>' +
                 this.practiceCorrect + ' / ' + this.practiceTotal + '</strong></div>';
         }
-        h += screen.html;
+        h += (screen.html || screen.content || '');
         content.innerHTML = h;
 
         let navH = '<div class="lesson-btn-row">' +
