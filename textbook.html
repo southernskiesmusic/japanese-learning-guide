@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japanese: A Complete Beginner's Guide — JLPT N5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+    --jp: 'Noto Sans JP', sans-serif;
+    --serif: 'Noto Serif', 'Georgia', serif;
+    --sans: 'Inter', sans-serif;
+    --red: #c0392b;
+    --red-light: #fdf0ef;
+    --blue: #2c3e7a;
+    --blue-light: #eef1fa;
+    --green: #1a7a4c;
+    --green-light: #e8f5ee;
+    --gray: #f5f6f8;
+    --border: #d0d4dc;
+    --text: #1a1a2e;
+    --text-light: #5a5a7a;
+}
+body {
+    font-family: var(--sans);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 11pt;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 20mm 18mm;
+    background: #fff;
+}
+h1, h2, h3, h4, h5 { line-height: 1.3; }
+.jp { font-family: var(--jp); }
+
+/* ===== Cover ===== */
+.cover {
+    text-align: center;
+    padding: 80px 0 60px;
+    page-break-after: always;
+}
+.cover h1 {
+    font-family: var(--jp);
+    font-size: 3.5rem;
+    color: var(--red);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+}
+.cover .subtitle {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    color: var(--blue);
+    margin-bottom: 6px;
+}
+.cover .tagline {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 60px;
+}
+.cover .level-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 8px 28px;
+    border-radius: 30px;
+    letter-spacing: 0.05em;
+    margin-bottom: 40px;
+}
+.cover .toc-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+.cover .decorative {
+    font-family: var(--jp);
+    font-size: 6rem;
+    color: #eee;
+    margin: 30px 0;
+    letter-spacing: 0.3em;
+    user-select: none;
+}
+
+/* ===== TOC ===== */
+.toc { page-break-after: always; }
+.toc h2 { font-size: 1.5rem; color: var(--red); margin-bottom: 20px; border-bottom: 2px solid var(--red); padding-bottom: 6px; }
+.toc-list { list-style: none; }
+.toc-list li {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 8px 0; border-bottom: 1px dotted var(--border);
+    font-size: 1rem;
+}
+.toc-list li .ch-num { font-weight: 700; color: var(--red); min-width: 40px; }
+.toc-list li .ch-title { flex: 1; }
+.toc-section { font-weight: 700; color: var(--blue); margin-top: 16px; padding: 4px 0; border-bottom: none !important; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ===== Chapter ===== */
+.chapter { page-break-before: always; }
+.chapter-header {
+    background: var(--red);
+    color: #fff;
+    padding: 24px 28px;
+    border-radius: 12px;
+    margin-bottom: 28px;
+}
+.chapter-header .ch-num { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+.chapter-header h2 { font-size: 1.6rem; margin-top: 4px; }
+.chapter-header .ch-goals { margin-top: 10px; font-size: 0.9rem; opacity: 0.9; }
+
+.section-title {
+    font-size: 1.2rem;
+    color: var(--blue);
+    border-bottom: 2px solid var(--blue);
+    padding-bottom: 4px;
+    margin: 28px 0 14px;
+}
+.subsection { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 20px 0 8px; }
+
+/* ===== Vocab Table ===== */
+.vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: 0.95rem;
+}
+.vocab-table th {
+    background: var(--blue);
+    color: #fff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.vocab-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #e8e8e8;
+    vertical-align: top;
+}
+.vocab-table tr:nth-child(even) td { background: var(--gray); }
+.vocab-table .jp-cell { font-family: var(--jp); font-size: 1.1rem; font-weight: 500; }
+.vocab-table .reading { color: var(--text-light); font-size: 0.85rem; }
+
+/* ===== Kana Chart ===== */
+.kana-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3px;
+    margin: 14px 0 20px;
+    font-family: var(--jp);
+}
+.kana-grid .header { background: var(--blue); color: #fff; font-family: var(--sans); font-size: 0.75rem; font-weight: 700; text-align: center; padding: 6px 4px; }
+.kana-grid .cell {
+    text-align: center;
+    padding: 8px 4px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    font-size: 1.3rem;
+    line-height: 1.3;
+}
+.kana-grid .cell small { display: block; font-size: 0.6rem; color: var(--text-light); font-family: var(--sans); margin-top: 2px; }
+.kana-grid .cell.empty { background: var(--gray); border-color: #eee; }
+
+/* ===== Grammar Box ===== */
+.grammar-box {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+}
+.grammar-box .pattern {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 6px;
+}
+.grammar-box .meaning { font-size: 0.95rem; color: var(--text); }
+
+/* ===== Example Sentences ===== */
+.example {
+    background: var(--gray);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 10px 0;
+}
+.example .jp-line {
+    font-family: var(--jp);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+.example .romaji-line {
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 0.88rem;
+    margin-bottom: 2px;
+}
+.example .en-line {
+    color: var(--text);
+    font-size: 0.92rem;
+}
+
+/* ===== Cultural Note ===== */
+.culture-note {
+    background: var(--green-light);
+    border-left: 4px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+}
+.culture-note .note-title {
+    font-weight: 700;
+    color: var(--green);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+
+/* ===== Tip Box ===== */
+.tip-box {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+}
+.tip-box .tip-title { font-weight: 700; color: #92400e; font-size: 0.9rem; margin-bottom: 4px; }
+
+/* ===== Exercise ===== */
+.exercises {
+    background: var(--red-light);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+}
+.exercises h4 { color: var(--red); margin-bottom: 12px; font-size: 1.05rem; }
+.exercises ol, .exercises ul { padding-left: 22px; }
+.exercises li { margin-bottom: 8px; }
+.exercises .answer-line {
+    display: inline-block;
+    width: 100px;
+    border-bottom: 1px solid var(--text);
+    margin: 0 4px;
+}
+.exercises .answer-key {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* ===== Conjugation Table ===== */
+.conj-table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 0.92rem; }
+.conj-table th { background: var(--red); color: #fff; padding: 7px 10px; text-align: left; font-size: 0.8rem; }
+.conj-table td { padding: 6px 10px; border-bottom: 1px solid #e8e8e8; }
+.conj-table td.jp-cell { font-family: var(--jp); font-size: 1.05rem; }
+.conj-table tr:nth-child(even) td { background: var(--gray); }
+
+/* ===== Two Columns ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* ===== Page Break ===== */
+.page-break { page-break-before: always; }
+
+/* ===== Print Styles ===== */
+@media print {
+    body { padding: 15mm; font-size: 10pt; }
+    .chapter { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    .chapter-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .grammar-box, .culture-note, .tip-box, .exercises, .example { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .vocab-table th, .conj-table th, .kana-grid .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .vocab-table tr:nth-child(even) td, .conj-table tr:nth-child(even) td { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+p { margin-bottom: 10px; }
+ul, ol { margin-bottom: 12px; padding-left: 22px; }
+li { margin-bottom: 4px; }
+strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════ COVER ════════════════════════════════════════════ -->
+<div class="cover">
+    <div class="decorative">あ い う え お</div>
+    <h1 class="jp">日本語</h1>
+    <div class="subtitle">Japanese: A Complete Beginner's Guide</div>
+    <div class="tagline">From zero to reading, writing, and speaking — JLPT N5 level</div>
+    <div class="level-badge">JLPT N5 LEVEL</div>
+    <div class="decorative" style="font-size:3rem; color:#ddd;">ア イ ウ エ オ</div>
+    <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 40px;">
+        A companion textbook for the Japanese Learning Guide<br>
+        <em>southernskiesmusic.github.io/japanese-learning-guide</em>
+    </p>
+</div>
+
+<!-- ════════════════════════════════════════════ TOC ════════════════════════════════════════════ -->
+<div class="toc">
+    <h2>Table of Contents</h2>
+    <ul class="toc-list">
+        <li class="toc-section">Part I — Writing Systems</li>
+        <li><span class="ch-num">1</span><span class="ch-title">Hiragana — The Foundation</span></li>
+        <li><span class="ch-num">2</span><span class="ch-title">Katakana — Foreign Words &amp; More</span></li>
+        <li><span class="ch-num">3</span><span class="ch-title">Kanji — Chinese Characters in Japanese</span></li>
+        <li class="toc-section">Part II — Grammar Essentials</li>
+        <li><span class="ch-num">4</span><span class="ch-title">Sentence Structure &amp; Particles</span></li>
+        <li><span class="ch-num">5</span><span class="ch-title">Verbs &amp; Conjugation</span></li>
+        <li><span class="ch-num">6</span><span class="ch-title">Adjectives &amp; Descriptions</span></li>
+        <li class="toc-section">Part III — Vocabulary &amp; Communication</li>
+        <li><span class="ch-num">7</span><span class="ch-title">Essential Vocabulary</span></li>
+        <li><span class="ch-num">8</span><span class="ch-title">Everyday Conversations</span></li>
+        <li class="toc-section">Appendices</li>
+        <li><span class="ch-num">A</span><span class="ch-title">Complete Kana Charts</span></li>
+        <li><span class="ch-num">B</span><span class="ch-title">N5 Kanji List (80 characters)</span></li>
+        <li><span class="ch-num">C</span><span class="ch-title">Answer Key</span></li>
+    </ul>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 1 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 1</div>
+        <h2>Hiragana — The Foundation</h2>
+        <div class="ch-goals">By the end of this chapter you will be able to read and write all 46 basic hiragana characters, understand dakuten and combo characters, and read simple Japanese words.</div>
+    </div>
+
+    <h3 class="section-title">1.1 What is Hiragana?</h3>
+    <p><span class="jp" style="font-size:1.3rem;">ひらがな</span> (hiragana) is the most fundamental Japanese writing system. Unlike English, where each letter represents a single sound, hiragana is a <strong>syllabary</strong> — each character represents a complete syllable.</p>
+    <p>Hiragana is used for:</p>
+    <ul>
+        <li><strong>Native Japanese words</strong> that don't have kanji or where kanji is uncommon</li>
+        <li><strong>Grammatical particles</strong> like <span class="jp">は</span> (wa), <span class="jp">を</span> (wo), <span class="jp">に</span> (ni)</li>
+        <li><strong>Verb and adjective endings</strong> (called <em>okurigana</em>)</li>
+        <li><strong>Furigana</strong> — tiny readings written above kanji to show pronunciation</li>
+    </ul>
+
+    <div class="culture-note">
+        <div class="note-title">Cultural Note</div>
+        <p>Hiragana was historically associated with women's writing in Heian-period Japan (794–1185). The famous novel <em>The Tale of Genji</em> by Murasaki Shikibu was written primarily in hiragana. Today it's used by everyone and is the first writing system Japanese children learn.</p>
+    </div>
+
+    <h3 class="section-title">1.2 The Five Vowels</h3>
+    <p>Every hiragana character contains a vowel sound. Japanese has only <strong>five vowels</strong>, always pronounced the same way:</p>
+
+    <table class="vocab-table">
+        <tr><th>Hiragana</th><th>Romaji</th><th>Pronunciation</th><th>Like English...</th></tr>
+        <tr><td class="jp-cell">あ</td><td>a</td><td>/a/</td><td>"ah" in "f<strong>a</strong>ther"</td></tr>
+        <tr><td class="jp-cell">い</td><td>i</td><td>/i/</td><td>"ee" in "s<strong>ee</strong>"</td></tr>
+        <tr><td class="jp-cell">う</td><td>u</td><td>/ɯ/</td><td>"oo" in "f<strong>oo</strong>d" (lips relaxed, not rounded)</td></tr>
+        <tr><td class="jp-cell">え</td><td>e</td><td>/e/</td><td>"e" in "b<strong>e</strong>d"</td></tr>
+        <tr><td class="jp-cell">お</td><td>o</td><td>/o/</td><td>"o" in "g<strong>o</strong>"</td></tr>
+    </table>
+
+    <div class="tip-box">
+        <div class="tip-title">Pronunciation Tip</div>
+        <p>Japanese vowels are <strong>pure</strong> — they don't glide like English vowels. English "oh" starts as "o" and glides to "oo", but Japanese <span class="jp">お</span> stays as a single, clean "o" throughout. Keep each vowel short and crisp.</p>
+    </div>
+
+    <h3 class="section-title">1.3 The Gojūon Table (46 Basic Characters)</h3>
+    <p>Hiragana is organised into the <span class="jp">五十音</span> (gojūon, "fifty sounds") table — 10 consonant rows × 5 vowels, plus <span class="jp">ん</span> (n).</p>
+
+    <div class="kana-grid">
+        <div class="header"></div><div class="header">a</div><div class="header">i</div><div class="header">u</div><div class="header">e</div><div class="header">o</div>
+        <div class="header">∅</div><div class="cell"><span class="jp">あ</span><small>a</small></div><div class="cell"><span class="jp">い</span><small>i</small></div><div class="cell"><span class="jp">う</span><small>u</small></div><div class="cell"><span class="jp">え</span><small>e</small></div><div class="cell"><span class="jp">お</span><small>o</small></div>
+        <div class="header">k</div><div class="cell"><span class="jp">か</span><small>ka</small></div><div class="cell"><span class="jp">き</span><small>ki</small></div><div class="cell"><span class="jp">く</span><small>ku</small></div><div class="cell"><span class="jp">け</span><small>ke</small></div><div class="cell"><span class="jp">こ</span><small>ko</small></div>
+        <div class="header">s</div><div class="cell"><span class="jp">さ</span><small>sa</small></div><div class="cell"><span class="jp">し</span><small>shi</small></div><div class="cell"><span class="jp">す</span><small>su</small></div><div class="cell"><span class="jp">せ</span><small>se</small></div><div class="cell"><span class="jp">そ</span><small>so</small></div>
+        <div class="header">t</div><div class="cell"><span class="jp">た</span><small>ta</small></div><div class="cell"><span class="jp">ち</span><small>chi</small></div><div class="cell"><span class="jp">つ</span><small>tsu</small></div><div class="cell"><span class="jp">て</span><small>te</small></div><div class="cell"><span class="jp">と</span><small>to</small></div>
+        <div class="header">n</div><div class="cell"><span class="jp">な</span><small>na</small></div><div class="cell"><span class="jp">に</span><small>ni</small></div><div class="cell"><span class="jp">ぬ</span><small>nu</small></div><div class="cell"><span class="jp">ね</span><small>ne</small></div><div class="cell"><span class="jp">の</span><small>no</small></div>
+        <div class="header">h</div><div class="cell"><span class="jp">は</span><small>ha</small></div><div class="cell"><span class="jp">ひ</span><small>hi</small></div><div class="cell"><span class="jp">ふ</span><small>fu</small></div><div class="cell"><span class="jp">へ</span><small>he</small></div><div class="cell"><span class="jp">ほ</span><small>ho</small></div>
+        <div class="header">m</div><div class="cell"><span class="jp">ま</span><small>ma</small></div><div class="cell"><span class="jp">み</span><small>mi</small></div><div class="cell"><span class="jp">む</span><small>mu</small></div><div class="cell"><span class="jp">め</span><small>me</small></div><div class="cell"><span class="jp">も</span><small>mo</small></div>
+        <div class="header">y</div><div class="cell"><span class="jp">や</span><small>ya</small></div><div class="cell empty"></div><div class="cell"><span class="jp">ゆ</span><small>yu</small></div><div class="cell empty"></div><div class="cell"><span class="jp">よ</span><small>yo</small></div>
+        <div class="header">r</div><div class="cell"><span class="jp">ら</span><small>ra</small></div><div class="cell"><span class="jp">り</span><small>ri</small></div><div class="cell"><span class="jp">る</span><small>ru</small></div><div class="cell"><span class="jp">れ</span><small>re</small></div><div class="cell"><span class="jp">ろ</span><small>ro</small></div>
+        <div class="header">w</div><div class="cell"><span class="jp">わ</span><small>wa</small></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell"><span class="jp">を</span><small>wo</small></div>
+        <div class="header">n</div><div class="cell"><span class="jp">ん</span><small>n</small></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">Irregular Readings</div>
+        <p>Three characters don't follow the consonant + vowel pattern: <span class="jp" style="font-size:1.1rem;">し</span> = <strong>shi</strong> (not "si"), <span class="jp" style="font-size:1.1rem;">ち</span> = <strong>chi</strong> (not "ti"), <span class="jp" style="font-size:1.1rem;">つ</span> = <strong>tsu</strong> (not "tu"). Also: <span class="jp" style="font-size:1.1rem;">ふ</span> = <strong>fu</strong> (not "hu") — made by blowing through both lips.</p>
+    </div>
+
+    <h3 class="section-title">1.4 Dakuten &amp; Handakuten</h3>
+    <p>Adding two small marks changes the consonant sound:</p>
+    <ul>
+        <li><strong>Dakuten</strong> <span class="jp" style="font-size:1.2rem;">゛</span> (two dots) — voices the consonant: k→g, s→z, t→d, h→b</li>
+        <li><strong>Handakuten</strong> <span class="jp" style="font-size:1.2rem;">゜</span> (small circle) — h→p</li>
+    </ul>
+
+    <table class="vocab-table">
+        <tr><th>Base</th><th>+ Dakuten</th><th>+ Handakuten</th></tr>
+        <tr><td class="jp-cell">か ka</td><td class="jp-cell">が ga</td><td>—</td></tr>
+        <tr><td class="jp-cell">さ sa</td><td class="jp-cell">ざ za</td><td>—</td></tr>
+        <tr><td class="jp-cell">た ta</td><td class="jp-cell">だ da</td><td>—</td></tr>
+        <tr><td class="jp-cell">は ha</td><td class="jp-cell">ば ba</td><td class="jp-cell">ぱ pa</td></tr>
+    </table>
+
+    <h3 class="section-title">1.5 Combination Characters (Yōon)</h3>
+    <p>A small <span class="jp">ゃ</span>, <span class="jp">ゅ</span>, or <span class="jp">ょ</span> after certain characters creates a blended sound:</p>
+    <table class="vocab-table">
+        <tr><th>Base</th><th>+ ゃ (ya)</th><th>+ ゅ (yu)</th><th>+ ょ (yo)</th></tr>
+        <tr><td class="jp-cell">き ki</td><td class="jp-cell">きゃ kya</td><td class="jp-cell">きゅ kyu</td><td class="jp-cell">きょ kyo</td></tr>
+        <tr><td class="jp-cell">し shi</td><td class="jp-cell">しゃ sha</td><td class="jp-cell">しゅ shu</td><td class="jp-cell">しょ sho</td></tr>
+        <tr><td class="jp-cell">ち chi</td><td class="jp-cell">ちゃ cha</td><td class="jp-cell">ちゅ chu</td><td class="jp-cell">ちょ cho</td></tr>
+        <tr><td class="jp-cell">に ni</td><td class="jp-cell">にゃ nya</td><td class="jp-cell">にゅ nyu</td><td class="jp-cell">にょ nyo</td></tr>
+        <tr><td class="jp-cell">ひ hi</td><td class="jp-cell">ひゃ hya</td><td class="jp-cell">ひゅ hyu</td><td class="jp-cell">ひょ hyo</td></tr>
+        <tr><td class="jp-cell">み mi</td><td class="jp-cell">みゃ mya</td><td class="jp-cell">みゅ myu</td><td class="jp-cell">みょ myo</td></tr>
+        <tr><td class="jp-cell">り ri</td><td class="jp-cell">りゃ rya</td><td class="jp-cell">りゅ ryu</td><td class="jp-cell">りょ ryo</td></tr>
+    </table>
+
+    <h3 class="section-title">1.6 Special Rules</h3>
+    <p><strong>Long vowels:</strong> Double the vowel sound by adding another vowel character. <span class="jp">おかあさん</span> (okaasan) — the <span class="jp">あ</span> after <span class="jp">か</span> extends the "a" sound.</p>
+    <p><strong>Small tsu (っ):</strong> A small <span class="jp">っ</span> doubles the following consonant. <span class="jp">がっこう</span> = ga<strong>kk</strong>ou (school). It creates a brief pause before the next sound.</p>
+    <p><strong>は as a particle:</strong> When <span class="jp">は</span> is used as the topic particle, it is pronounced <strong>"wa"</strong>, not "ha".</p>
+    <p><strong>へ as a particle:</strong> When <span class="jp">へ</span> marks direction, it is pronounced <strong>"e"</strong>, not "he".</p>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 1</h4>
+        <p><strong>A. Read aloud:</strong> Write the romaji for each word.</p>
+        <ol>
+            <li><span class="jp" style="font-size:1.1rem;">さくら</span> → <span class="answer-line"></span> (cherry blossom)</li>
+            <li><span class="jp" style="font-size:1.1rem;">たべる</span> → <span class="answer-line"></span> (to eat)</li>
+            <li><span class="jp" style="font-size:1.1rem;">がっこう</span> → <span class="answer-line"></span> (school)</li>
+            <li><span class="jp" style="font-size:1.1rem;">おはよう</span> → <span class="answer-line"></span> (good morning)</li>
+            <li><span class="jp" style="font-size:1.1rem;">しんぶん</span> → <span class="answer-line"></span> (newspaper)</li>
+        </ol>
+        <p><strong>B. Write in hiragana:</strong></p>
+        <ol start="6">
+            <li>neko (cat) → <span class="answer-line"></span></li>
+            <li>sumimasen (excuse me) → <span class="answer-line"></span></li>
+            <li>ocha (tea) → <span class="answer-line"></span></li>
+            <li>kippu (ticket) → <span class="answer-line"></span></li>
+            <li>ryokou (travel) → <span class="answer-line"></span></li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> A: 1. sakura 2. taberu 3. gakkou 4. ohayou 5. shinbun — B: 6. ねこ 7. すみません 8. おちゃ 9. きっぷ 10. りょこう
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 2 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 2</div>
+        <h2>Katakana — Foreign Words &amp; More</h2>
+        <div class="ch-goals">Learn all 46 katakana characters, understand when to use them, and read common loan words from English.</div>
+    </div>
+
+    <h3 class="section-title">2.1 What is Katakana?</h3>
+    <p><span class="jp" style="font-size:1.3rem;">カタカナ</span> (katakana) represents the <strong>exact same sounds</strong> as hiragana but with different, more angular shapes. Think of it as a second alphabet for the same language.</p>
+    <p>Katakana is used for:</p>
+    <ul>
+        <li><strong>Foreign loan words</strong> — <span class="jp">コーヒー</span> (kōhī, "coffee"), <span class="jp">パソコン</span> (pasokon, "personal computer")</li>
+        <li><strong>Foreign names</strong> — your name in Japanese is written in katakana</li>
+        <li><strong>Onomatopoeia</strong> — <span class="jp">ドキドキ</span> (dokidoki, heartbeat), <span class="jp">ワンワン</span> (wanwan, "woof")</li>
+        <li><strong>Emphasis</strong> — like using CAPS or italics in English</li>
+        <li><strong>Scientific terms</strong> — animal/plant species names</li>
+    </ul>
+
+    <h3 class="section-title">2.2 Katakana Chart</h3>
+    <div class="kana-grid">
+        <div class="header"></div><div class="header">a</div><div class="header">i</div><div class="header">u</div><div class="header">e</div><div class="header">o</div>
+        <div class="header">∅</div><div class="cell"><span class="jp">ア</span><small>a</small></div><div class="cell"><span class="jp">イ</span><small>i</small></div><div class="cell"><span class="jp">ウ</span><small>u</small></div><div class="cell"><span class="jp">エ</span><small>e</small></div><div class="cell"><span class="jp">オ</span><small>o</small></div>
+        <div class="header">k</div><div class="cell"><span class="jp">カ</span><small>ka</small></div><div class="cell"><span class="jp">キ</span><small>ki</small></div><div class="cell"><span class="jp">ク</span><small>ku</small></div><div class="cell"><span class="jp">ケ</span><small>ke</small></div><div class="cell"><span class="jp">コ</span><small>ko</small></div>
+        <div class="header">s</div><div class="cell"><span class="jp">サ</span><small>sa</small></div><div class="cell"><span class="jp">シ</span><small>shi</small></div><div class="cell"><span class="jp">ス</span><small>su</small></div><div class="cell"><span class="jp">セ</span><small>se</small></div><div class="cell"><span class="jp">ソ</span><small>so</small></div>
+        <div class="header">t</div><div class="cell"><span class="jp">タ</span><small>ta</small></div><div class="cell"><span class="jp">チ</span><small>chi</small></div><div class="cell"><span class="jp">ツ</span><small>tsu</small></div><div class="cell"><span class="jp">テ</span><small>te</small></div><div class="cell"><span class="jp">ト</span><small>to</small></div>
+        <div class="header">n</div><div class="cell"><span class="jp">ナ</span><small>na</small></div><div class="cell"><span class="jp">ニ</span><small>ni</small></div><div class="cell"><span class="jp">ヌ</span><small>nu</small></div><div class="cell"><span class="jp">ネ</span><small>ne</small></div><div class="cell"><span class="jp">ノ</span><small>no</small></div>
+        <div class="header">h</div><div class="cell"><span class="jp">ハ</span><small>ha</small></div><div class="cell"><span class="jp">ヒ</span><small>hi</small></div><div class="cell"><span class="jp">フ</span><small>fu</small></div><div class="cell"><span class="jp">ヘ</span><small>he</small></div><div class="cell"><span class="jp">ホ</span><small>ho</small></div>
+        <div class="header">m</div><div class="cell"><span class="jp">マ</span><small>ma</small></div><div class="cell"><span class="jp">ミ</span><small>mi</small></div><div class="cell"><span class="jp">ム</span><small>mu</small></div><div class="cell"><span class="jp">メ</span><small>me</small></div><div class="cell"><span class="jp">モ</span><small>mo</small></div>
+        <div class="header">y</div><div class="cell"><span class="jp">ヤ</span><small>ya</small></div><div class="cell empty"></div><div class="cell"><span class="jp">ユ</span><small>yu</small></div><div class="cell empty"></div><div class="cell"><span class="jp">ヨ</span><small>yo</small></div>
+        <div class="header">r</div><div class="cell"><span class="jp">ラ</span><small>ra</small></div><div class="cell"><span class="jp">リ</span><small>ri</small></div><div class="cell"><span class="jp">ル</span><small>ru</small></div><div class="cell"><span class="jp">レ</span><small>re</small></div><div class="cell"><span class="jp">ロ</span><small>ro</small></div>
+        <div class="header">w</div><div class="cell"><span class="jp">ワ</span><small>wa</small></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell"><span class="jp">ヲ</span><small>wo</small></div>
+        <div class="header">n</div><div class="cell"><span class="jp">ン</span><small>n</small></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
+    </div>
+
+    <h3 class="section-title">2.3 The Long Vowel Mark ー</h3>
+    <p>Unlike hiragana (which doubles vowels), katakana uses a <strong>horizontal dash</strong> <span class="jp" style="font-size:1.3rem;">ー</span> to extend any vowel:</p>
+    <div class="example">
+        <div class="jp-line">コーヒー (kōhī) = coffee</div>
+        <div class="jp-line">ケーキ (kēki) = cake</div>
+        <div class="jp-line">メール (mēru) = email</div>
+        <div class="jp-line">ラーメン (rāmen) = ramen</div>
+    </div>
+
+    <h3 class="section-title">2.4 Confusing Pairs</h3>
+    <p>Several katakana look dangerously similar. Study these carefully:</p>
+    <table class="vocab-table">
+        <tr><th>Character 1</th><th>Character 2</th><th>How to Tell Apart</th></tr>
+        <tr><td class="jp-cell">シ (shi)</td><td class="jp-cell">ツ (tsu)</td><td>シ strokes angle left→right (like a smiley); ツ strokes go top→bottom</td></tr>
+        <tr><td class="jp-cell">ソ (so)</td><td class="jp-cell">ン (n)</td><td>Same principle: ソ top→bottom, ン left→right</td></tr>
+        <tr><td class="jp-cell">ノ (no)</td><td class="jp-cell">メ (me)</td><td>ノ is a single stroke; メ has a crossing stroke</td></tr>
+        <tr><td class="jp-cell">ウ (u)</td><td class="jp-cell">フ (fu)</td><td>ウ has a top horizontal stroke; フ doesn't</td></tr>
+    </table>
+
+    <h3 class="section-title">2.5 Reading Loan Words</h3>
+    <p>Japanese adapts English words to fit its sound system. Understanding the patterns helps you decode them:</p>
+    <table class="vocab-table">
+        <tr><th>Katakana</th><th>Romaji</th><th>English</th><th>Sound Change</th></tr>
+        <tr><td class="jp-cell">テレビ</td><td>terebi</td><td>television</td><td>-sion → bi</td></tr>
+        <tr><td class="jp-cell">パソコン</td><td>pasokon</td><td>personal computer</td><td>abbreviated compound</td></tr>
+        <tr><td class="jp-cell">アイスクリーム</td><td>aisukurīmu</td><td>ice cream</td><td>r/l → r, vowels added</td></tr>
+        <tr><td class="jp-cell">チョコレート</td><td>chokorēto</td><td>chocolate</td><td>l → r, vowels added</td></tr>
+        <tr><td class="jp-cell">レストラン</td><td>resutoran</td><td>restaurant</td><td>consonant clusters broken up</td></tr>
+        <tr><td class="jp-cell">スマートフォン</td><td>sumātofon</td><td>smartphone</td><td>ph → f, vowels added</td></tr>
+        <tr><td class="jp-cell">ホテル</td><td>hoteru</td><td>hotel</td><td>l → ru</td></tr>
+        <tr><td class="jp-cell">バス</td><td>basu</td><td>bus</td><td>final vowel added</td></tr>
+    </table>
+
+    <div class="tip-box">
+        <div class="tip-title">Decoding Tip</div>
+        <p>Japanese has no "l" sound — it becomes "r". There's no "v" — it becomes "b". Consonant clusters get vowels inserted (e.g. "str" → "sut-or"). Final consonants (except "n") get a vowel: "bus" → "ba-su", "bed" → "be-d-do".</p>
+    </div>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 2</h4>
+        <p><strong>A. Decode these loan words:</strong></p>
+        <ol>
+            <li><span class="jp" style="font-size:1.1rem;">ミルク</span> → <span class="answer-line"></span></li>
+            <li><span class="jp" style="font-size:1.1rem;">タクシー</span> → <span class="answer-line"></span></li>
+            <li><span class="jp" style="font-size:1.1rem;">ギター</span> → <span class="answer-line"></span></li>
+            <li><span class="jp" style="font-size:1.1rem;">サンドイッチ</span> → <span class="answer-line"></span></li>
+            <li><span class="jp" style="font-size:1.1rem;">エレベーター</span> → <span class="answer-line"></span></li>
+        </ol>
+        <p><strong>B. Write in katakana:</strong></p>
+        <ol start="6">
+            <li>pen (ペン) → <span class="answer-line"></span></li>
+            <li>banana → <span class="answer-line"></span></li>
+            <li>internet → <span class="answer-line"></span></li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> A: 1. milk 2. taxi 3. guitar 4. sandwich 5. elevator — B: 6. ペン 7. バナナ 8. インターネット
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 3 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 3</div>
+        <h2>Kanji — Chinese Characters in Japanese</h2>
+        <div class="ch-goals">Understand what kanji are, learn the concepts of on'yomi and kun'yomi, and study your first 20 essential kanji.</div>
+    </div>
+
+    <h3 class="section-title">3.1 What Are Kanji?</h3>
+    <p><span class="jp" style="font-size:1.3rem;">漢字</span> (kanji, literally "Chinese characters") are logographic characters borrowed from Chinese. Each kanji represents a <strong>meaning</strong> (and sometimes a sound), unlike kana which only represent sounds.</p>
+    <p>Japanese uses around <strong>2,136 "regular use" kanji</strong> (jōyō kanji). For JLPT N5, you need about <strong>80 kanji</strong>.</p>
+
+    <h3 class="section-title">3.2 On'yomi vs Kun'yomi</h3>
+    <p>Most kanji have <strong>two types of readings</strong>:</p>
+    <div class="grammar-box">
+        <div class="pattern">音読み (on'yomi) — "Sound reading"</div>
+        <div class="meaning">The Chinese-derived reading. Used when kanji appear in <strong>compound words</strong> (jukugo — two or more kanji together).</div>
+    </div>
+    <div class="grammar-box">
+        <div class="pattern">訓読み (kun'yomi) — "Meaning reading"</div>
+        <div class="meaning">The native Japanese reading. Used when a kanji appears <strong>alone</strong> or with hiragana endings (okurigana).</div>
+    </div>
+
+    <div class="example">
+        <div class="jp-line">山 — mountain</div>
+        <div class="romaji-line">On'yomi: サン (san) → 富士山 (Fujisan, Mt. Fuji)</div>
+        <div class="romaji-line">Kun'yomi: やま (yama) → 山がきれいです (yama ga kirei desu, the mountain is beautiful)</div>
+    </div>
+
+    <h3 class="section-title">3.3 Your First 20 Kanji</h3>
+    <table class="vocab-table">
+        <tr><th>Kanji</th><th>Meaning</th><th>On'yomi</th><th>Kun'yomi</th><th>Example</th></tr>
+        <tr><td class="jp-cell">一</td><td>one</td><td>イチ</td><td>ひと(つ)</td><td><span class="jp">一つ</span> (hitotsu)</td></tr>
+        <tr><td class="jp-cell">二</td><td>two</td><td>ニ</td><td>ふた(つ)</td><td><span class="jp">二人</span> (futari)</td></tr>
+        <tr><td class="jp-cell">三</td><td>three</td><td>サン</td><td>みっ(つ)</td><td><span class="jp">三月</span> (sangatsu)</td></tr>
+        <tr><td class="jp-cell">日</td><td>day, sun</td><td>ニチ、ジツ</td><td>ひ</td><td><span class="jp">日曜日</span> (nichiyōbi)</td></tr>
+        <tr><td class="jp-cell">月</td><td>month, moon</td><td>ゲツ、ガツ</td><td>つき</td><td><span class="jp">月曜日</span> (getsuyōbi)</td></tr>
+        <tr><td class="jp-cell">水</td><td>water</td><td>スイ</td><td>みず</td><td><span class="jp">水曜日</span> (suiyōbi)</td></tr>
+        <tr><td class="jp-cell">火</td><td>fire</td><td>カ</td><td>ひ</td><td><span class="jp">火曜日</span> (kayōbi)</td></tr>
+        <tr><td class="jp-cell">木</td><td>tree, wood</td><td>モク、ボク</td><td>き</td><td><span class="jp">木曜日</span> (mokuyōbi)</td></tr>
+        <tr><td class="jp-cell">金</td><td>gold, money</td><td>キン</td><td>かね</td><td><span class="jp">金曜日</span> (kinyōbi)</td></tr>
+        <tr><td class="jp-cell">土</td><td>earth, soil</td><td>ド、ト</td><td>つち</td><td><span class="jp">土曜日</span> (doyōbi)</td></tr>
+        <tr><td class="jp-cell">人</td><td>person</td><td>ジン、ニン</td><td>ひと</td><td><span class="jp">日本人</span> (nihonjin)</td></tr>
+        <tr><td class="jp-cell">大</td><td>big</td><td>ダイ、タイ</td><td>おお(きい)</td><td><span class="jp">大きい</span> (ōkii)</td></tr>
+        <tr><td class="jp-cell">小</td><td>small</td><td>ショウ</td><td>ちい(さい)</td><td><span class="jp">小さい</span> (chiisai)</td></tr>
+        <tr><td class="jp-cell">山</td><td>mountain</td><td>サン</td><td>やま</td><td><span class="jp">富士山</span> (Fujisan)</td></tr>
+        <tr><td class="jp-cell">川</td><td>river</td><td>セン</td><td>かわ</td><td><span class="jp">川</span> (kawa)</td></tr>
+        <tr><td class="jp-cell">上</td><td>above, up</td><td>ジョウ</td><td>うえ</td><td><span class="jp">上</span> (ue)</td></tr>
+        <tr><td class="jp-cell">下</td><td>below, down</td><td>カ、ゲ</td><td>した</td><td><span class="jp">下</span> (shita)</td></tr>
+        <tr><td class="jp-cell">中</td><td>middle, inside</td><td>チュウ</td><td>なか</td><td><span class="jp">中国</span> (Chūgoku)</td></tr>
+        <tr><td class="jp-cell">学</td><td>study, learn</td><td>ガク</td><td>まな(ぶ)</td><td><span class="jp">学生</span> (gakusei)</td></tr>
+        <tr><td class="jp-cell">生</td><td>life, birth</td><td>セイ</td><td>い(きる)</td><td><span class="jp">先生</span> (sensei)</td></tr>
+    </table>
+
+    <div class="culture-note">
+        <div class="note-title">Cultural Note — Days of the Week</div>
+        <p>The days of the week in Japanese use the kanji for natural elements: 日 (sun) = Sunday, 月 (moon) = Monday, 火 (fire) = Tuesday, 水 (water) = Wednesday, 木 (wood) = Thursday, 金 (gold/metal) = Friday, 土 (earth) = Saturday. This system comes from the Chinese five elements plus sun and moon!</p>
+    </div>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 3</h4>
+        <p><strong>A. Match the kanji to its meaning:</strong></p>
+        <ol>
+            <li>山 → <span class="answer-line"></span></li>
+            <li>人 → <span class="answer-line"></span></li>
+            <li>水 → <span class="answer-line"></span></li>
+            <li>大 → <span class="answer-line"></span></li>
+            <li>学生 → <span class="answer-line"></span></li>
+        </ol>
+        <p><strong>B. Write the day of the week:</strong></p>
+        <ol start="6">
+            <li>Monday = <span class="answer-line"></span>曜日</li>
+            <li>Friday = <span class="answer-line"></span>曜日</li>
+            <li>Wednesday = <span class="answer-line"></span>曜日</li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> A: 1. mountain 2. person 3. water 4. big 5. student — B: 6. 月 7. 金 8. 水
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 4 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 4</div>
+        <h2>Sentence Structure &amp; Particles</h2>
+        <div class="ch-goals">Master Japanese word order (SOV), learn the essential particles, and build your first sentences.</div>
+    </div>
+
+    <h3 class="section-title">4.1 Japanese Word Order: SOV</h3>
+    <p>English uses <strong>Subject-Verb-Object</strong> (SVO): "I eat sushi." Japanese uses <strong>Subject-Object-Verb</strong> (SOV):</p>
+    <div class="example">
+        <div class="jp-line">わたしは すしを たべます。</div>
+        <div class="romaji-line">watashi wa sushi wo tabemasu</div>
+        <div class="en-line">I (topic) sushi (object) eat. → "I eat sushi."</div>
+    </div>
+    <p>The <strong>verb always goes at the end</strong>. Everything else is relatively flexible, as long as particles mark the roles correctly.</p>
+
+    <h3 class="section-title">4.2 The Essential Particles</h3>
+
+    <div class="grammar-box">
+        <div class="pattern">は (wa) — Topic Marker</div>
+        <div class="meaning">Marks what the sentence is <strong>about</strong>. "As for X..." Note: written は but pronounced <strong>"wa"</strong> when used as a particle.</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">わたしは がくせいです。</div>
+        <div class="romaji-line">watashi wa gakusei desu.</div>
+        <div class="en-line">"As for me, (I) am a student." → "I am a student."</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">が (ga) — Subject Marker</div>
+        <div class="meaning">Marks the <strong>grammatical subject</strong>, especially for existence (いる/ある), desires (ほしい/たい), and new information.</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">ねこが います。</div>
+        <div class="romaji-line">neko ga imasu.</div>
+        <div class="en-line">"There is a cat."</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">を (wo) — Object Marker</div>
+        <div class="meaning">Marks the <strong>direct object</strong> of a verb — the thing being acted upon. Pronounced "o".</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">パンを たべます。</div>
+        <div class="romaji-line">pan wo tabemasu.</div>
+        <div class="en-line">"(I) eat bread."</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">に (ni) — Direction / Time / Location</div>
+        <div class="meaning">Marks a <strong>destination</strong>, a <strong>specific time</strong>, or the <strong>location where something exists</strong>.</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">がっこうに いきます。</div>
+        <div class="romaji-line">gakkou ni ikimasu.</div>
+        <div class="en-line">"(I) go to school."</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">しちじに おきます。</div>
+        <div class="romaji-line">shichiji ni okimasu.</div>
+        <div class="en-line">"(I) wake up at 7 o'clock."</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">で (de) — Location of Action / Means</div>
+        <div class="meaning">Marks <strong>where an action takes place</strong> or the <strong>means/tool</strong> used.</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">としょかんで べんきょうします。</div>
+        <div class="romaji-line">toshokan de benkyou shimasu.</div>
+        <div class="en-line">"(I) study at the library."</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">バスで いきます。</div>
+        <div class="romaji-line">basu de ikimasu.</div>
+        <div class="en-line">"(I) go by bus."</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">の (no) — Possessive / Noun Modifier</div>
+        <div class="meaning">Connects two nouns: the first modifies the second. Like "'s" or "of" in English.</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">わたしの ほんです。</div>
+        <div class="romaji-line">watashi no hon desu.</div>
+        <div class="en-line">"It is my book."</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">と (to) — "And" / "With"</div>
+        <div class="meaning">Lists nouns ("A and B") or marks a companion ("with someone").</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">も (mo) — "Also" / "Too"</div>
+        <div class="meaning">Replaces は, が, or を to mean "also". <span class="jp">わたしも</span> = "me too".</div>
+    </div>
+
+    <div class="grammar-box">
+        <div class="pattern">から / まで — "From" / "Until"</div>
+        <div class="meaning">Mark starting and ending points in time or space. Often used together.</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">くじから ごじまで はたらきます。</div>
+        <div class="romaji-line">kuji kara goji made hatarakimasu.</div>
+        <div class="en-line">"(I) work from 9 to 5."</div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">は vs が — The Big Question</div>
+        <p>This confuses every learner. Quick rule: <strong>は</strong> = "As for X..." (known info, topic). <strong>が</strong> = "X is the one that..." (new info, emphasis). In questions with "who/what", the answer uses が. Example: だれが きましたか。→ たなかさんが きました。("Who came?" → "Tanaka came.")</p>
+    </div>
+
+    <h3 class="section-title">4.3 Basic Sentence Patterns</h3>
+
+    <p class="subsection">Pattern 1: X は Y です (X is Y)</p>
+    <div class="example">
+        <div class="jp-line">わたしは がくせいです。</div>
+        <div class="romaji-line">watashi wa gakusei desu.</div>
+        <div class="en-line">"I am a student."</div>
+    </div>
+
+    <p class="subsection">Pattern 2: X は Y じゃないです (X is not Y)</p>
+    <div class="example">
+        <div class="jp-line">これは ペンじゃないです。</div>
+        <div class="romaji-line">kore wa pen ja nai desu.</div>
+        <div class="en-line">"This is not a pen."</div>
+    </div>
+
+    <p class="subsection">Pattern 3: X は Y ですか (Is X Y?)</p>
+    <div class="example">
+        <div class="jp-line">あなたは せんせいですか。</div>
+        <div class="romaji-line">anata wa sensei desu ka.</div>
+        <div class="en-line">"Are you a teacher?"</div>
+    </div>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 4</h4>
+        <p><strong>A. Fill in the correct particle:</strong></p>
+        <ol>
+            <li>わたし<span class="answer-line"></span>がくせいです。(I am a student.) </li>
+            <li>ほん<span class="answer-line"></span>よみます。(I read a book.)</li>
+            <li>がっこう<span class="answer-line"></span>いきます。(I go to school.)</li>
+            <li>としょかん<span class="answer-line"></span>べんきょうします。(I study at the library.)</li>
+            <li>わたし<span class="answer-line"></span>ほんです。(It is my book.)</li>
+        </ol>
+        <p><strong>B. Translate to Japanese:</strong></p>
+        <ol start="6">
+            <li>"I drink coffee." → <span class="answer-line" style="width:200px;"></span></li>
+            <li>"This is a pen." → <span class="answer-line" style="width:200px;"></span></li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> A: 1. は 2. を 3. に 4. で 5. の — B: 6. コーヒーを のみます。 7. これは ペンです。
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 5 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 5</div>
+        <h2>Verbs &amp; Conjugation</h2>
+        <div class="ch-goals">Learn the three verb groups, master masu-form (polite), nai-form (negative), te-form, and past tense.</div>
+    </div>
+
+    <h3 class="section-title">5.1 The Three Verb Groups</h3>
+    <table class="vocab-table">
+        <tr><th>Group</th><th>Also Called</th><th>Dictionary Form Ending</th><th>Examples</th></tr>
+        <tr><td><strong>Group 1</strong></td><td>Godan / U-verbs</td><td>Ends in -u row (く、す、つ、ぬ、む、る、う)</td><td><span class="jp">かく、のむ、はなす</span></td></tr>
+        <tr><td><strong>Group 2</strong></td><td>Ichidan / Ru-verbs</td><td>Ends in -いる or -える</td><td><span class="jp">たべる、みる、ねる</span></td></tr>
+        <tr><td><strong>Group 3</strong></td><td>Irregular</td><td>Only two verbs!</td><td><span class="jp">する、くる</span></td></tr>
+    </table>
+
+    <h3 class="section-title">5.2 Masu-Form (Polite Present)</h3>
+    <p>The <span class="jp">ます</span> form is the standard polite form used in daily conversation.</p>
+
+    <table class="conj-table">
+        <tr><th>Dictionary</th><th>Meaning</th><th>Group</th><th>Masu Form</th><th>Negative</th></tr>
+        <tr><td class="jp-cell">たべる</td><td>to eat</td><td>2</td><td class="jp-cell">たべます</td><td class="jp-cell">たべません</td></tr>
+        <tr><td class="jp-cell">のむ</td><td>to drink</td><td>1</td><td class="jp-cell">のみます</td><td class="jp-cell">のみません</td></tr>
+        <tr><td class="jp-cell">いく</td><td>to go</td><td>1</td><td class="jp-cell">いきます</td><td class="jp-cell">いきません</td></tr>
+        <tr><td class="jp-cell">みる</td><td>to see</td><td>2</td><td class="jp-cell">みます</td><td class="jp-cell">みません</td></tr>
+        <tr><td class="jp-cell">する</td><td>to do</td><td>3</td><td class="jp-cell">します</td><td class="jp-cell">しません</td></tr>
+        <tr><td class="jp-cell">くる</td><td>to come</td><td>3</td><td class="jp-cell">きます</td><td class="jp-cell">きません</td></tr>
+        <tr><td class="jp-cell">かく</td><td>to write</td><td>1</td><td class="jp-cell">かきます</td><td class="jp-cell">かきません</td></tr>
+        <tr><td class="jp-cell">はなす</td><td>to speak</td><td>1</td><td class="jp-cell">はなします</td><td class="jp-cell">はなしません</td></tr>
+    </table>
+
+    <h3 class="section-title">5.3 Te-Form</h3>
+    <p>The <span class="jp">て</span>-form is one of the most important conjugations. It's used for requests, progressive tense, connecting sentences, and more.</p>
+
+    <div class="grammar-box">
+        <div class="pattern">Group 1 Te-Form Rules</div>
+        <div class="meaning">
+            く → いて (かく → かいて) &nbsp;|&nbsp; ぐ → いで (およぐ → およいで)<br>
+            す → して (はなす → はなして)<br>
+            む/ぬ/ぶ → んで (のむ → のんで, しぬ → しんで)<br>
+            つ/る/う → って (まつ → まって, かえる → かえって)<br>
+            Exception: いく → いって
+        </div>
+    </div>
+    <div class="grammar-box">
+        <div class="pattern">Group 2 &amp; 3 Te-Form</div>
+        <div class="meaning">
+            Group 2: Drop る, add て (たべる → たべて, みる → みて)<br>
+            Group 3: する → して, くる → きて
+        </div>
+    </div>
+
+    <h3 class="section-title">5.4 Common Te-Form Uses</h3>
+    <div class="example">
+        <div class="jp-line">たべて ください。</div>
+        <div class="romaji-line">tabete kudasai.</div>
+        <div class="en-line">"Please eat." (polite request)</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">いま ほんを よんで います。</div>
+        <div class="romaji-line">ima hon wo yonde imasu.</div>
+        <div class="en-line">"I am reading a book now." (progressive)</div>
+    </div>
+    <div class="example">
+        <div class="jp-line">ここで たばこを すわないで ください。</div>
+        <div class="romaji-line">koko de tabako wo suwanaide kudasai.</div>
+        <div class="en-line">"Please don't smoke here." (negative request)</div>
+    </div>
+
+    <h3 class="section-title">5.5 Past Tense</h3>
+    <table class="conj-table">
+        <tr><th>Present (ます)</th><th>Past (ました)</th><th>Past Neg (ませんでした)</th></tr>
+        <tr><td class="jp-cell">たべます</td><td class="jp-cell">たべました</td><td class="jp-cell">たべませんでした</td></tr>
+        <tr><td class="jp-cell">いきます</td><td class="jp-cell">いきました</td><td class="jp-cell">いきませんでした</td></tr>
+        <tr><td class="jp-cell">します</td><td class="jp-cell">しました</td><td class="jp-cell">しませんでした</td></tr>
+    </table>
+    <p>In polite speech, simply replace <span class="jp">ます</span> with <span class="jp">ました</span> (past) or <span class="jp">ませんでした</span> (past negative). Clean and consistent!</p>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 5</h4>
+        <p><strong>A. Conjugate to masu-form:</strong></p>
+        <ol>
+            <li><span class="jp">よむ</span> (to read) → <span class="answer-line"></span></li>
+            <li><span class="jp">ねる</span> (to sleep) → <span class="answer-line"></span></li>
+            <li><span class="jp">かう</span> (to buy) → <span class="answer-line"></span></li>
+        </ol>
+        <p><strong>B. Conjugate to te-form:</strong></p>
+        <ol start="4">
+            <li><span class="jp">のむ</span> (to drink) → <span class="answer-line"></span></li>
+            <li><span class="jp">かく</span> (to write) → <span class="answer-line"></span></li>
+            <li><span class="jp">たべる</span> (to eat) → <span class="answer-line"></span></li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> A: 1. よみます 2. ねます 3. かいます — B: 4. のんで 5. かいて 6. たべて
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 6 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 6</div>
+        <h2>Adjectives &amp; Descriptions</h2>
+        <div class="ch-goals">Learn the two types of Japanese adjectives and how they conjugate to describe the past, negative, and more.</div>
+    </div>
+
+    <h3 class="section-title">6.1 Two Types of Adjectives</h3>
+    <p>Japanese has two adjective types with different conjugation rules:</p>
+
+    <div class="two-col">
+        <div class="grammar-box">
+            <div class="pattern">い-adjectives</div>
+            <div class="meaning">End in い. Conjugate by changing the ending.<br>
+            <span class="jp">おおきい</span> (big), <span class="jp">たかい</span> (expensive/tall), <span class="jp">あつい</span> (hot)</div>
+        </div>
+        <div class="grammar-box">
+            <div class="pattern">な-adjectives</div>
+            <div class="meaning">Use な before nouns. Otherwise like nouns.<br>
+            <span class="jp">きれい</span> (pretty), <span class="jp">しずか</span> (quiet), <span class="jp">げんき</span> (healthy)</div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">Watch Out!</div>
+        <p><span class="jp">きれい</span> (pretty) and <span class="jp">ゆうめい</span> (famous) end in い but are <strong>な-adjectives</strong>, not い-adjectives! They use な before nouns: <span class="jp">きれいな はな</span> (pretty flower).</p>
+    </div>
+
+    <h3 class="section-title">6.2 い-Adjective Conjugation</h3>
+    <table class="conj-table">
+        <tr><th>Form</th><th>Rule</th><th>おおきい (big)</th><th>たかい (tall)</th></tr>
+        <tr><td>Present</td><td>as-is + です</td><td class="jp-cell">おおきいです</td><td class="jp-cell">たかいです</td></tr>
+        <tr><td>Negative</td><td>い → くない</td><td class="jp-cell">おおきくないです</td><td class="jp-cell">たかくないです</td></tr>
+        <tr><td>Past</td><td>い → かった</td><td class="jp-cell">おおきかったです</td><td class="jp-cell">たかかったです</td></tr>
+        <tr><td>Past Neg</td><td>い → くなかった</td><td class="jp-cell">おおきくなかったです</td><td class="jp-cell">たかくなかったです</td></tr>
+        <tr><td>+ Noun</td><td>adj + noun</td><td class="jp-cell">おおきい いえ</td><td class="jp-cell">たかい やま</td></tr>
+    </table>
+
+    <h3 class="section-title">6.3 な-Adjective Conjugation</h3>
+    <table class="conj-table">
+        <tr><th>Form</th><th>Rule</th><th>しずか (quiet)</th><th>きれい (pretty)</th></tr>
+        <tr><td>Present</td><td>+ です</td><td class="jp-cell">しずかです</td><td class="jp-cell">きれいです</td></tr>
+        <tr><td>Negative</td><td>+ じゃないです</td><td class="jp-cell">しずかじゃないです</td><td class="jp-cell">きれいじゃないです</td></tr>
+        <tr><td>Past</td><td>+ でした</td><td class="jp-cell">しずかでした</td><td class="jp-cell">きれいでした</td></tr>
+        <tr><td>Past Neg</td><td>+ じゃなかったです</td><td class="jp-cell">しずかじゃなかったです</td><td class="jp-cell">きれいじゃなかったです</td></tr>
+        <tr><td>+ Noun</td><td>+ な + noun</td><td class="jp-cell">しずかな まち</td><td class="jp-cell">きれいな はな</td></tr>
+    </table>
+
+    <h3 class="section-title">6.4 Common N5 Adjectives</h3>
+    <div class="two-col">
+        <div>
+            <p class="subsection">い-adjectives</p>
+            <table class="vocab-table">
+                <tr><th>Japanese</th><th>Meaning</th></tr>
+                <tr><td class="jp-cell">おおきい</td><td>big</td></tr>
+                <tr><td class="jp-cell">ちいさい</td><td>small</td></tr>
+                <tr><td class="jp-cell">たかい</td><td>expensive / tall</td></tr>
+                <tr><td class="jp-cell">やすい</td><td>cheap</td></tr>
+                <tr><td class="jp-cell">あたらしい</td><td>new</td></tr>
+                <tr><td class="jp-cell">ふるい</td><td>old (things)</td></tr>
+                <tr><td class="jp-cell">いい</td><td>good*</td></tr>
+                <tr><td class="jp-cell">わるい</td><td>bad</td></tr>
+                <tr><td class="jp-cell">おいしい</td><td>delicious</td></tr>
+                <tr><td class="jp-cell">むずかしい</td><td>difficult</td></tr>
+            </table>
+        </div>
+        <div>
+            <p class="subsection">な-adjectives</p>
+            <table class="vocab-table">
+                <tr><th>Japanese</th><th>Meaning</th></tr>
+                <tr><td class="jp-cell">きれい（な）</td><td>pretty / clean</td></tr>
+                <tr><td class="jp-cell">しずか（な）</td><td>quiet</td></tr>
+                <tr><td class="jp-cell">げんき（な）</td><td>healthy / energetic</td></tr>
+                <tr><td class="jp-cell">すき（な）</td><td>liked / favourite</td></tr>
+                <tr><td class="jp-cell">きらい（な）</td><td>disliked</td></tr>
+                <tr><td class="jp-cell">べんり（な）</td><td>convenient</td></tr>
+                <tr><td class="jp-cell">たいへん（な）</td><td>tough / terrible</td></tr>
+                <tr><td class="jp-cell">ゆうめい（な）</td><td>famous</td></tr>
+                <tr><td class="jp-cell">じょうず（な）</td><td>skilled</td></tr>
+                <tr><td class="jp-cell">へた（な）</td><td>unskilled</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">Irregular: いい (good)</div>
+        <p><span class="jp">いい</span> is irregular — its conjugated forms use <span class="jp">よ</span> as the stem: よくない (not good), よかった (was good), よくなかった (was not good). Only the plain present form is いい.</p>
+    </div>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 6</h4>
+        <p><strong>A. Conjugate:</strong></p>
+        <ol>
+            <li><span class="jp">おいしい</span> (delicious) → negative: <span class="answer-line"></span></li>
+            <li><span class="jp">しずか</span> (quiet) → past: <span class="answer-line"></span></li>
+            <li><span class="jp">いい</span> (good) → past: <span class="answer-line"></span></li>
+            <li><span class="jp">たかい</span> (expensive) → past negative: <span class="answer-line"></span></li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> 1. おいしくないです 2. しずかでした 3. よかったです 4. たかくなかったです
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 7 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 7</div>
+        <h2>Essential Vocabulary</h2>
+        <div class="ch-goals">Build your core vocabulary across the most important everyday categories.</div>
+    </div>
+
+    <h3 class="section-title">7.1 Greetings &amp; Set Phrases</h3>
+    <table class="vocab-table">
+        <tr><th>Japanese</th><th>Romaji</th><th>English</th><th>When to Use</th></tr>
+        <tr><td class="jp-cell">おはようございます</td><td>ohayou gozaimasu</td><td>Good morning</td><td>Until ~10am</td></tr>
+        <tr><td class="jp-cell">こんにちは</td><td>konnichiwa</td><td>Hello</td><td>Daytime</td></tr>
+        <tr><td class="jp-cell">こんばんは</td><td>konbanwa</td><td>Good evening</td><td>Evening</td></tr>
+        <tr><td class="jp-cell">おやすみなさい</td><td>oyasuminasai</td><td>Goodnight</td><td>Before bed</td></tr>
+        <tr><td class="jp-cell">ありがとうございます</td><td>arigatou gozaimasu</td><td>Thank you</td><td>Polite thanks</td></tr>
+        <tr><td class="jp-cell">すみません</td><td>sumimasen</td><td>Excuse me / Sorry</td><td>Getting attention, apologising</td></tr>
+        <tr><td class="jp-cell">いただきます</td><td>itadakimasu</td><td>Before eating</td><td>Said before every meal</td></tr>
+        <tr><td class="jp-cell">ごちそうさま</td><td>gochisousama</td><td>After eating</td><td>Said after every meal</td></tr>
+        <tr><td class="jp-cell">はじめまして</td><td>hajimemashite</td><td>Nice to meet you</td><td>First meeting</td></tr>
+        <tr><td class="jp-cell">よろしくおねがいします</td><td>yoroshiku onegaishimasu</td><td>Please treat me well</td><td>After introducing yourself</td></tr>
+    </table>
+
+    <h3 class="section-title">7.2 Numbers</h3>
+    <table class="vocab-table">
+        <tr><th>Number</th><th>Japanese</th><th>Number</th><th>Japanese</th></tr>
+        <tr><td>1</td><td class="jp-cell">いち</td><td>10</td><td class="jp-cell">じゅう</td></tr>
+        <tr><td>2</td><td class="jp-cell">に</td><td>100</td><td class="jp-cell">ひゃく</td></tr>
+        <tr><td>3</td><td class="jp-cell">さん</td><td>1,000</td><td class="jp-cell">せん</td></tr>
+        <tr><td>4</td><td class="jp-cell">よん / し</td><td>10,000</td><td class="jp-cell">まん</td></tr>
+        <tr><td>5</td><td class="jp-cell">ご</td><td>0</td><td class="jp-cell">ゼロ / れい</td></tr>
+        <tr><td>6</td><td class="jp-cell">ろく</td><td>11</td><td class="jp-cell">じゅういち</td></tr>
+        <tr><td>7</td><td class="jp-cell">なな / しち</td><td>20</td><td class="jp-cell">にじゅう</td></tr>
+        <tr><td>8</td><td class="jp-cell">はち</td><td>35</td><td class="jp-cell">さんじゅうご</td></tr>
+        <tr><td>9</td><td class="jp-cell">きゅう / く</td><td>248</td><td class="jp-cell">にひゃくよんじゅうはち</td></tr>
+    </table>
+
+    <h3 class="section-title">7.3 Time</h3>
+    <table class="vocab-table">
+        <tr><th>Time</th><th>Japanese</th><th>Time</th><th>Japanese</th></tr>
+        <tr><td>1 o'clock</td><td class="jp-cell">いちじ</td><td>7 o'clock</td><td class="jp-cell">しちじ</td></tr>
+        <tr><td>2 o'clock</td><td class="jp-cell">にじ</td><td>8 o'clock</td><td class="jp-cell">はちじ</td></tr>
+        <tr><td>3 o'clock</td><td class="jp-cell">さんじ</td><td>9 o'clock</td><td class="jp-cell">くじ</td></tr>
+        <tr><td>4 o'clock</td><td class="jp-cell">よじ</td><td>10 o'clock</td><td class="jp-cell">じゅうじ</td></tr>
+        <tr><td>5 o'clock</td><td class="jp-cell">ごじ</td><td>11 o'clock</td><td class="jp-cell">じゅういちじ</td></tr>
+        <tr><td>6 o'clock</td><td class="jp-cell">ろくじ</td><td>12 o'clock</td><td class="jp-cell">じゅうにじ</td></tr>
+        <tr><td>AM</td><td class="jp-cell">ごぜん</td><td>PM</td><td class="jp-cell">ごご</td></tr>
+        <tr><td>half past</td><td class="jp-cell">〜じはん</td><td>minute</td><td class="jp-cell">〜ふん / 〜ぷん</td></tr>
+    </table>
+
+    <h3 class="section-title">7.4 Family</h3>
+    <table class="vocab-table">
+        <tr><th>Relation</th><th>Your Family (humble)</th><th>Someone Else's (polite)</th></tr>
+        <tr><td>Father</td><td class="jp-cell">ちち</td><td class="jp-cell">おとうさん</td></tr>
+        <tr><td>Mother</td><td class="jp-cell">はは</td><td class="jp-cell">おかあさん</td></tr>
+        <tr><td>Older brother</td><td class="jp-cell">あに</td><td class="jp-cell">おにいさん</td></tr>
+        <tr><td>Older sister</td><td class="jp-cell">あね</td><td class="jp-cell">おねえさん</td></tr>
+        <tr><td>Younger brother</td><td class="jp-cell">おとうと</td><td class="jp-cell">おとうとさん</td></tr>
+        <tr><td>Younger sister</td><td class="jp-cell">いもうと</td><td class="jp-cell">いもうとさん</td></tr>
+    </table>
+
+    <div class="culture-note">
+        <div class="note-title">Cultural Note — Uchi vs Soto</div>
+        <p>Japanese has separate vocabulary for "in-group" (uchi) and "out-group" (soto). When talking about your own family to others, use humble forms (ちち, はは). When referring to someone else's family, use polite forms (おとうさん, おかあさん). This reflects the deeply embedded concept of social hierarchy in Japanese culture.</p>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CHAPTER 8 ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header">
+        <div class="ch-num">Chapter 8</div>
+        <h2>Everyday Conversations</h2>
+        <div class="ch-goals">Practice real dialogue patterns for self-introduction, shopping, asking directions, and ordering food.</div>
+    </div>
+
+    <h3 class="section-title">8.1 Self-Introduction (自己紹介)</h3>
+    <div class="example" style="padding:20px;">
+        <div class="jp-line">はじめまして。</div>
+        <div class="romaji-line">Hajimemashite.</div>
+        <div class="en-line">Nice to meet you.</div>
+        <br>
+        <div class="jp-line">わたしは [なまえ] です。</div>
+        <div class="romaji-line">Watashi wa [namae] desu.</div>
+        <div class="en-line">I am [name].</div>
+        <br>
+        <div class="jp-line">[くに] から きました。</div>
+        <div class="romaji-line">[Kuni] kara kimashita.</div>
+        <div class="en-line">I came from [country].</div>
+        <br>
+        <div class="jp-line">がくせいです。にほんごを べんきょうしています。</div>
+        <div class="romaji-line">Gakusei desu. Nihongo wo benkyou shiteimasu.</div>
+        <div class="en-line">I'm a student. I'm studying Japanese.</div>
+        <br>
+        <div class="jp-line">よろしく おねがいします。</div>
+        <div class="romaji-line">Yoroshiku onegaishimasu.</div>
+        <div class="en-line">Please treat me well. (Standard closing)</div>
+    </div>
+
+    <h3 class="section-title">8.2 At a Restaurant</h3>
+    <div class="example" style="padding:20px;">
+        <div class="jp-line">すみません。メニューを おねがいします。</div>
+        <div class="romaji-line">Sumimasen. Menyū wo onegaishimasu.</div>
+        <div class="en-line">Excuse me. Could I have a menu, please?</div>
+        <br>
+        <div class="jp-line">これは なんですか。</div>
+        <div class="romaji-line">Kore wa nan desu ka.</div>
+        <div class="en-line">What is this?</div>
+        <br>
+        <div class="jp-line">[りょうり]を ひとつ おねがいします。</div>
+        <div class="romaji-line">[Ryōri] wo hitotsu onegaishimasu.</div>
+        <div class="en-line">One [dish], please.</div>
+        <br>
+        <div class="jp-line">おかんじょうを おねがいします。</div>
+        <div class="romaji-line">Okanjō wo onegaishimasu.</div>
+        <div class="en-line">The bill, please.</div>
+    </div>
+
+    <h3 class="section-title">8.3 Asking Directions</h3>
+    <div class="example" style="padding:20px;">
+        <div class="jp-line">すみません。えきは どこですか。</div>
+        <div class="romaji-line">Sumimasen. Eki wa doko desu ka.</div>
+        <div class="en-line">Excuse me. Where is the station?</div>
+        <br>
+        <div class="jp-line">まっすぐ いって ください。</div>
+        <div class="romaji-line">Massugu itte kudasai.</div>
+        <div class="en-line">Please go straight.</div>
+        <br>
+        <div class="jp-line">みぎに まがって ください。</div>
+        <div class="romaji-line">Migi ni magatte kudasai.</div>
+        <div class="en-line">Please turn right.</div>
+        <br>
+        <div class="jp-line">ひだりに まがって ください。</div>
+        <div class="romaji-line">Hidari ni magatte kudasai.</div>
+        <div class="en-line">Please turn left.</div>
+    </div>
+
+    <h3 class="section-title">8.4 Shopping</h3>
+    <div class="example" style="padding:20px;">
+        <div class="jp-line">これは いくらですか。</div>
+        <div class="romaji-line">Kore wa ikura desu ka.</div>
+        <div class="en-line">How much is this?</div>
+        <br>
+        <div class="jp-line">さんぜんえんです。</div>
+        <div class="romaji-line">Sanzen en desu.</div>
+        <div class="en-line">It's 3,000 yen.</div>
+        <br>
+        <div class="jp-line">これを ください。</div>
+        <div class="romaji-line">Kore wo kudasai.</div>
+        <div class="en-line">I'll take this, please.</div>
+    </div>
+
+    <h3 class="section-title">8.5 Useful Question Words</h3>
+    <table class="vocab-table">
+        <tr><th>Japanese</th><th>Romaji</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td class="jp-cell">なに / なん</td><td>nani / nan</td><td>what</td><td><span class="jp">これは なんですか。</span></td></tr>
+        <tr><td class="jp-cell">だれ</td><td>dare</td><td>who</td><td><span class="jp">だれが きましたか。</span></td></tr>
+        <tr><td class="jp-cell">どこ</td><td>doko</td><td>where</td><td><span class="jp">トイレは どこですか。</span></td></tr>
+        <tr><td class="jp-cell">いつ</td><td>itsu</td><td>when</td><td><span class="jp">いつ いきますか。</span></td></tr>
+        <tr><td class="jp-cell">どうして / なぜ</td><td>doushite / naze</td><td>why</td><td><span class="jp">どうして べんきょうしますか。</span></td></tr>
+        <tr><td class="jp-cell">いくら</td><td>ikura</td><td>how much</td><td><span class="jp">いくらですか。</span></td></tr>
+        <tr><td class="jp-cell">どう</td><td>dou</td><td>how</td><td><span class="jp">にほんは どうですか。</span></td></tr>
+    </table>
+
+    <div class="exercises no-break">
+        <h4>Exercises — Chapter 8</h4>
+        <p><strong>A. Translate these conversation lines:</strong></p>
+        <ol>
+            <li>"Where is the library?" → <span class="answer-line" style="width:200px;"></span></li>
+            <li>"How much is this?" → <span class="answer-line" style="width:200px;"></span></li>
+            <li>"Please go straight." → <span class="answer-line" style="width:200px;"></span></li>
+            <li>"I came from Australia." → <span class="answer-line" style="width:200px;"></span></li>
+        </ol>
+        <div class="answer-key">
+            <strong>Answers:</strong> 1. としょかんは どこですか。 2. これは いくらですか。 3. まっすぐ いって ください。 4. オーストラリアから きました。
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════ BACK MATTER ═══════════════════════════════════════ -->
+<div class="chapter">
+    <div class="chapter-header" style="background: var(--blue);">
+        <div class="ch-num">Appendix</div>
+        <h2>What's Next?</h2>
+    </div>
+
+    <h3 class="section-title">Continuing Your Studies</h3>
+    <p>Congratulations on completing this beginner's guide! Here's where to go from here:</p>
+    <ul>
+        <li><strong>Practice daily</strong> — Use the Japanese Learning Guide trainers to build speed and accuracy with hiragana, katakana, kanji, grammar, and vocabulary.</li>
+        <li><strong>Learn more kanji</strong> — The full N5 set has 80 kanji. Work through all of them using the Kanji Trainer's writing mode.</li>
+        <li><strong>Study N4 grammar</strong> — Conditional forms (たら、ば), passive voice, causative, giving/receiving (あげる/もらう/くれる).</li>
+        <li><strong>Read native material</strong> — Start with NHK News Web Easy, children's manga, or graded readers.</li>
+        <li><strong>Listen to Japanese</strong> — Anime with Japanese subtitles, podcasts like JapanesePod101, or NHK World.</li>
+        <li><strong>Write regularly</strong> — Use the writing pad to practice stroke order. Write diary entries in Japanese.</li>
+    </ul>
+
+    <div class="culture-note">
+        <div class="note-title">Final Thought</div>
+        <p>Japanese rewards persistence. The writing systems may seem daunting at first, but thousands of people learn them every year. The key is <strong>consistent daily practice</strong> — even 15 minutes a day compounds into real fluency over months. <span class="jp" style="font-size:1.1rem;">がんばって！</span> (Ganbatte! — Do your best!)</p>
+    </div>
+
+    <p style="text-align:center; margin-top:60px; color:var(--text-light); font-size:0.85rem;">
+        Generated for the Japanese Learning Guide<br>
+        <em>southernskiesmusic.github.io/japanese-learning-guide</em>
+    </p>
+</div>
+
+</body>
+</html>
