@@ -129,7 +129,10 @@ const KATA = {
             '<button class="btn btn-hint" onclick="WritingPad.clear(\'' + canvasId + '\')">Clear</button>' +
             '<button class="btn btn-hint" onclick="WritingPad.undo(\'' + canvasId + '\')">Undo</button>' +
             '<button class="btn btn-hint" onclick="KATA.revealWrite()">Reveal</button></div>' +
-            '<div class="self-assess" style="margin-top:16px;">' +
+            '<div class="self-assess" style="margin-top:16px;" id="kata-write-check">' +
+            '<button class="btn btn-primary" onclick="KATA.checkWrite()">Check</button></div>' +
+            '<div id="kata-write-compare"></div>' +
+            '<div class="self-assess" style="margin-top:16px;display:none;" id="kata-write-assess">' +
             '<button class="btn btn-primary" onclick="KATA.selfAssess(true)" style="background:var(--success);">Got it</button>' +
             '<button class="btn btn-primary" onclick="KATA.selfAssess(false)" style="background:var(--error);">Needs practice</button></div></div>';
         document.getElementById('kata-question').innerHTML = h;
@@ -137,6 +140,21 @@ const KATA = {
             WritingPad.init(canvasId);
             if (document.body.classList.contains('dark-mode')) WritingPad.setDarkMode(canvasId, true);
         }, 50);
+    },
+
+    checkWrite() {
+        const canvasId = 'kata-write-canvas';
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const snapshot = canvas.toDataURL('image/png');
+        const compare = document.getElementById('kata-write-compare');
+        compare.innerHTML = '<div class="write-compare">' +
+            '<div class="write-compare-col"><div class="write-compare-label">Your attempt</div>' +
+            '<img class="write-compare-img" src="' + snapshot + '"></div>' +
+            '<div class="write-compare-col"><div class="write-compare-label">Correct</div>' +
+            '<div class="write-compare-char jp">' + this.currentQ.answer + '</div></div></div>';
+        document.getElementById('kata-write-check').style.display = 'none';
+        document.getElementById('kata-write-assess').style.display = '';
     },
 
     revealWrite() { WritingPad.showAnswer('kata-write-canvas', this.currentQ.answer); },

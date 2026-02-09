@@ -70,6 +70,7 @@ const SRS = {
 
     save() {
         localStorage.setItem('jp_srsData', JSON.stringify(this.data));
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     },
 
     getItem(key) {
@@ -345,6 +346,7 @@ function saveTrainerStats(prefix, trainer, ok) {
         if (ok === true && trainer.currentQ) removeWrongAnswer(prefix, trainer.currentQ);
         savePracticeSession(prefix, trainer.score, trainer.total);
         if (TIMED.active) TIMED.recordAnswer();
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     } catch (e) {}
 }
 function loadTrainerStats(prefix, trainer) {
@@ -374,6 +376,7 @@ function updateDailyStreak() {
         ds.best = Math.max(ds.current, ds.best || 0);
         localStorage.setItem('jp_dailyStreak', JSON.stringify(ds));
         updateDailyStreakUI();
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     } catch (e) {}
 }
 function getDailyStreak() {

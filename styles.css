@@ -290,6 +290,32 @@ header p  { color: var(--text-light); font-size: 0.95rem; }
 }
 .self-assess .btn { min-width: 120px; }
 
+/* Writing comparison panel */
+.write-compare {
+    display: flex; justify-content: center; gap: 24px; margin-top: 20px;
+    animation: slideIn 0.3s ease;
+}
+.write-compare-col {
+    text-align: center;
+}
+.write-compare-label {
+    font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--text-light); margin-bottom: 8px;
+}
+.write-compare-img {
+    width: 150px; height: 150px; border-radius: 12px;
+    border: 2px solid #e0e0e0; object-fit: contain; background: #fff;
+}
+.write-compare-char {
+    width: 150px; height: 150px; border-radius: 12px;
+    border: 2px solid var(--primary); display: flex;
+    align-items: center; justify-content: center;
+    font-family: var(--jp-font); font-size: 5rem; font-weight: 700;
+    background: var(--primary-light); color: var(--text);
+}
+body.dark-mode .write-compare-img { background: #0f1a30; border-color: #2a2a4a; }
+body.dark-mode .write-compare-char { background: var(--primary-light); border-color: var(--primary); }
+
 /* ---- Sentence Reordering ---- */
 .word-bank {
     display: flex; flex-wrap: wrap; justify-content: center;
@@ -416,6 +442,8 @@ body.has-bg .dash-topic,
 body.has-bg .dash-stat,
 body.has-bg .settings-dropdown,
 body.has-bg .continue-card { background: rgba(255,255,255,var(--bg-card-alpha,0.85)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); }
+body.has-bg .feedback.correct  { background: rgba(230,250,244,0.9); border: 2px solid var(--success); }
+body.has-bg .feedback.incorrect { background: rgba(253,232,237,0.9); border: 2px solid var(--error); }
 body.has-bg .hub-header { background: rgba(255,255,255,calc(var(--bg-card-alpha,0.85) - 0.05)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
 body.has-bg .topic-card h2,
 body.has-bg .hub-header h1,
@@ -474,6 +502,8 @@ body.dark-mode .word-chip { background: var(--card); border-color: #2a2a4a; colo
 body.dark-mode .word-chip:hover { border-color: var(--primary); background: var(--primary-light); }
 body.dark-mode .kana-cell { background: #0f1a30; border-color: #2a2a4a; }
 body.dark-mode .hist-row { border-bottom-color: #2a2a4a; }
+body.dark-mode.has-bg .feedback.correct  { background: rgba(6,214,160,0.2); border: 2px solid var(--success); }
+body.dark-mode.has-bg .feedback.incorrect { background: rgba(239,71,111,0.2); border: 2px solid var(--error); }
 
 @media (max-width: 480px) {
     .options-grid { grid-template-columns: 1fr; }

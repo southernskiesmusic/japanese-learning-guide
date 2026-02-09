@@ -2,6 +2,9 @@
    INIT — Wire everything together
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Firebase Auth
+    if (typeof Auth !== 'undefined') Auth.init();
+
     // Initialize SRS
     SRS.load();
 
@@ -151,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.keys(WritingPad.pads).forEach(id => {
             WritingPad.setDarkMode(id, on);
         });
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
     // Custom wallpaper
@@ -165,13 +169,25 @@ document.addEventListener('DOMContentLoaded', () => {
     bgUpload.addEventListener('change', e => {
         const file = e.target.files[0];
         if (!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => {
-            const url = ev.target.result;
-            localStorage.setItem('jp_bgImage', url);
-            applyBg(url);
+        const img = new Image();
+        img.onload = () => {
+            const maxW = 1920;
+            let w = img.width, h = img.height;
+            if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            try {
+                localStorage.setItem('jp_bgImage', dataUrl);
+                applyBg(dataUrl);
+                if (typeof Auth !== 'undefined') Auth.saveAndSync();
+            } catch (err) {
+                alert('Image too large for localStorage. Try a smaller image.');
+            }
         };
-        reader.readAsDataURL(file);
+        img.src = URL.createObjectURL(file);
+        bgUpload.value = '';
     });
 
     bgClear.addEventListener('click', () => {
@@ -179,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgOverlay.style.backgroundImage = '';
         document.body.classList.remove('has-bg');
         bgClear.style.display = 'none';
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
     bgOpacity.addEventListener('input', () => {
@@ -186,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgOpacityVal.textContent = val + '%';
         bgOverlay.style.opacity = val / 100;
         localStorage.setItem('jp_bgOpacity', val);
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
     function applyBg(url) {
@@ -219,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = fontSelector.value;
         if (val !== 'system') document.body.classList.add('font-' + val);
         localStorage.setItem('jp_selectedFont', val);
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
     // ---- Continue Prompt ----

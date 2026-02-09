@@ -212,6 +212,7 @@ const LessonEngine = {
                 ts: Date.now()
             };
             localStorage.setItem('jp_lessonProgress', JSON.stringify(lp));
+            if (typeof Auth !== 'undefined') Auth.saveAndSync();
         } catch (e) {}
     },
 

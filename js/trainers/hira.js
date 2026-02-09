@@ -156,7 +156,11 @@ const HIRA = {
             '<button class="btn btn-hint" onclick="WritingPad.undo(\'' + canvasId + '\')">Undo</button>' +
             '<button class="btn btn-hint" onclick="HIRA.revealWrite()">Reveal</button>' +
             '</div>' +
-            '<div class="self-assess" style="margin-top:16px;">' +
+            '<div class="self-assess" style="margin-top:16px;" id="hira-write-check">' +
+            '<button class="btn btn-primary" onclick="HIRA.checkWrite()">Check</button>' +
+            '</div>' +
+            '<div id="hira-write-compare"></div>' +
+            '<div class="self-assess" style="margin-top:16px;display:none;" id="hira-write-assess">' +
             '<button class="btn btn-primary" onclick="HIRA.selfAssess(true)" style="background:var(--success);">Got it</button>' +
             '<button class="btn btn-primary" onclick="HIRA.selfAssess(false)" style="background:var(--error);">Needs practice</button>' +
             '</div>' +
@@ -169,6 +173,21 @@ const HIRA = {
                 WritingPad.setDarkMode(canvasId, true);
             }
         }, 50);
+    },
+
+    checkWrite() {
+        const canvasId = 'hira-write-canvas';
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const snapshot = canvas.toDataURL('image/png');
+        const compare = document.getElementById('hira-write-compare');
+        compare.innerHTML = '<div class="write-compare">' +
+            '<div class="write-compare-col"><div class="write-compare-label">Your attempt</div>' +
+            '<img class="write-compare-img" src="' + snapshot + '"></div>' +
+            '<div class="write-compare-col"><div class="write-compare-label">Correct</div>' +
+            '<div class="write-compare-char jp">' + this.currentQ.answer + '</div></div></div>';
+        document.getElementById('hira-write-check').style.display = 'none';
+        document.getElementById('hira-write-assess').style.display = '';
     },
 
     revealWrite() {

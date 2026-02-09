@@ -169,7 +169,10 @@ const KANJI = {
             '<button class="btn btn-hint" onclick="WritingPad.clear(\'' + canvasId + '\')">Clear</button>' +
             '<button class="btn btn-hint" onclick="WritingPad.undo(\'' + canvasId + '\')">Undo</button>' +
             '<button class="btn btn-hint" onclick="KANJI.revealWrite()">Reveal</button></div>' +
-            '<div class="self-assess" style="margin-top:16px;">' +
+            '<div class="self-assess" style="margin-top:16px;" id="kanji-write-check">' +
+            '<button class="btn btn-primary" onclick="KANJI.checkWrite()">Check</button></div>' +
+            '<div id="kanji-write-compare"></div>' +
+            '<div class="self-assess" style="margin-top:16px;display:none;" id="kanji-write-assess">' +
             '<button class="btn btn-primary" onclick="KANJI.selfAssess(true)" style="background:var(--success);">Got it</button>' +
             '<button class="btn btn-primary" onclick="KANJI.selfAssess(false)" style="background:var(--error);">Needs practice</button></div></div>';
         document.getElementById('kanji-question').innerHTML = h;
@@ -177,6 +180,21 @@ const KANJI = {
             WritingPad.init(canvasId);
             if (document.body.classList.contains('dark-mode')) WritingPad.setDarkMode(canvasId, true);
         }, 50);
+    },
+
+    checkWrite() {
+        const canvasId = 'kanji-write-canvas';
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const snapshot = canvas.toDataURL('image/png');
+        const compare = document.getElementById('kanji-write-compare');
+        compare.innerHTML = '<div class="write-compare">' +
+            '<div class="write-compare-col"><div class="write-compare-label">Your attempt</div>' +
+            '<img class="write-compare-img" src="' + snapshot + '"></div>' +
+            '<div class="write-compare-col"><div class="write-compare-label">Correct</div>' +
+            '<div class="write-compare-char jp">' + this.currentQ.answer + '</div></div></div>';
+        document.getElementById('kanji-write-check').style.display = 'none';
+        document.getElementById('kanji-write-assess').style.display = '';
     },
 
     revealWrite() { WritingPad.showAnswer('kanji-write-canvas', this.currentQ.answer); },
