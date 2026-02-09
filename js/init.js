@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('dark-mode');
         const on = document.body.classList.contains('dark-mode');
         darkToggle.textContent = on ? 'On' : 'Off';
-        localStorage.setItem('darkMode', on);
+        localStorage.setItem('jp_darkMode', on);
 
         // Update writing pads
         Object.keys(WritingPad.pads).forEach(id => {
@@ -168,14 +168,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const reader = new FileReader();
         reader.onload = ev => {
             const url = ev.target.result;
-            localStorage.setItem('bgImage', url);
+            localStorage.setItem('jp_bgImage', url);
             applyBg(url);
         };
         reader.readAsDataURL(file);
     });
 
     bgClear.addEventListener('click', () => {
-        localStorage.removeItem('bgImage');
+        localStorage.removeItem('jp_bgImage');
         bgOverlay.style.backgroundImage = '';
         document.body.classList.remove('has-bg');
         bgClear.style.display = 'none';
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgOpacityVal.textContent = val + '%';
         const alpha = 1 - val / 100;
         document.documentElement.style.setProperty('--bg-card-alpha', alpha.toFixed(2));
-        localStorage.setItem('bgOpacity', val);
+        localStorage.setItem('jp_bgOpacity', val);
     });
 
     function applyBg(url) {
@@ -196,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Restore saved bg
-    const savedBg = localStorage.getItem('bgImage');
+    const savedBg = localStorage.getItem('jp_bgImage');
     if (savedBg) applyBg(savedBg);
 
-    const savedOpacity = localStorage.getItem('bgOpacity');
+    const savedOpacity = localStorage.getItem('jp_bgOpacity');
     if (savedOpacity) {
         bgOpacity.value = savedOpacity;
         bgOpacityVal.textContent = savedOpacity + '%';
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Font selector
     const fontSelector = document.getElementById('font-selector');
-    const savedFont = localStorage.getItem('selectedFont');
+    const savedFont = localStorage.getItem('jp_selectedFont');
     if (savedFont) {
         fontSelector.value = savedFont;
         if (savedFont !== 'system') document.body.classList.add('font-' + savedFont);
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.className = document.body.className.replace(/font-\S+/g, '').trim();
         const val = fontSelector.value;
         if (val !== 'system') document.body.classList.add('font-' + val);
-        localStorage.setItem('selectedFont', val);
+        localStorage.setItem('jp_selectedFont', val);
     });
 
     // ---- Continue Prompt ----

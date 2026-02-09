@@ -98,7 +98,7 @@ const DASHBOARD = {
 
         // Practice history
         try {
-            const hist = JSON.parse(localStorage.getItem('practiceHistory') || '[]');
+            const hist = JSON.parse(localStorage.getItem('jp_practiceHistory') || '[]');
             if (hist.length > 0) {
                 h += '<div class="dash-topic"><div class="dash-topic-header">Recent Practice</div>';
                 const NAMES = {

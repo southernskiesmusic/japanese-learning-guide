@@ -64,12 +64,12 @@ const SRS = {
     data: {},
 
     load() {
-        try { this.data = JSON.parse(localStorage.getItem('srsData') || '{}'); }
+        try { this.data = JSON.parse(localStorage.getItem('jp_srsData') || '{}'); }
         catch (e) { this.data = {}; }
     },
 
     save() {
-        localStorage.setItem('srsData', JSON.stringify(this.data));
+        localStorage.setItem('jp_srsData', JSON.stringify(this.data));
     },
 
     getItem(key) {
@@ -269,7 +269,7 @@ const TIMED = {
     },
 
     loadBest() {
-        try { this.best = JSON.parse(localStorage.getItem('timedChallenges') || '{}'); } catch (e) { this.best = {}; }
+        try { this.best = JSON.parse(localStorage.getItem('jp_timedChallenges') || '{}'); } catch (e) { this.best = {}; }
     },
 
     saveBest() {
@@ -279,23 +279,23 @@ const TIMED = {
         if (!prev || this.score > prev.score || (this.score === prev.score && this.total < prev.total)) {
             this.best[k] = { score: this.score, total: this.total, ts: Date.now() };
         }
-        localStorage.setItem('timedChallenges', JSON.stringify(this.best));
+        localStorage.setItem('jp_timedChallenges', JSON.stringify(this.best));
     }
 };
 
 // -- Wrong Answer Review Pool ------------------------------------------------
 function saveWrongAnswer(prefix, qData) {
     try {
-        const all = JSON.parse(localStorage.getItem('wrongAnswers') || '{}');
+        const all = JSON.parse(localStorage.getItem('jp_wrongAnswers') || '{}');
         if (!all[prefix]) all[prefix] = [];
         all[prefix].push(qData);
         if (all[prefix].length > 10) all[prefix].shift();
-        localStorage.setItem('wrongAnswers', JSON.stringify(all));
+        localStorage.setItem('jp_wrongAnswers', JSON.stringify(all));
     } catch (e) {}
 }
 function getWrongAnswer(prefix) {
     try {
-        const all = JSON.parse(localStorage.getItem('wrongAnswers') || '{}');
+        const all = JSON.parse(localStorage.getItem('jp_wrongAnswers') || '{}');
         const pool = all[prefix];
         if (!pool || pool.length === 0) return null;
         return pool[Math.floor(Math.random() * pool.length)];
@@ -303,19 +303,19 @@ function getWrongAnswer(prefix) {
 }
 function removeWrongAnswer(prefix, qData) {
     try {
-        const all = JSON.parse(localStorage.getItem('wrongAnswers') || '{}');
+        const all = JSON.parse(localStorage.getItem('jp_wrongAnswers') || '{}');
         const pool = all[prefix];
         if (!pool) return;
         const idx = pool.findIndex(q => JSON.stringify(q) === JSON.stringify(qData));
         if (idx !== -1) pool.splice(idx, 1);
-        localStorage.setItem('wrongAnswers', JSON.stringify(all));
+        localStorage.setItem('jp_wrongAnswers', JSON.stringify(all));
     } catch (e) {}
 }
 
 // -- Practice History --------------------------------------------------------
 function savePracticeSession(prefix, score, total) {
     try {
-        const hist = JSON.parse(localStorage.getItem('practiceHistory') || '[]');
+        const hist = JSON.parse(localStorage.getItem('jp_practiceHistory') || '[]');
         const now = Date.now();
         const last = hist[hist.length - 1];
         if (last && last.prefix === prefix && (now - last.date) < 120000) {
@@ -326,20 +326,20 @@ function savePracticeSession(prefix, score, total) {
             hist.push({ prefix: prefix, date: now, score: score, total: total });
         }
         if (hist.length > 50) hist.shift();
-        localStorage.setItem('practiceHistory', JSON.stringify(hist));
+        localStorage.setItem('jp_practiceHistory', JSON.stringify(hist));
     } catch (e) {}
 }
 
 // -- Trainer Score Persistence -----------------------------------------------
 function saveTrainerStats(prefix, trainer, ok) {
     try {
-        const all = JSON.parse(localStorage.getItem('trainerStats') || '{}');
+        const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
         all[prefix] = {
             score: trainer.score, total: trainer.total, streak: trainer.streak,
             bestStreak: Math.max(trainer.streak, (all[prefix]?.bestStreak || 0)),
             lastTs: Date.now()
         };
-        localStorage.setItem('trainerStats', JSON.stringify(all));
+        localStorage.setItem('jp_trainerStats', JSON.stringify(all));
         updateDailyStreak();
         if (ok === false && trainer.currentQ) saveWrongAnswer(prefix, trainer.currentQ);
         if (ok === true && trainer.currentQ) removeWrongAnswer(prefix, trainer.currentQ);
@@ -349,20 +349,20 @@ function saveTrainerStats(prefix, trainer, ok) {
 }
 function loadTrainerStats(prefix, trainer) {
     try {
-        const all = JSON.parse(localStorage.getItem('trainerStats') || '{}');
+        const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
         const s = all[prefix];
         if (s) { trainer.score = s.score || 0; trainer.total = s.total || 0; trainer.streak = s.streak || 0; }
     } catch (e) {}
 }
 function getAllTrainerStats() {
-    try { return JSON.parse(localStorage.getItem('trainerStats') || '{}'); } catch (e) { return {}; }
+    try { return JSON.parse(localStorage.getItem('jp_trainerStats') || '{}'); } catch (e) { return {}; }
 }
 
 // -- Daily Streak ------------------------------------------------------------
 function updateDailyStreak() {
     try {
         const today = new Date().toISOString().slice(0, 10);
-        const ds = JSON.parse(localStorage.getItem('dailyStreak') || '{}');
+        const ds = JSON.parse(localStorage.getItem('jp_dailyStreak') || '{}');
         if (ds.lastDate === today) return;
         const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         if (ds.lastDate === yesterday) {
@@ -372,13 +372,13 @@ function updateDailyStreak() {
         }
         ds.lastDate = today;
         ds.best = Math.max(ds.current, ds.best || 0);
-        localStorage.setItem('dailyStreak', JSON.stringify(ds));
+        localStorage.setItem('jp_dailyStreak', JSON.stringify(ds));
         updateDailyStreakUI();
     } catch (e) {}
 }
 function getDailyStreak() {
     try {
-        const ds = JSON.parse(localStorage.getItem('dailyStreak') || '{}');
+        const ds = JSON.parse(localStorage.getItem('jp_dailyStreak') || '{}');
         const today = new Date().toISOString().slice(0, 10);
         const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         if (ds.lastDate === today || ds.lastDate === yesterday) return ds;

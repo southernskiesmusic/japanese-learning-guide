@@ -204,20 +204,20 @@ const LessonEngine = {
 
     markComplete() {
         try {
-            const lp = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            const lp = JSON.parse(localStorage.getItem('jp_lessonProgress') || '{}');
             lp[this.lesson.id] = {
                 completed: true,
                 score: this.practiceCorrect,
                 total: this.practiceTotal,
                 ts: Date.now()
             };
-            localStorage.setItem('lessonProgress', JSON.stringify(lp));
+            localStorage.setItem('jp_lessonProgress', JSON.stringify(lp));
         } catch (e) {}
     },
 
     isComplete(lessonId) {
         try {
-            const lp = JSON.parse(localStorage.getItem('lessonProgress') || '{}');
+            const lp = JSON.parse(localStorage.getItem('jp_lessonProgress') || '{}');
             return lp[lessonId] && lp[lessonId].completed;
         } catch (e) { return false; }
     },
