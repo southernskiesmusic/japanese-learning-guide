@@ -516,3 +516,17 @@ body.dark-mode.has-bg .feedback.incorrect { background: rgba(239,71,111,0.2); bo
     .continue-go { width: 100%; }
     .kana-chart { grid-template-columns: repeat(5, 1fr); font-size: 0.9rem; }
 }
+
+/* ---- Music Button ---- */
+.music-btn {
+    position: fixed; bottom: 80px; right: 20px; z-index: 900;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--primary); color: #fff; border: none;
+    font-size: 1.3rem; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(67,97,238,0.4);
+    transition: background 0.2s, transform 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.85;
+}
+.music-btn:hover { transform: scale(1.1); opacity: 1; }
+.music-btn.playing { background: #06d6a0; box-shadow: 0 2px 12px rgba(6,214,160,0.4); }

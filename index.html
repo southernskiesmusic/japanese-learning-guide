@@ -28,6 +28,12 @@
     </div>
 </div>
 
+<!-- Background Music -->
+<audio id="bg-music" loop preload="none">
+    <source src="audio/silent-snow-lake.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" id="music-toggle" title="Toggle background music">&#9835;</button>
+
 <div class="bg-overlay" id="bg-overlay"></div>
 <div id="app">
 
@@ -56,6 +62,15 @@
                 <input type="range" id="bg-opacity" min="0" max="100" value="15" style="width:100px">
                 <span id="bg-opacity-val">15%</span>
             </label>
+            <label class="settings-item">
+                <span>Music</span>
+                <button class="btn btn-hint btn-sm" id="music-setting-toggle">Off</button>
+                <input type="range" id="music-volume" min="0" max="100" value="30" style="width:80px">
+                <span id="music-volume-val">30%</span>
+            </label>
+            <div class="settings-item" style="font-size:0.7rem;opacity:0.6;justify-content:center;">
+                &#9835; Silent Snow Lake — PROJECT SEKAI (<a href="https://www.youtube.com/watch?v=V0I4K0yJ8Hk" target="_blank" rel="noopener" style="color:inherit">source</a>)
+            </div>
             <label class="settings-item">
                 <span>Font</span>
                 <select id="font-selector">

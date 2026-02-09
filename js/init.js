@@ -339,6 +339,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateHubCounts();
 
+    // ---- Background music ----
+    const bgMusic = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+    const musicSettingBtn = document.getElementById('music-setting-toggle');
+    const musicVolSlider = document.getElementById('music-volume');
+    const musicVolVal = document.getElementById('music-volume-val');
+
+    if (bgMusic && musicBtn) {
+        const savedVol = parseFloat(localStorage.getItem('jp_musicVolume') || '0.3');
+        const savedOn = localStorage.getItem('jp_musicOn') === 'true';
+        bgMusic.volume = savedVol;
+        if (musicVolSlider) musicVolSlider.value = Math.round(savedVol * 100);
+        if (musicVolVal) musicVolVal.textContent = Math.round(savedVol * 100) + '%';
+        if (musicSettingBtn) musicSettingBtn.textContent = savedOn ? 'On' : 'Off';
+
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    if (musicSettingBtn) musicSettingBtn.textContent = 'On';
+                    localStorage.setItem('jp_musicOn', 'true');
+                }).catch(() => {});
+            } else {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+                if (musicSettingBtn) musicSettingBtn.textContent = 'Off';
+                localStorage.setItem('jp_musicOn', 'false');
+            }
+        }
+
+        musicBtn.addEventListener('click', toggleMusic);
+        if (musicSettingBtn) musicSettingBtn.addEventListener('click', toggleMusic);
+
+        if (musicVolSlider) {
+            musicVolSlider.addEventListener('input', () => {
+                const v = musicVolSlider.value / 100;
+                bgMusic.volume = v;
+                if (musicVolVal) musicVolVal.textContent = musicVolSlider.value + '%';
+                localStorage.setItem('jp_musicVolume', v);
+            });
+        }
+
+        // Auto-play if previously on (requires user gesture first)
+        if (savedOn) {
+            bgMusic.play().then(() => {
+                musicBtn.classList.add('playing');
+            }).catch(() => {});
+        }
+    }
+
     // ---- Remove loading screen ----
     setTimeout(() => {
         const ls = document.getElementById('loading-screen');
