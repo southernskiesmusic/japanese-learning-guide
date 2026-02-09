@@ -184,7 +184,7 @@ const GRAM = {
         const q = this.currentQ;
         let h = '<span class="rule-tag">Sentence Reordering</span>' +
             '<p class="question-text">' + q.english + '</p>' +
-            '<p class="question-hint">Tap words in the correct order</p>' +
+            '<p class="question-hint">Tap words in the correct order, or type it below</p>' +
             '<div class="sentence-build" id="gram-build">';
         q.selected.forEach((w, i) => {
             h += '<span class="word-chip" onclick="GRAM.unselectWord(' + i + ')">' + w + '</span>';
@@ -200,7 +200,18 @@ const GRAM = {
         if (q.selected.length === q.shuffled.length) {
             h += '<div style="margin-top:16px;"><button class="btn btn-primary" onclick="GRAM.checkReorder()">Check</button></div>';
         }
+        // Type-it option
+        h += '<div style="margin-top:16px;border-top:1px solid #e0e0e0;padding-top:14px;">' +
+            '<p class="question-hint" style="margin-bottom:8px;">Or type the sentence:</p>' +
+            '<div class="input-area">' +
+            '<input type="text" class="jp-input" id="gram-reorder-input" lang="ja" placeholder="Type the full sentence..." autocomplete="off" style="max-width:100%;">' +
+            '<button class="btn btn-primary" onclick="GRAM.checkReorderTyped()">Check</button></div></div>';
         document.getElementById('gram-question').innerHTML = h;
+
+        setTimeout(() => {
+            const inp = document.getElementById('gram-reorder-input');
+            if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') GRAM.checkReorderTyped(); });
+        }, 100);
     },
 
     selectWord(idx) {
@@ -238,6 +249,23 @@ const GRAM = {
         saveTrainerStats('GRAM', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             'Correct order: <span class="jp-medium">' + q.answer.join('') + '</span>');
+    },
+
+    checkReorderTyped() {
+        const inp = document.getElementById('gram-reorder-input');
+        if (!inp || !inp.value.trim()) return;
+        const val = inp.value.trim().replace(/[\s　]+/g, '');
+        const q = this.currentQ;
+        const answerStr = q.answer.join('');
+        this.total++;
+        const correct = (val === answerStr);
+        if (correct) { this.score++; this.streak++; } else this.streak = 0;
+        SRS.review('gram-reorder', correct ? 5 : 1);
+        inp.disabled = true;
+        this.updateUI();
+        saveTrainerStats('GRAM', this, correct);
+        this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
+            'Correct order: <span class="jp-medium">' + q.answer.join(' ') + '</span>');
     },
 
     loadTranslate() {
