@@ -688,3 +688,32 @@ function generateDistractors(correct, pool, count) {
     }
     return shuffle(options);
 }
+
+// -- Break Reminder (2 hours) ---------------------------------------------
+(function () {
+    var style = document.createElement('style');
+    style.textContent =
+        '.break-reminder{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:br-fade .4s ease}' +
+        '.break-reminder-card{background:var(--card,#fff);border-radius:20px;padding:40px 32px;text-align:center;' +
+        'max-width:380px;width:90%;box-shadow:0 12px 48px rgba(0,0,0,0.3);animation:br-pop .4s cubic-bezier(.34,1.56,.64,1)}' +
+        '.break-reminder-card h2{font-size:1.6rem;margin-bottom:8px;color:var(--primary,#e63946)}' +
+        '.break-reminder-card p{color:var(--text-light,#6c757d);font-size:0.95rem;line-height:1.6;margin-bottom:24px}' +
+        '@keyframes br-fade{from{opacity:0}to{opacity:1}}' +
+        '@keyframes br-pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}';
+    document.head.appendChild(style);
+
+    setTimeout(function () {
+        if (document.getElementById('break-reminder')) return;
+        var overlay = document.createElement('div');
+        overlay.id = 'break-reminder';
+        overlay.className = 'break-reminder';
+        overlay.innerHTML =
+            '<div class="break-reminder-card">' +
+            '<h2>Take a break!</h2>' +
+            '<p>You\'ve been studying for over 2 hours. Stand up, stretch, grab some water.</p>' +
+            '<button class="btn btn-primary" onclick="document.getElementById(\'break-reminder\').remove()">I\'m good, thanks</button>' +
+            '</div>';
+        document.body.appendChild(overlay);
+    }, 7200000);
+})();
