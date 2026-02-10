@@ -570,7 +570,7 @@ const GEM_SHOP = {
         // Other
         { id: 'timed-1', title: 'Speed Runner', desc: 'Complete a timed challenge', reward: 50, type: 'milestone',
           check() { return GEM_SHOP._hasTimedChallenge(); } },
-        { id: 'questions-100', title: 'Century', desc: 'Answer 100 total questions', reward: 100, type: 'milestone',
+        { id: 'questions-100', title: 'Century', desc: 'Answer 100 questions this week', reward: 100, type: 'weekly',
           check() { return GEM_SHOP._totalQuestions() >= 100; } },
     ],
 
@@ -608,18 +608,26 @@ const GEM_SHOP = {
         try { return JSON.parse(localStorage.getItem(this._key) || '{}'); }
         catch (e) { return {}; }
     },
+    _weekStart() {
+        const d = new Date(); d.setHours(0,0,0,0);
+        d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+        return d.toISOString().slice(0, 10);
+    },
     isClaimed(id) {
         const claimed = this.getClaimed();
         const m = this.missions.find(x => x.id === id);
         if (!m) return false;
         if (m.type === 'daily') return claimed[id] === new Date().toISOString().slice(0, 10);
+        if (m.type === 'weekly') return claimed[id] === this._weekStart();
         return !!claimed[id];
     },
     claim(id) {
         const m = this.missions.find(x => x.id === id);
         if (!m || !m.check() || this.isClaimed(id)) return;
         const claimed = this.getClaimed();
-        claimed[id] = m.type === 'daily' ? new Date().toISOString().slice(0, 10) : true;
+        if (m.type === 'daily') claimed[id] = new Date().toISOString().slice(0, 10);
+        else if (m.type === 'weekly') claimed[id] = this._weekStart();
+        else claimed[id] = true;
         localStorage.setItem(this._key, JSON.stringify(claimed));
         addGems(m.reward);
         this.render();
