@@ -33,6 +33,7 @@ const WritingPad = {
 
         // Prevent scrolling on touch
         canvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+        canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
 
         this._drawGuides(pad);
     },
@@ -62,9 +63,11 @@ const WritingPad = {
         pad.ctx.lineCap = 'round';
         pad.ctx.lineJoin = 'round';
 
-        // Use pressure if available (pen tablet)
+        // Use pressure if available (pen tablet / touch)
         if (e.pressure && e.pressure > 0) {
-            pad.ctx.lineWidth = Math.max(2, pad.lineWidth * e.pressure * 2);
+            var w = Math.max(2, pad.lineWidth * e.pressure * 2);
+            pad._lastWidth = w;
+            pad.ctx.lineWidth = w;
         }
     },
 
@@ -75,9 +78,13 @@ const WritingPad = {
         const pos = this._getPos(pad.canvas, e);
         pad.currentStroke.push(pos);
 
-        // Adjust width by pressure
+        // Smooth pressure transitions (70% previous, 30% new)
         if (e.pressure && e.pressure > 0) {
-            pad.ctx.lineWidth = Math.max(2, pad.lineWidth * e.pressure * 2);
+            var target = Math.max(2, pad.lineWidth * e.pressure * 2);
+            var prev = pad._lastWidth || target;
+            var smoothed = prev * 0.7 + target * 0.3;
+            pad._lastWidth = smoothed;
+            pad.ctx.lineWidth = smoothed;
         }
 
         pad.ctx.lineTo(pos.x, pos.y);

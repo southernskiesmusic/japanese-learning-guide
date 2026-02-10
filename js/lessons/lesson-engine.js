@@ -24,6 +24,14 @@ const LessonEngine = {
         this.renderScreen();
         if (!this._enterBound) {
             this._enterBound = true;
+            SwipeNav.bind('#view-lesson', {
+                onSwipeLeft: function() {
+                    var btn = document.getElementById('lesson-continue-btn');
+                    if (btn && btn.style.display !== 'none') LessonEngine.advance();
+                },
+                onSwipeRight: function() { LessonEngine.back(); },
+                excludeSelector: 'input, textarea, .writing-canvas, .word-bank'
+            });
             document.addEventListener('keydown', e => {
                 if (e.key !== 'Enter') return;
                 const lessonView = document.getElementById('view-lesson');

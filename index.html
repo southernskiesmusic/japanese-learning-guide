@@ -6,7 +6,8 @@
     <title>Japanese Learning Guide</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&family=Lato:wght@400;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -32,6 +33,25 @@
 <audio id="bg-music" loop preload="none">
     <source src="audio/silent-snow-lake.mp3" type="audio/mpeg">
 </audio>
+<!-- Feedback Widget -->
+<button class="fb-float-btn" id="fb-float-btn" title="Send Feedback">&#128172;</button>
+<div class="fb-float-panel" id="fb-float-panel">
+    <div class="fb-float-header">
+        <span>Feedback</span>
+        <button class="fb-float-close" id="fb-float-close">&times;</button>
+    </div>
+    <div class="fb-float-body">
+        <select id="fb-type">
+            <option value="bug">Bug Report</option>
+            <option value="feature">Feature Request</option>
+            <option value="comment">General Comment</option>
+        </select>
+        <textarea id="fb-message" placeholder="Describe the issue, idea, or comment..."></textarea>
+        <button class="btn btn-primary" id="fb-submit" style="width:100%">Send Feedback</button>
+        <div class="fb-confirmation" id="fb-confirmation">Thanks for your feedback!</div>
+    </div>
+</div>
+
 <button class="music-btn" id="music-toggle" title="Toggle background music">&#9835;</button>
 
 <div class="bg-overlay" id="bg-overlay"></div>
@@ -78,7 +98,84 @@
                     <option value="noto-jp">Noto Sans JP</option>
                     <option value="inter">Inter</option>
                     <option value="poppins">Poppins</option>
+                    <option value="roboto">Roboto</option>
+                    <option value="opensans">Open Sans</option>
+                    <option value="lato">Lato</option>
+                    <option value="nunito">Nunito</option>
+                    <option value="comic">Comic Neue</option>
+                    <option value="dyslexic">OpenDyslexic</option>
+                    <option value="mono">JetBrains Mono</option>
                 </select>
+            </label>
+            <label class="settings-item">
+                <span>Country</span>
+                <select id="country-selector">
+                    <option value="">Not set</option>
+                    <option value="AE">&#127462;&#127466; UAE</option>
+                    <option value="AR">&#127462;&#127479; Argentina</option>
+                    <option value="AT">&#127462;&#127481; Austria</option>
+                    <option value="AU">&#127462;&#127482; Australia</option>
+                    <option value="BD">&#127463;&#127465; Bangladesh</option>
+                    <option value="BE">&#127463;&#127466; Belgium</option>
+                    <option value="BH">&#127463;&#127469; Bahrain</option>
+                    <option value="BR">&#127463;&#127479; Brazil</option>
+                    <option value="CA">&#127464;&#127462; Canada</option>
+                    <option value="CH">&#127464;&#127469; Switzerland</option>
+                    <option value="CL">&#127464;&#127473; Chile</option>
+                    <option value="CN">&#127464;&#127475; China</option>
+                    <option value="CO">&#127464;&#127476; Colombia</option>
+                    <option value="CZ">&#127464;&#127487; Czechia</option>
+                    <option value="DE">&#127465;&#127466; Germany</option>
+                    <option value="DK">&#127465;&#127472; Denmark</option>
+                    <option value="EG">&#127466;&#127468; Egypt</option>
+                    <option value="ES">&#127466;&#127480; Spain</option>
+                    <option value="FI">&#127467;&#127470; Finland</option>
+                    <option value="FR">&#127467;&#127479; France</option>
+                    <option value="GB">&#127468;&#127463; United Kingdom</option>
+                    <option value="GR">&#127468;&#127479; Greece</option>
+                    <option value="HK">&#127469;&#127472; Hong Kong</option>
+                    <option value="HU">&#127469;&#127482; Hungary</option>
+                    <option value="ID">&#127470;&#127465; Indonesia</option>
+                    <option value="IE">&#127470;&#127466; Ireland</option>
+                    <option value="IL">&#127470;&#127473; Israel</option>
+                    <option value="IN">&#127470;&#127475; India</option>
+                    <option value="IQ">&#127470;&#127478; Iraq</option>
+                    <option value="IT">&#127470;&#127481; Italy</option>
+                    <option value="JO">&#127471;&#127476; Jordan</option>
+                    <option value="JP">&#127471;&#127477; Japan</option>
+                    <option value="KE">&#127472;&#127466; Kenya</option>
+                    <option value="KR">&#127472;&#127479; South Korea</option>
+                    <option value="KW">&#127472;&#127484; Kuwait</option>
+                    <option value="LB">&#127473;&#127463; Lebanon</option>
+                    <option value="LK">&#127473;&#127472; Sri Lanka</option>
+                    <option value="MX">&#127474;&#127485; Mexico</option>
+                    <option value="MY">&#127474;&#127486; Malaysia</option>
+                    <option value="NG">&#127475;&#127468; Nigeria</option>
+                    <option value="NL">&#127475;&#127473; Netherlands</option>
+                    <option value="NO">&#127475;&#127476; Norway</option>
+                    <option value="NZ">&#127475;&#127487; New Zealand</option>
+                    <option value="OM">&#127476;&#127474; Oman</option>
+                    <option value="PH">&#127477;&#127469; Philippines</option>
+                    <option value="PK">&#127477;&#127472; Pakistan</option>
+                    <option value="PL">&#127477;&#127473; Poland</option>
+                    <option value="PT">&#127477;&#127481; Portugal</option>
+                    <option value="QA">&#127478;&#127462; Qatar</option>
+                    <option value="RO">&#127479;&#127476; Romania</option>
+                    <option value="RU">&#127479;&#127482; Russia</option>
+                    <option value="SA">&#127480;&#127462; Saudi Arabia</option>
+                    <option value="SE">&#127480;&#127466; Sweden</option>
+                    <option value="SG">&#127480;&#127468; Singapore</option>
+                    <option value="TH">&#127481;&#127469; Thailand</option>
+                    <option value="TR">&#127481;&#127479; Turkey</option>
+                    <option value="TW">&#127481;&#127484; Taiwan</option>
+                    <option value="US">&#127482;&#127480; United States</option>
+                    <option value="VN">&#127483;&#127475; Vietnam</option>
+                    <option value="ZA">&#127487;&#127462; South Africa</option>
+                </select>
+            </label>
+            <label class="settings-item">
+                <span>School</span>
+                <input type="text" id="school-input" class="settings-text-input" placeholder="e.g. Springfield Academy">
             </label>
         </div>
         <div class="daily-streak-bar">
@@ -121,6 +218,13 @@
             <div class="gem-shop-info">You also earn 1-5 gems per correct answer, scaled by your streak.</div>
         </div>
     </div>
+    <!-- Hub Stats Card -->
+    <div class="hub-stats" id="hub-stats"></div>
+    <!-- Search Bar -->
+    <div class="search-wrapper">
+        <input type="text" id="search-input" class="search-input" placeholder="Search topics, trainers, lessons... (Ctrl+K)" autocomplete="off">
+        <div id="search-results" class="search-results"></div>
+    </div>
     <div id="continue-prompt"></div>
     <div class="topic-grid">
         <div class="topic-card" data-topic="writing">
@@ -148,7 +252,12 @@
             <p>Practice real-life dialogues — introductions, restaurants, directions, shopping.</p>
             <span class="topic-tag conv" id="conv-count"></span>
         </div>
-        <div class="topic-card" data-topic="dashboard" style="grid-column: 1 / -1;">
+        <div class="topic-card" data-topic="leaderboard">
+            <h2>Leaderboard</h2>
+            <p>See the top learners &mdash; compete with classmates.</p>
+            <span class="topic-tag lb">Top 20</span>
+        </div>
+        <div class="topic-card" data-topic="dashboard">
             <h2>Progress Dashboard</h2>
             <p>Track your learning progress across all topics.</p>
             <span class="topic-tag dash">Overview</span>
@@ -667,11 +776,102 @@
     <div id="dashboard-content"></div>
 </div>
 
+<!-- ==================== LEADERBOARD ==================== -->
+<div id="view-leaderboard" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>Leaderboard</h1>
+        <p>Top 20 students by questions answered</p>
+    </header>
+    <div id="leaderboard-content"><p style="color:var(--text-light);text-align:center;">Loading&hellip;</p></div>
+</div>
+
 </div><!-- end #app -->
+
+<!-- Onboarding Modal -->
+<div class="onboard-overlay" id="onboard-overlay">
+    <div class="onboard-modal">
+        <h2>Welcome! Tell us about yourself</h2>
+        <p style="color:var(--text-light);margin-bottom:18px;">This helps us show your flag and school on the leaderboard.</p>
+        <label class="onboard-field">
+            <span>Country</span>
+            <select id="onboard-country">
+                <option value="">Select your country</option>
+                <option value="AE">&#127462;&#127466; UAE</option>
+                <option value="AR">&#127462;&#127479; Argentina</option>
+                <option value="AT">&#127462;&#127481; Austria</option>
+                <option value="AU">&#127462;&#127482; Australia</option>
+                <option value="BD">&#127463;&#127465; Bangladesh</option>
+                <option value="BE">&#127463;&#127466; Belgium</option>
+                <option value="BH">&#127463;&#127469; Bahrain</option>
+                <option value="BR">&#127463;&#127479; Brazil</option>
+                <option value="CA">&#127464;&#127462; Canada</option>
+                <option value="CH">&#127464;&#127469; Switzerland</option>
+                <option value="CL">&#127464;&#127473; Chile</option>
+                <option value="CN">&#127464;&#127475; China</option>
+                <option value="CO">&#127464;&#127476; Colombia</option>
+                <option value="CZ">&#127464;&#127487; Czechia</option>
+                <option value="DE">&#127465;&#127466; Germany</option>
+                <option value="DK">&#127465;&#127472; Denmark</option>
+                <option value="EG">&#127466;&#127468; Egypt</option>
+                <option value="ES">&#127466;&#127480; Spain</option>
+                <option value="FI">&#127467;&#127470; Finland</option>
+                <option value="FR">&#127467;&#127479; France</option>
+                <option value="GB">&#127468;&#127463; United Kingdom</option>
+                <option value="GR">&#127468;&#127479; Greece</option>
+                <option value="HK">&#127469;&#127472; Hong Kong</option>
+                <option value="HU">&#127469;&#127482; Hungary</option>
+                <option value="ID">&#127470;&#127465; Indonesia</option>
+                <option value="IE">&#127470;&#127466; Ireland</option>
+                <option value="IL">&#127470;&#127473; Israel</option>
+                <option value="IN">&#127470;&#127475; India</option>
+                <option value="IQ">&#127470;&#127478; Iraq</option>
+                <option value="IT">&#127470;&#127481; Italy</option>
+                <option value="JO">&#127471;&#127476; Jordan</option>
+                <option value="JP">&#127471;&#127477; Japan</option>
+                <option value="KE">&#127472;&#127466; Kenya</option>
+                <option value="KR">&#127472;&#127479; South Korea</option>
+                <option value="KW">&#127472;&#127484; Kuwait</option>
+                <option value="LB">&#127473;&#127463; Lebanon</option>
+                <option value="LK">&#127473;&#127472; Sri Lanka</option>
+                <option value="MX">&#127474;&#127485; Mexico</option>
+                <option value="MY">&#127474;&#127486; Malaysia</option>
+                <option value="NG">&#127475;&#127468; Nigeria</option>
+                <option value="NL">&#127475;&#127473; Netherlands</option>
+                <option value="NO">&#127475;&#127476; Norway</option>
+                <option value="NZ">&#127475;&#127487; New Zealand</option>
+                <option value="OM">&#127476;&#127474; Oman</option>
+                <option value="PH">&#127477;&#127469; Philippines</option>
+                <option value="PK">&#127477;&#127472; Pakistan</option>
+                <option value="PL">&#127477;&#127473; Poland</option>
+                <option value="PT">&#127477;&#127481; Portugal</option>
+                <option value="QA">&#127478;&#127462; Qatar</option>
+                <option value="RO">&#127479;&#127476; Romania</option>
+                <option value="RU">&#127479;&#127482; Russia</option>
+                <option value="SA">&#127480;&#127462; Saudi Arabia</option>
+                <option value="SE">&#127480;&#127466; Sweden</option>
+                <option value="SG">&#127480;&#127468; Singapore</option>
+                <option value="TH">&#127481;&#127469; Thailand</option>
+                <option value="TR">&#127481;&#127479; Turkey</option>
+                <option value="TW">&#127481;&#127484; Taiwan</option>
+                <option value="US">&#127482;&#127480; United States</option>
+                <option value="VN">&#127483;&#127475; Vietnam</option>
+                <option value="ZA">&#127487;&#127462; South Africa</option>
+            </select>
+        </label>
+        <label class="onboard-field">
+            <span>School</span>
+            <input type="text" id="onboard-school" placeholder="e.g. Springfield Academy">
+        </label>
+        <button class="btn btn-primary" id="onboard-save" style="width:100%;margin-top:12px;">Let's go!</button>
+        <button class="onboard-skip" id="onboard-skip">Skip for now</button>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script src="js/firebase-config.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/touch-utils.js"></script>
 <script src="js/data/hiragana.js"></script>
 <script src="js/data/katakana.js"></script>
 <script src="js/data/kanji-n5.js"></script>
