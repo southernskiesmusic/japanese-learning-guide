@@ -445,13 +445,134 @@ body.has-bg .lesson-content,
 body.has-bg .dash-topic,
 body.has-bg .dash-stat,
 body.has-bg .settings-dropdown,
-body.has-bg .continue-card { background: rgba(255,255,255,var(--bg-card-alpha,0.85)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); }
+body.has-bg .continue-card,
+body.has-bg .freeze-dialog,
+body.has-bg .gem-shop { background: rgba(255,255,255,var(--bg-card-alpha,0.85)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); }
 body.has-bg .feedback.correct  { background: rgba(230,250,244,0.9); border: 2px solid var(--success); }
 body.has-bg .feedback.incorrect { background: rgba(253,232,237,0.9); border: 2px solid var(--error); }
 body.has-bg .hub-header { background: rgba(255,255,255,calc(var(--bg-card-alpha,0.85) - 0.05)); backdrop-filter: blur(var(--bg-blur,16px)); -webkit-backdrop-filter: blur(var(--bg-blur,16px)); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
 body.has-bg .topic-card h2,
 body.has-bg .hub-header h1,
 body.has-bg header h1 { color: var(--bg-text, var(--primary)); }
+
+/* ---- Gem Counter ---- */
+.gem-val { color: #a855f7 !important; }
+
+/* ---- Freeze Dots ---- */
+.freeze-dots { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: center; }
+.freeze-dot {
+    width: 14px; height: 14px; border-radius: 50%; border: 2px solid #60a5fa;
+    background: transparent; display: inline-block; transition: background 0.3s;
+}
+.freeze-dot.filled { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,0.5); }
+
+/* ---- Gem Toast ---- */
+.gem-toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-80px);
+    z-index: 9999; background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff; padding: 10px 24px; border-radius: 30px;
+    font-weight: 700; font-size: 0.95rem; white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(168,85,247,0.4);
+    transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), opacity 0.4s;
+}
+.gem-toast.show { transform: translateX(-50%) translateY(0); }
+.gem-toast.out { transform: translateX(-50%) translateY(-80px); opacity: 0; }
+
+/* ---- Freeze Dialog ---- */
+.freeze-dialog-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+}
+.freeze-dialog-overlay.show { display: flex; }
+.freeze-dialog {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3); padding: 32px 28px;
+    text-align: center; max-width: 360px; width: 90%;
+    animation: slideIn 0.3s ease; position: relative;
+}
+.freeze-dialog h2 { color: #60a5fa; margin-bottom: 8px; font-size: 1.4rem; }
+.freeze-dialog-desc { color: var(--text-light); font-size: 0.88rem; margin-bottom: 20px; line-height: 1.5; }
+.freeze-dialog-close {
+    position: absolute; top: 10px; right: 14px; background: none;
+    border: none; font-size: 1.6rem; color: var(--text-light); cursor: pointer; padding: 4px;
+}
+.freeze-dialog-close:hover { color: var(--error); }
+.freeze-dialog-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 8px; }
+.freeze-dialog-dots .freeze-dot { width: 28px; height: 28px; border-width: 3px; }
+.freeze-dialog-count { font-size: 0.85rem; color: var(--text-light); margin-bottom: 16px; }
+.freeze-dialog-balance {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.freeze-dialog-gem-icon { color: #a855f7; font-size: 1.2rem; }
+.freeze-dialog-buy { width: 100%; padding: 14px; font-size: 0.95rem; }
+.freeze-dialog-buy:disabled { background: #666; cursor: default; transform: none; }
+.freeze-dialog-msg {
+    margin-top: 12px; font-size: 0.85rem; font-weight: 600; min-height: 20px;
+    transition: opacity 0.3s;
+}
+.freeze-dialog-msg.error { color: var(--error); }
+.freeze-dialog-msg.success { color: var(--success); }
+.freeze-dialog-info {
+    margin-top: 16px; font-size: 0.78rem; color: var(--text-light);
+    line-height: 1.4; border-top: 1px solid rgba(128,128,128,0.2); padding-top: 12px;
+}
+
+/* ---- Gem Shop ---- */
+.gem-shop-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+}
+.gem-shop-overlay.show { display: flex; }
+.gem-shop {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3); padding: 28px 24px;
+    text-align: center; max-width: 420px; width: 92%;
+    max-height: 85vh; overflow-y: auto;
+    animation: slideIn 0.3s ease; position: relative;
+}
+.gem-shop h2 { color: #a855f7; margin-bottom: 4px; font-size: 1.4rem; }
+.gem-shop-close {
+    position: absolute; top: 10px; right: 14px; background: none;
+    border: none; font-size: 1.6rem; color: var(--text-light); cursor: pointer; padding: 4px;
+}
+.gem-shop-close:hover { color: var(--error); }
+.gem-shop-balance {
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.gem-shop-gem-icon { color: #a855f7; font-size: 1.3rem; }
+.gem-shop-section { text-align: left; margin-bottom: 16px; }
+.gem-shop-section h3 {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-light); margin-bottom: 8px; padding-bottom: 4px;
+    border-bottom: 1px solid rgba(128,128,128,0.2);
+}
+.gem-mission {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 10px; margin-bottom: 6px;
+    background: rgba(128,128,128,0.06); transition: background 0.2s;
+}
+.gem-mission.ready { background: rgba(168,85,247,0.08); }
+.gem-mission.claimed { opacity: 0.5; }
+.gem-mission-info { flex: 1; min-width: 0; }
+.gem-mission-title { font-weight: 600; font-size: 0.9rem; }
+.gem-mission-desc { font-size: 0.78rem; color: var(--text-light); }
+.gem-mission-reward {
+    font-weight: 700; font-size: 0.95rem; color: #a855f7;
+    white-space: nowrap; min-width: 32px; text-align: right;
+}
+.gem-mission-reward::after { content: 'g'; font-size: 0.7rem; margin-left: 1px; }
+.gem-mission-claim { white-space: nowrap; padding: 6px 14px !important; font-size: 0.78rem !important; }
+.gem-mission-badge {
+    font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 10px;
+    background: var(--success-light); color: var(--success); white-space: nowrap;
+}
+.gem-mission-badge.pending { background: rgba(128,128,128,0.1); color: var(--text-light); }
+.gem-shop-info {
+    font-size: 0.78rem; color: var(--text-light); margin-top: 8px;
+    border-top: 1px solid rgba(128,128,128,0.2); padding-top: 12px;
+}
 
 /* ---- Loading Screen ---- */
 .loading-screen {
@@ -498,6 +619,10 @@ body.dark-mode .lesson-box { background: var(--primary-light); }
 body.dark-mode .settings-dropdown { background: var(--card); }
 body.dark-mode .rules-ref { background: var(--card); }
 body.dark-mode .timed-results { background: var(--card); }
+body.dark-mode .freeze-dialog, body.dark-mode .gem-shop { background: var(--card); }
+body.dark-mode .freeze-dialog-buy:disabled, body.dark-mode .gem-mission-badge.pending { background: #2a2a4a; }
+body.dark-mode .gem-mission { background: rgba(255,255,255,0.04); }
+body.dark-mode .gem-mission.ready { background: rgba(168,85,247,0.12); }
 body.dark-mode .option-btn::before { background: #2a2a4a; color: #888; }
 body.dark-mode .btn-hint { border-color: #2a2a4a; color: var(--text-light); }
 body.dark-mode .btn-hint:hover { border-color: #ffc107; color: #ffc107; background: rgba(255,193,7,0.1); }

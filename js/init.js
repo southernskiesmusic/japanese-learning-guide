@@ -22,8 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
     HIRA.buildRefChart();
     KATA.buildRefChart();
 
-    // Update streak UI
+    // Update streak + gems + freeze UI
     updateDailyStreakUI();
+    updateGemsUI();
+    updateFreezeUI();
 
     // Initialize free writing canvas
     WritingPad.init('free-canvas');

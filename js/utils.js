@@ -342,6 +342,8 @@ function saveTrainerStats(prefix, trainer, ok) {
         };
         localStorage.setItem('jp_trainerStats', JSON.stringify(all));
         updateDailyStreak();
+        // Gem reward per correct answer (streak-scaled, capped at 5)
+        if (ok === true) addGems(Math.min(trainer.streak || 1, 5));
         if (ok === false && trainer.currentQ) saveWrongAnswer(prefix, trainer.currentQ);
         if (ok === true && trainer.currentQ) removeWrongAnswer(prefix, trainer.currentQ);
         savePracticeSession(prefix, trainer.score, trainer.total);
@@ -360,6 +362,119 @@ function getAllTrainerStats() {
     try { return JSON.parse(localStorage.getItem('jp_trainerStats') || '{}'); } catch (e) { return {}; }
 }
 
+// -- Gems -----------------------------------------------------------------
+function getGems() {
+    try { return JSON.parse(localStorage.getItem('jp_gems') || '{"balance":0,"totalEarned":0}'); }
+    catch (e) { return { balance: 0, totalEarned: 0 }; }
+}
+function addGems(amount) {
+    if (!amount || amount <= 0) return;
+    try {
+        const g = getGems();
+        g.balance += amount;
+        g.totalEarned += amount;
+        localStorage.setItem('jp_gems', JSON.stringify(g));
+        updateGemsUI();
+        showGemToast(amount);
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    } catch (e) {}
+}
+function spendGems(amount) {
+    const g = getGems();
+    if (g.balance < amount) return false;
+    g.balance -= amount;
+    localStorage.setItem('jp_gems', JSON.stringify(g));
+    updateGemsUI();
+    if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    return true;
+}
+function updateGemsUI() {
+    const el = document.getElementById('gem-count');
+    if (el) el.textContent = getGems().balance;
+}
+function showGemToast(amount) {
+    const toast = document.createElement('div');
+    toast.className = 'gem-toast';
+    toast.textContent = '+' + amount + (amount === 1 ? ' gem' : ' gems');
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 400); }, 2000);
+}
+
+// -- Streak Freezes -------------------------------------------------------
+function getStreakFreezes() {
+    try { return JSON.parse(localStorage.getItem('jp_streakFreezes') || '{"count":0}'); }
+    catch (e) { return { count: 0 }; }
+}
+function buyStreakFreeze() {
+    const msg = document.getElementById('freeze-dialog-msg');
+    const f = getStreakFreezes();
+    if (f.count >= 3) { _freezeMsg(msg, 'Already at max (3 freezes).', true); return false; }
+    if (!spendGems(200)) { _freezeMsg(msg, 'Not enough gems! You need 200.', true); return false; }
+    f.count = Math.min(f.count + 1, 3);
+    localStorage.setItem('jp_streakFreezes', JSON.stringify(f));
+    updateFreezeUI();
+    updateFreezeDialog();
+    if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    _freezeMsg(msg, 'Streak freeze purchased!', false);
+    return true;
+}
+function consumeStreakFreeze() {
+    const f = getStreakFreezes();
+    if (f.count <= 0) return false;
+    f.count--;
+    localStorage.setItem('jp_streakFreezes', JSON.stringify(f));
+    updateFreezeUI();
+    if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    return true;
+}
+function updateFreezeUI() {
+    const f = getStreakFreezes();
+    document.querySelectorAll('.daily-streak-bar .freeze-dot').forEach((dot, i) => {
+        dot.classList.toggle('filled', i < f.count);
+    });
+}
+function _freezeMsg(el, text, isError) {
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'freeze-dialog-msg ' + (isError ? 'error' : 'success');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.textContent = ''; el.className = 'freeze-dialog-msg'; }, 3000);
+}
+
+// -- Freeze Dialog --------------------------------------------------------
+function openFreezeDialog() {
+    updateFreezeDialog();
+    const dlg = document.getElementById('freeze-dialog');
+    if (dlg) dlg.classList.add('show');
+}
+function closeFreezeDialog() {
+    const dlg = document.getElementById('freeze-dialog');
+    if (dlg) dlg.classList.remove('show');
+    const msg = document.getElementById('freeze-dialog-msg');
+    if (msg) { msg.textContent = ''; msg.className = 'freeze-dialog-msg'; }
+}
+function updateFreezeDialog() {
+    const f = getStreakFreezes();
+    const g = getGems();
+    const dotsEl = document.getElementById('freeze-dialog-dots');
+    if (dotsEl) {
+        dotsEl.querySelectorAll('.freeze-dot').forEach((dot, i) => {
+            dot.classList.toggle('filled', i < f.count);
+        });
+    }
+    const countEl = document.getElementById('freeze-dialog-count');
+    if (countEl) countEl.textContent = f.count + ' / 3 freezes';
+    const gemsEl = document.getElementById('freeze-dialog-gems');
+    if (gemsEl) gemsEl.textContent = g.balance;
+    const buyBtn = document.getElementById('freeze-dialog-buy');
+    if (buyBtn) {
+        const canBuy = f.count < 3 && g.balance >= 200;
+        buyBtn.disabled = !canBuy;
+        buyBtn.textContent = f.count >= 3 ? 'Max freezes reached' : 'Buy Streak Freeze \u2014 200 gems';
+    }
+}
+
 // -- Daily Streak ------------------------------------------------------------
 function updateDailyStreak() {
     try {
@@ -369,6 +484,13 @@ function updateDailyStreak() {
         const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         if (ds.lastDate === yesterday) {
             ds.current = (ds.current || 0) + 1;
+        } else if (ds.lastDate && ds.current > 0) {
+            // Missed more than 1 day — try streak freeze
+            if (consumeStreakFreeze()) {
+                ds.current = (ds.current || 0) + 1;
+            } else {
+                ds.current = 1;
+            }
         } else {
             ds.current = 1;
         }
@@ -420,6 +542,133 @@ document.addEventListener('keydown', e => {
         _selectedMC = null;
     }
 });
+
+// -- Gem Shop (Missions) --------------------------------------------------
+const GEM_SHOP = {
+    _key: 'jp_gemShopClaimed',
+
+    missions: [
+        // Daily missions
+        { id: 'daily-practice', title: 'Daily Practice', desc: 'Answer at least 1 question today', reward: 10, type: 'daily',
+          check() { return GEM_SHOP._questionsToday() >= 1; } },
+        { id: 'daily-twenty', title: 'Dedicated Learner', desc: 'Answer 20 questions today', reward: 50, type: 'daily',
+          check() { return GEM_SHOP._questionsToday() >= 20; } },
+        // Streak milestones
+        { id: 'streak-5', title: 'Hot Streak', desc: 'Get a 5 answer streak', reward: 50, type: 'milestone',
+          check() { return GEM_SHOP._bestStreak() >= 5; } },
+        { id: 'streak-10', title: 'On Fire', desc: 'Get a 10 answer streak', reward: 100, type: 'milestone',
+          check() { return GEM_SHOP._bestStreak() >= 10; } },
+        { id: 'streak-25', title: 'Unstoppable', desc: 'Get a 25 answer streak', reward: 250, type: 'milestone',
+          check() { return GEM_SHOP._bestStreak() >= 25; } },
+        // Day streak milestones
+        { id: 'days-3', title: '3-Day Streak', desc: 'Maintain a 3-day practice streak', reward: 75, type: 'milestone',
+          check() { return (getDailyStreak().current || 0) >= 3; } },
+        { id: 'days-7', title: 'Week Warrior', desc: '7-day practice streak', reward: 200, type: 'milestone',
+          check() { return (getDailyStreak().current || 0) >= 7; } },
+        { id: 'days-14', title: 'Two Weeks Strong', desc: '14-day practice streak', reward: 500, type: 'milestone',
+          check() { return (getDailyStreak().current || 0) >= 14; } },
+        // Other
+        { id: 'timed-1', title: 'Speed Runner', desc: 'Complete a timed challenge', reward: 50, type: 'milestone',
+          check() { return GEM_SHOP._hasTimedChallenge(); } },
+        { id: 'questions-100', title: 'Century', desc: 'Answer 100 total questions', reward: 100, type: 'milestone',
+          check() { return GEM_SHOP._totalQuestions() >= 100; } },
+    ],
+
+    _questionsToday() {
+        try {
+            const hist = JSON.parse(localStorage.getItem('jp_practiceHistory') || '[]');
+            const today = new Date().toISOString().slice(0, 10);
+            let count = 0;
+            hist.forEach(h => { if (new Date(h.date).toISOString().slice(0, 10) === today) count += (h.total || 0); });
+            return count;
+        } catch (e) { return 0; }
+    },
+    _bestStreak() {
+        try {
+            const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+            let best = 0;
+            for (const k in all) if ((all[k].bestStreak || 0) > best) best = all[k].bestStreak;
+            return best;
+        } catch (e) { return 0; }
+    },
+    _totalQuestions() {
+        try {
+            const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+            let total = 0;
+            for (const k in all) total += (all[k].total || 0);
+            return total;
+        } catch (e) { return 0; }
+    },
+    _hasTimedChallenge() {
+        try { return Object.keys(JSON.parse(localStorage.getItem('jp_timedChallenges') || '{}')).length > 0; }
+        catch (e) { return false; }
+    },
+
+    getClaimed() {
+        try { return JSON.parse(localStorage.getItem(this._key) || '{}'); }
+        catch (e) { return {}; }
+    },
+    isClaimed(id) {
+        const claimed = this.getClaimed();
+        const m = this.missions.find(x => x.id === id);
+        if (!m) return false;
+        if (m.type === 'daily') return claimed[id] === new Date().toISOString().slice(0, 10);
+        return !!claimed[id];
+    },
+    claim(id) {
+        const m = this.missions.find(x => x.id === id);
+        if (!m || !m.check() || this.isClaimed(id)) return;
+        const claimed = this.getClaimed();
+        claimed[id] = m.type === 'daily' ? new Date().toISOString().slice(0, 10) : true;
+        localStorage.setItem(this._key, JSON.stringify(claimed));
+        addGems(m.reward);
+        this.render();
+    },
+
+    open() {
+        this.render();
+        const dlg = document.getElementById('gem-shop');
+        if (dlg) dlg.classList.add('show');
+    },
+    close() {
+        const dlg = document.getElementById('gem-shop');
+        if (dlg) dlg.classList.remove('show');
+    },
+    render() {
+        const g = getGems();
+        const balEl = document.getElementById('gem-shop-gems');
+        if (balEl) balEl.textContent = g.balance;
+
+        const dailyEl = document.getElementById('gem-shop-daily');
+        const mileEl = document.getElementById('gem-shop-milestones');
+        if (!dailyEl || !mileEl) return;
+
+        dailyEl.innerHTML = '';
+        mileEl.innerHTML = '';
+
+        this.missions.forEach(m => {
+            const done = m.check();
+            const claimed = this.isClaimed(m.id);
+            const row = document.createElement('div');
+            row.className = 'gem-mission' + (claimed ? ' claimed' : done ? ' ready' : '');
+            row.innerHTML =
+                '<div class="gem-mission-info">' +
+                    '<div class="gem-mission-title">' + m.title + '</div>' +
+                    '<div class="gem-mission-desc">' + m.desc + '</div>' +
+                '</div>' +
+                '<div class="gem-mission-reward">' + m.reward + '</div>' +
+                (claimed ? '<span class="gem-mission-badge">Claimed</span>' :
+                 done ? '<button class="btn btn-primary btn-sm gem-mission-claim" data-id="' + m.id + '">Claim</button>' :
+                 '<span class="gem-mission-badge pending">Locked</span>');
+            if (m.type === 'daily') dailyEl.appendChild(row);
+            else mileEl.appendChild(row);
+        });
+
+        document.querySelectorAll('.gem-mission-claim').forEach(btn => {
+            btn.addEventListener('click', () => GEM_SHOP.claim(btn.dataset.id));
+        });
+    }
+};
 
 // -- Generate distractors for MC questions -----------------------------------
 function generateDistractors(correct, pool, count) {

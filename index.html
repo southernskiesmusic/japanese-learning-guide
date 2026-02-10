@@ -82,8 +82,43 @@
             </label>
         </div>
         <div class="daily-streak-bar">
+            <div class="daily-streak-item" onclick="GEM_SHOP.open()" style="cursor:pointer" title="Open gem shop"><span class="daily-streak-val gem-val" id="gem-count">0</span><span class="daily-streak-label">gems</span></div>
             <div class="daily-streak-item"><span class="daily-streak-val" id="daily-streak">0</span><span class="daily-streak-label">day streak</span></div>
             <div class="daily-streak-item"><span class="daily-streak-val" id="daily-streak-best">0</span><span class="daily-streak-label">best</span></div>
+            <div class="daily-streak-item freeze-dots" onclick="openFreezeDialog()" style="cursor:pointer" title="Manage streak freezes"><span class="freeze-dot"></span><span class="freeze-dot"></span><span class="freeze-dot"></span><span class="daily-streak-label">freezes</span></div>
+        </div>
+    </div>
+    <!-- Streak Freeze Dialog -->
+    <div id="freeze-dialog" class="freeze-dialog-overlay" onclick="if(event.target===this)closeFreezeDialog()">
+        <div class="freeze-dialog">
+            <button class="freeze-dialog-close" onclick="closeFreezeDialog()">&times;</button>
+            <h2>Streak Freezes</h2>
+            <p class="freeze-dialog-desc">A freeze automatically saves your streak if you miss a day of practice.</p>
+            <div class="freeze-dialog-dots" id="freeze-dialog-dots">
+                <span class="freeze-dot"></span><span class="freeze-dot"></span><span class="freeze-dot"></span>
+            </div>
+            <div class="freeze-dialog-count" id="freeze-dialog-count">0 / 3 freezes</div>
+            <div class="freeze-dialog-balance"><span class="freeze-dialog-gem-icon">&#9830;</span> <span id="freeze-dialog-gems">0</span> gems</div>
+            <button class="btn btn-primary freeze-dialog-buy" id="freeze-dialog-buy" onclick="buyStreakFreeze()">Buy Streak Freeze &#8212; 200 gems</button>
+            <div class="freeze-dialog-msg" id="freeze-dialog-msg"></div>
+            <div class="freeze-dialog-info">Earn gems by answering questions or completing missions. Tap your gem count to open the shop.</div>
+        </div>
+    </div>
+    <!-- Gem Shop Dialog -->
+    <div id="gem-shop" class="gem-shop-overlay" onclick="if(event.target===this)GEM_SHOP.close()">
+        <div class="gem-shop">
+            <button class="gem-shop-close" onclick="GEM_SHOP.close()">&times;</button>
+            <h2>Gem Shop</h2>
+            <div class="gem-shop-balance"><span class="gem-shop-gem-icon">&#9830;</span> <span id="gem-shop-gems">0</span> gems</div>
+            <div class="gem-shop-section">
+                <h3>Daily Missions</h3>
+                <div id="gem-shop-daily"></div>
+            </div>
+            <div class="gem-shop-section">
+                <h3>Milestones</h3>
+                <div id="gem-shop-milestones"></div>
+            </div>
+            <div class="gem-shop-info">You also earn 1-5 gems per correct answer, scaled by your streak.</div>
         </div>
     </div>
     <div id="continue-prompt"></div>
