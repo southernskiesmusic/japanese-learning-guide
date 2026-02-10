@@ -703,8 +703,12 @@ function generateDistractors(correct, pool, count) {
         '@keyframes br-pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}';
     document.head.appendChild(style);
 
-    setTimeout(function () {
+    function _showBreakReminder() {
         if (document.getElementById('break-reminder')) return;
+        // Don't interrupt timed challenges — retry in 5 min
+        if (typeof TIMED !== 'undefined' && TIMED.active) {
+            setTimeout(_showBreakReminder, 300000); return;
+        }
         var overlay = document.createElement('div');
         overlay.id = 'break-reminder';
         overlay.className = 'break-reminder';
@@ -715,5 +719,6 @@ function generateDistractors(correct, pool, count) {
             '<button class="btn btn-primary" onclick="document.getElementById(\'break-reminder\').remove()">I\'m good, thanks</button>' +
             '</div>';
         document.body.appendChild(overlay);
-    }, 7200000);
+    }
+    setTimeout(_showBreakReminder, 7200000);
 })();
