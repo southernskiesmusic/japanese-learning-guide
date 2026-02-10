@@ -69,7 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'conjugation-verbs': typeof LESSON_CONJUGATION_VERBS !== 'undefined' ? LESSON_CONJUGATION_VERBS : null,
         'conjugation-adjectives': typeof LESSON_CONJUGATION_ADJECTIVES !== 'undefined' ? LESSON_CONJUGATION_ADJECTIVES : null,
         'numbers-intro': typeof LESSON_NUMBERS_INTRO !== 'undefined' ? LESSON_NUMBERS_INTRO : null,
-        'numbers-counters': typeof LESSON_NUMBERS_COUNTERS !== 'undefined' ? LESSON_NUMBERS_COUNTERS : null
+        'numbers-counters': typeof LESSON_NUMBERS_COUNTERS !== 'undefined' ? LESSON_NUMBERS_COUNTERS : null,
+        'katakana-loanwords': typeof LESSON_KATAKANA_LOANWORDS !== 'undefined' ? LESSON_KATAKANA_LOANWORDS : null,
+        'family-vocab': typeof LESSON_FAMILY_VOCAB !== 'undefined' ? LESSON_FAMILY_VOCAB : null,
+        'question-words': typeof LESSON_QUESTION_WORDS !== 'undefined' ? LESSON_QUESTION_WORDS : null,
+        'adjectives-n5': typeof LESSON_ADJECTIVES_N5 !== 'undefined' ? LESSON_ADJECTIVES_N5 : null
     };
 
     document.querySelectorAll('[data-lesson]').forEach(card => {
