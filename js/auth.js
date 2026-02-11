@@ -14,7 +14,9 @@ const Auth = {
         'jp_srsData', 'jp_trainerStats', 'jp_practiceHistory',
         'jp_wrongAnswers', 'jp_dailyStreak', 'jp_timedChallenges',
         'jp_lessonProgress', 'jp_darkMode', 'jp_bgImage',
-        'jp_bgOpacity', 'jp_selectedFont'
+        'jp_bgOpacity', 'jp_selectedFont',
+        'jp_gems', 'jp_streakFreezes', 'jp_gemShopClaimed',
+        'jp_country', 'jp_school', 'jp_weeklyRewardState'
     ],
 
     init() {
@@ -34,14 +36,21 @@ const Auth = {
             this.user = user;
             this._ready = true;
             this.renderUI();
-            if (user) this.pullFromCloud();
+            if (user) this.pullFromCloud().then(() => {
+                this.checkOnboarding();
+                if (typeof WEEKLY_REWARD !== 'undefined') WEEKLY_REWARD.check('japanese');
+            });
         });
     },
 
     signIn() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).catch(e => {
-            console.error('Sign-in failed:', e.message);
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            console.log('Sign-in success:', result.user.email);
+        }).catch(function(e) {
+            console.error('Sign-in error code:', e.code);
+            console.error('Sign-in error message:', e.message);
+            alert('Sign-in failed [' + e.code + ']: ' + e.message);
         });
     },
 
@@ -123,9 +132,15 @@ const Auth = {
                         }
                     }
 
+                    // Apply country/school from cloud
+                    if (jp.country) localStorage.setItem('jp_country', typeof jp.country === 'object' ? JSON.stringify(jp.country) : jp.country);
+                    if (jp.school) localStorage.setItem('jp_school', typeof jp.school === 'object' ? JSON.stringify(jp.school) : jp.school);
+
                     // Reload SRS data
                     SRS.load();
                     updateDailyStreakUI();
+                    updateGemsUI();
+                    updateFreezeUI();
                     console.log('Synced Japanese data from cloud');
                 } else {
                     // No Japanese data in cloud yet — check for Study Hub wallpaper sharing
@@ -168,10 +183,70 @@ const Auth = {
             jp.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
 
             await ref.set({ japanese: jp }, { merge: true });
+            this.pushLeaderboard();
             console.log('Pushed Japanese data to cloud');
         } catch (e) {
             console.error('Cloud push failed:', e.message);
         }
+    },
+
+    // Push leaderboard entry
+    async pushLeaderboard() {
+        if (!this.db || !this.user) return;
+        try {
+            const ts = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+            const lp = JSON.parse(localStorage.getItem('jp_lessonProgress') || '{}');
+            const srs = JSON.parse(localStorage.getItem('jp_srsData') || '{}');
+            let totalQ = 0, totalCorrect = 0, bestStreak = 0;
+            for (const k in ts) {
+                totalQ += ts[k].total || 0;
+                totalCorrect += ts[k].score || 0;
+                const bs = Math.max(ts[k].bestStreak || 0, ts[k].streak || 0);
+                if (bs > bestStreak) bestStreak = bs;
+            }
+            if (totalQ === 0) return;
+            let itemsMastered = 0;
+            for (const k in srs) { if (srs[k].level === 'mastered') itemsMastered++; }
+            const lbData = {
+                displayName: this.user.displayName || 'Student',
+                photoURL: this.user.photoURL || '',
+                totalQuestions: totalQ,
+                totalCorrect: totalCorrect,
+                bestStreak: bestStreak,
+                itemsMastered: itemsMastered,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            const c = localStorage.getItem('jp_country');
+            if (c) lbData.country = c;
+            const s = localStorage.getItem('jp_school');
+            if (s) lbData.school = s;
+            await this.db.collection('japanese-leaderboard').doc(this.user.uid).set(lbData);
+        } catch (e) { console.error('Leaderboard push failed:', e.message); }
+    },
+
+    // Onboarding modal
+    checkOnboarding() {
+        if (!this.user) return;
+        if (localStorage.getItem('jp_country') && localStorage.getItem('jp_school')) return;
+        const overlay = document.getElementById('onboard-overlay');
+        if (!overlay) return;
+        overlay.classList.add('show');
+        const saveBtn = document.getElementById('onboard-save');
+        const skipBtn = document.getElementById('onboard-skip');
+        const countryEl = document.getElementById('onboard-country');
+        const schoolEl = document.getElementById('onboard-school');
+        const close = () => overlay.classList.remove('show');
+        saveBtn.onclick = () => {
+            if (countryEl.value) localStorage.setItem('jp_country', countryEl.value);
+            if (schoolEl.value.trim()) localStorage.setItem('jp_school', schoolEl.value.trim());
+            const cs = document.getElementById('country-selector');
+            if (cs) cs.value = countryEl.value;
+            const si = document.getElementById('school-input');
+            if (si) si.value = schoolEl.value.trim();
+            this.saveAndSync();
+            close();
+        };
+        skipBtn.onclick = close;
     },
 
     // Debounced sync (2s)
