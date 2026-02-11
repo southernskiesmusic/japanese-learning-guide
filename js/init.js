@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'grammar-folder') showView('grammar-folder');
             else if (topic === 'vocab-folder') showView('vocab-folder');
             else if (topic === 'conv-folder') showView('conv-folder');
+            else if (topic === 'study-guide') { showView('study-guide'); STUDY_GUIDE.render(); }
             else if (topic === 'dashboard') { showView('dashboard'); DASHBOARD.render(); }
+            else if (topic === 'leaderboard') { showView('leaderboard'); renderLeaderboard(); }
             // Folder → trainers
             else if (topic === 'hira-trainer') { showView('hira-trainer'); HIRA.load(); }
             else if (topic === 'kata-trainer') { showView('kata-trainer'); KATA.load(); }
@@ -416,6 +418,206 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(() => {});
         }
     }
+
+    // ---- Country + School Settings ----
+    const countrySelector = document.getElementById('country-selector');
+    if (countrySelector) {
+        countrySelector.value = localStorage.getItem('jp_country') || '';
+        countrySelector.addEventListener('change', () => {
+            localStorage.setItem('jp_country', countrySelector.value);
+            if (typeof Auth !== 'undefined') Auth.saveAndSync();
+        });
+    }
+    const schoolInput = document.getElementById('school-input');
+    if (schoolInput) {
+        schoolInput.value = localStorage.getItem('jp_school') || '';
+        let schoolTimer;
+        schoolInput.addEventListener('input', () => {
+            clearTimeout(schoolTimer);
+            schoolTimer = setTimeout(() => {
+                localStorage.setItem('jp_school', schoolInput.value.trim());
+                if (typeof Auth !== 'undefined') Auth.saveAndSync();
+            }, 1000);
+        });
+    }
+
+    // ---- Feedback Widget ----
+    const fbBtn = document.getElementById('fb-float-btn');
+    const fbPanel = document.getElementById('fb-float-panel');
+    if (fbBtn && fbPanel) {
+        fbBtn.addEventListener('click', () => { fbPanel.classList.toggle('show'); fbBtn.classList.toggle('hidden'); });
+        document.getElementById('fb-float-close').addEventListener('click', () => { fbPanel.classList.remove('show'); fbBtn.classList.remove('hidden'); });
+        document.getElementById('fb-submit').addEventListener('click', () => FEEDBACK.submit());
+    }
+
+    // ---- Leaderboard ----
+    function countryFlag(code) {
+        if (!code || code.length !== 2) return '';
+        return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65)) + ' ';
+    }
+
+    async function renderLeaderboard() {
+        const el = document.getElementById('leaderboard-content');
+        if (!el) return;
+        if (typeof Auth === 'undefined' || !Auth.db) {
+            el.innerHTML = '<p style="text-align:center;color:var(--text-light)">Sign in to view the leaderboard.</p>';
+            return;
+        }
+        el.innerHTML = '<p style="text-align:center;color:var(--text-light)">Loading\u2026</p>';
+        try {
+            const snap = await Auth.db.collection('japanese-leaderboard').orderBy('totalQuestions', 'desc').limit(20).get();
+            if (snap.empty) {
+                el.innerHTML = '<p style="text-align:center;color:var(--text-light)">No entries yet. Answer some questions to appear here!</p>';
+                return;
+            }
+            let h = '<table class="lb-table"><thead><tr><th>#</th><th>Student</th><th>School</th><th>Questions</th><th>Accuracy</th><th>Streak</th></tr></thead><tbody>';
+            let rank = 0;
+            snap.forEach(doc => {
+                rank++;
+                const d = doc.data();
+                const isMe = Auth.user && doc.id === Auth.user.uid;
+                const pct = d.totalQuestions > 0 ? Math.round((d.totalCorrect || 0) / d.totalQuestions * 100) + '%' : '\u2014';
+                const avatar = d.photoURL ? '<img class="lb-avatar" src="' + d.photoURL + '" alt="" referrerpolicy="no-referrer">' : '';
+                const flag = countryFlag(d.country);
+                h += '<tr class="' + (isMe ? 'lb-me' : '') + '">';
+                h += '<td>' + rank + '</td>';
+                h += '<td>' + avatar + flag + (d.displayName || 'Student') + '</td>';
+                h += '<td class="lb-school">' + (d.school || '\u2014') + '</td>';
+                h += '<td>' + (d.totalQuestions || 0) + '</td>';
+                h += '<td>' + pct + '</td>';
+                h += '<td>' + (d.bestStreak || 0) + '</td>';
+                h += '</tr>';
+            });
+            h += '</tbody></table>';
+            el.innerHTML = h;
+        } catch (e) {
+            el.innerHTML = '<p style="text-align:center;color:var(--text-light)">Could not load leaderboard.</p>';
+        }
+    }
+
+    // ---- Hub Stats Card ----
+    function renderHubStats() {
+        const el = document.getElementById('hub-stats');
+        if (!el) return;
+        const gems = getGems();
+        const ds = getDailyStreak();
+        const allStats = getAllTrainerStats();
+        let totalQ = 0, totalCorrect = 0;
+        for (const k in allStats) { totalQ += allStats[k].total || 0; totalCorrect += allStats[k].score || 0; }
+        const accuracy = totalQ > 0 ? Math.round(totalCorrect / totalQ * 100) : 0;
+        const lp = JSON.parse(localStorage.getItem('jp_lessonProgress') || '{}');
+        let lessonsComplete = 0;
+        for (const k in lp) { if (lp[k] && lp[k].completed) lessonsComplete++; }
+        const srsData = JSON.parse(localStorage.getItem('jp_srsData') || '{}');
+        let mastered = 0;
+        for (const k in srsData) { if (srsData[k].level === 'mastered') mastered++; }
+
+        el.innerHTML =
+            '<div class="hub-stat"><div class="hub-stat-value gem-val">' + gems.balance + '</div><div class="hub-stat-label">Gems</div></div>' +
+            '<div class="hub-stat"><div class="hub-stat-value" style="color:#ffc107">' + (ds.current || 0) + '</div><div class="hub-stat-label">Day Streak</div></div>' +
+            '<div class="hub-stat"><div class="hub-stat-value">' + totalQ + '</div><div class="hub-stat-label">Questions</div></div>' +
+            '<div class="hub-stat"><div class="hub-stat-value" style="color:var(--success)">' + accuracy + '%</div><div class="hub-stat-label">Accuracy</div></div>' +
+            '<div class="hub-stat"><div class="hub-stat-value" style="color:#457b9d">' + lessonsComplete + '</div><div class="hub-stat-label">Lessons</div></div>' +
+            '<div class="hub-stat"><div class="hub-stat-value" style="color:#2a9d8f">' + mastered + '</div><div class="hub-stat-label">Mastered</div></div>';
+    }
+    renderHubStats();
+
+    // Update Study Guide hub tag
+    if (typeof STUDY_GUIDE !== 'undefined') STUDY_GUIDE.updateHubTag();
+
+    // ---- Search Bar (Ctrl+K) ----
+    (function () {
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        if (!searchInput || !searchResults) return;
+
+        // Build search index
+        const index = [];
+        const TRAINER_MAP = {
+            'hira-trainer': 'Hiragana Trainer', 'kata-trainer': 'Katakana Trainer',
+            'kanji-trainer': 'Kanji Trainer', 'gram-trainer': 'Grammar Trainer',
+            'vocab-trainer': 'Vocabulary Trainer', 'conv-trainer': 'Conversation Trainer',
+            'conj-trainer': 'Conjugation Drill', 'num-trainer': 'Numbers Trainer'
+        };
+        for (const id in TRAINER_MAP) {
+            index.push({ name: TRAINER_MAP[id], type: 'Trainer', action: () => {
+                document.querySelector('[data-topic="' + id + '"]').click();
+            }});
+        }
+        const FOLDER_MAP = {
+            'writing': 'Writing System', 'kanji-folder': 'Kanji',
+            'grammar-folder': 'Grammar', 'vocab-folder': 'Vocabulary',
+            'conv-folder': 'Conversation', 'study-guide': 'Study Guide',
+            'dashboard': 'Progress Dashboard', 'leaderboard': 'Leaderboard'
+        };
+        for (const id in FOLDER_MAP) {
+            index.push({ name: FOLDER_MAP[id], type: 'Topic', action: () => {
+                document.querySelector('[data-topic="' + id + '"]').click();
+            }});
+        }
+        document.querySelectorAll('[data-lesson]').forEach(card => {
+            const name = card.querySelector('h2') ? card.querySelector('h2').textContent : card.dataset.lesson;
+            index.push({ name: name, type: 'Lesson', action: () => card.click() });
+        });
+
+        let activeIdx = -1;
+
+        function doSearch(query) {
+            const q = query.toLowerCase().trim();
+            if (!q) { searchResults.classList.remove('show'); searchResults.innerHTML = ''; return; }
+            const matches = index.filter(item => item.name.toLowerCase().includes(q));
+            if (matches.length === 0) { searchResults.classList.remove('show'); searchResults.innerHTML = ''; return; }
+            searchResults.innerHTML = matches.slice(0, 8).map((m, i) =>
+                '<div class="search-result' + (i === activeIdx ? ' active' : '') + '" data-idx="' + i + '">' +
+                m.name + '<span class="search-result-type">' + m.type + '</span></div>'
+            ).join('');
+            searchResults.classList.add('show');
+            searchResults.querySelectorAll('.search-result').forEach(el => {
+                el.addEventListener('click', () => {
+                    const idx = parseInt(el.dataset.idx);
+                    matches[idx].action();
+                    searchInput.value = '';
+                    searchResults.classList.remove('show');
+                    searchResults.innerHTML = '';
+                });
+            });
+        }
+
+        searchInput.addEventListener('input', () => { activeIdx = -1; doSearch(searchInput.value); });
+        searchInput.addEventListener('keydown', e => {
+            const items = searchResults.querySelectorAll('.search-result');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                activeIdx = Math.min(activeIdx + 1, items.length - 1);
+                items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                activeIdx = Math.max(activeIdx - 1, 0);
+                items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+            } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
+                e.preventDefault();
+                items[activeIdx].click();
+            } else if (e.key === 'Escape') {
+                searchInput.value = '';
+                searchInput.blur();
+                doSearch('');
+            }
+        });
+
+        // Ctrl+K shortcut
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                showView('hub');
+                searchInput.focus();
+            }
+        });
+    })();
+
+    // ---- Streak reminder (3s delay) ----
+    setTimeout(() => {
+        if (typeof checkStreakReminder === 'function') checkStreakReminder();
+    }, 3000);
 
     // ---- Remove loading screen ----
     setTimeout(() => {

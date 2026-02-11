@@ -257,6 +257,11 @@
             <p>See the top learners &mdash; compete with classmates.</p>
             <span class="topic-tag lb">Top 20</span>
         </div>
+        <div class="topic-card" data-topic="study-guide">
+            <h2>Study Guide</h2>
+            <p>Your structured path to JLPT N5 &mdash; see what to study next.</p>
+            <span class="topic-tag guide" id="sg-hub-tag">Roadmap</span>
+        </div>
         <div class="topic-card" data-topic="dashboard">
             <h2>Progress Dashboard</h2>
             <p>Track your learning progress across all topics.</p>
@@ -766,6 +771,18 @@
     <div class="lesson-nav" id="lesson-nav"></div>
 </div>
 
+<!-- ==================== STUDY GUIDE ==================== -->
+<div id="view-study-guide" class="view">
+    <button class="back-btn" onclick="showView('hub')">Hub</button>
+    <header>
+        <h1>JLPT N5 Study Guide</h1>
+        <p>Your structured path to Japanese proficiency</p>
+    </header>
+    <div id="sg-overall-progress"></div>
+    <div id="sg-recommended"></div>
+    <div id="sg-timeline"></div>
+</div>
+
 <!-- ==================== DASHBOARD ==================== -->
 <div id="view-dashboard" class="view">
     <button class="back-btn" onclick="showView('hub')">Hub</button>
@@ -911,6 +928,7 @@
 <script src="js/lessons/question-words.js"></script>
 <script src="js/lessons/adjectives-n5.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/study-guide.js"></script>
 <script src="js/init.js"></script>
 </body>
 </html>
