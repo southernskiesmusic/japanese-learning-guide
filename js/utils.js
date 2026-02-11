@@ -447,7 +447,87 @@ function consumeStreakFreeze() {
     localStorage.setItem('jp_streakFreezes', JSON.stringify(f));
     updateFreezeUI();
     if (typeof Auth !== 'undefined') Auth.saveAndSync();
+    _showFreezeUsedAnimation(f.count);
     return true;
+}
+function _isAdmin() {
+    return typeof Auth !== 'undefined' && Auth.user && Auth.user.email === 'swisscheese.912music@gmail.com';
+}
+function _dismissFreezeOverlay() {
+    var overlay = document.getElementById('freeze-used-overlay');
+    if (!overlay || overlay.classList.contains('out')) return;
+    overlay.classList.add('out');
+    setTimeout(function() { if (overlay && overlay.parentElement) overlay.remove(); }, 800);
+}
+function _showFreezeUsedAnimation(remaining) {
+    if (document.getElementById('freeze-used-overlay')) return;
+    var overlay = document.createElement('div');
+    overlay.id = 'freeze-used-overlay';
+    overlay.className = 'freeze-used-overlay';
+    // Snowflakes
+    var flakes = '';
+    for (var i = 0; i < 20; i++) {
+        var left = Math.random() * 100;
+        var delay = Math.random() * 2;
+        var size = 12 + Math.random() * 18;
+        var dur = 2.5 + Math.random() * 2;
+        flakes += '<span class="freeze-snowflake" style="left:' + left + '%;animation-delay:' + delay + 's;font-size:' + size + 'px;animation-duration:' + dur + 's;">\u2744</span>';
+    }
+    // Top icicles
+    var topIcicles = '<div class="freeze-icicles-top">';
+    for (var i = 0; i < 30; i++) {
+        var w = 14 + Math.random() * 30;
+        var h = 40 + Math.random() * 70;
+        var d = (i * 0.04) + Math.random() * 0.15;
+        topIcicles += '<div class="freeze-icicle" style="width:' + w + 'px;height:' + h + 'px;transition-delay:' + d.toFixed(2) + 's;"></div>';
+    }
+    topIcicles += '</div>';
+    // Left icicles
+    var leftIcicles = '<div class="freeze-icicles-side left">';
+    for (var i = 0; i < 24; i++) {
+        var w = 35 + Math.random() * 55;
+        var h = 14 + Math.random() * 22;
+        var d = 0.1 + (i * 0.04) + Math.random() * 0.08;
+        leftIcicles += '<div class="freeze-icicle-side" style="width:' + w + 'px;height:' + h + 'px;transition-delay:' + d.toFixed(2) + 's;"></div>';
+    }
+    leftIcicles += '</div>';
+    // Right icicles
+    var rightIcicles = '<div class="freeze-icicles-side right">';
+    for (var i = 0; i < 24; i++) {
+        var w = 35 + Math.random() * 55;
+        var h = 14 + Math.random() * 22;
+        var d = 0.1 + (i * 0.04) + Math.random() * 0.08;
+        rightIcicles += '<div class="freeze-icicle-side" style="width:' + w + 'px;height:' + h + 'px;transition-delay:' + d.toFixed(2) + 's;"></div>';
+    }
+    rightIcicles += '</div>';
+    // Bottom icicles
+    var bottomIcicles = '<div class="freeze-icicles-bottom">';
+    for (var i = 0; i < 30; i++) {
+        var w = 12 + Math.random() * 26;
+        var h = 30 + Math.random() * 55;
+        var d = 0.15 + (i * 0.04) + Math.random() * 0.12;
+        bottomIcicles += '<div class="freeze-icicle-bottom" style="width:' + w + 'px;height:' + h + 'px;transition-delay:' + d.toFixed(2) + 's;"></div>';
+    }
+    bottomIcicles += '</div>';
+    // Frost edge glows
+    var frost = '<div class="freeze-frost-edge top"></div><div class="freeze-frost-edge bottom"></div><div class="freeze-frost-edge left"></div><div class="freeze-frost-edge right"></div>';
+
+    overlay.innerHTML = flakes + topIcicles + bottomIcicles + leftIcicles + rightIcicles + frost +
+        '<div class="freeze-used-card">' +
+            '<div class="freeze-used-icon">\u2744\uFE0F</div>' +
+            '<h2>Streak Freeze Used!</h2>' +
+            '<p>Your streak is safe! A freeze was automatically used because you missed yesterday.</p>' +
+            '<img src="assets/freeze-sticker.png" alt="" class="freeze-used-sticker" onerror="this.style.display=\'none\'">' +
+            '<div class="freeze-used-remaining">' + remaining + ' / 3 freezes remaining</div>' +
+            '<button class="btn btn-primary" onclick="_dismissFreezeOverlay()">Nice!</button>' +
+        '</div>';
+    document.body.appendChild(overlay);
+    requestAnimationFrame(function() { overlay.classList.add('show'); });
+    setTimeout(function() {
+        if (overlay.parentElement && !overlay.classList.contains('out')) {
+            _dismissFreezeOverlay();
+        }
+    }, 8000);
 }
 function updateFreezeUI() {
     const f = getStreakFreezes();
@@ -902,6 +982,58 @@ const GEM_SHOP = {
         document.querySelectorAll('.gem-mission-claim').forEach(btn => {
             btn.addEventListener('click', () => GEM_SHOP.claim(btn.dataset.id));
         });
+
+        // Admin panel (only for admin account)
+        let adminEl = document.getElementById('gem-shop-admin');
+        if (_isAdmin()) {
+            if (!adminEl) {
+                adminEl = document.createElement('div');
+                adminEl.id = 'gem-shop-admin';
+                adminEl.className = 'gem-shop-admin';
+                const info = document.querySelector('.gem-shop-info');
+                if (info) info.parentNode.insertBefore(adminEl, info);
+            }
+            adminEl.innerHTML =
+                '<h3>Admin</h3>' +
+                '<div class="gem-admin-row">' +
+                    '<input type="number" id="gem-admin-input" class="gem-admin-input" value="' + g.balance + '" min="0" step="100">' +
+                    '<button class="btn btn-primary btn-sm gem-admin-set" onclick="GEM_SHOP.adminSet()">Set</button>' +
+                '</div>' +
+                '<div class="gem-admin-quick">' +
+                    '<button class="btn btn-sm" onclick="GEM_SHOP.adminAdd(100)">+100</button>' +
+                    '<button class="btn btn-sm" onclick="GEM_SHOP.adminAdd(500)">+500</button>' +
+                    '<button class="btn btn-sm" onclick="GEM_SHOP.adminAdd(1000)">+1k</button>' +
+                    '<button class="btn btn-sm" onclick="GEM_SHOP.adminAdd(-100)">-100</button>' +
+                    '<button class="btn btn-sm" onclick="GEM_SHOP.adminSet(0)">Reset</button>' +
+                '</div>' +
+                '<div class="gem-admin-quick" style="margin-top:8px;">' +
+                    '<button class="btn btn-sm" onclick="_showFreezeUsedAnimation(getStreakFreezes().count)" style="background:rgba(96,165,250,0.15);border-color:rgba(96,165,250,0.3);color:#60a5fa">\u2744 Test Freeze Anim</button>' +
+                '</div>';
+        } else if (adminEl) {
+            adminEl.remove();
+        }
+    },
+
+    adminSet(val) {
+        if (!_isAdmin()) return;
+        const amount = val !== undefined ? val : parseInt(document.getElementById('gem-admin-input').value, 10);
+        if (isNaN(amount) || amount < 0) return;
+        const g = getGems();
+        g.balance = amount;
+        localStorage.setItem('jp_gems', JSON.stringify(g));
+        updateGemsUI();
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
+        this.render();
+    },
+    adminAdd(delta) {
+        if (!_isAdmin()) return;
+        const g = getGems();
+        g.balance = Math.max(0, g.balance + delta);
+        if (delta > 0) g.totalEarned += delta;
+        localStorage.setItem('jp_gems', JSON.stringify(g));
+        updateGemsUI();
+        if (typeof Auth !== 'undefined') Auth.saveAndSync();
+        this.render();
     }
 };
 
