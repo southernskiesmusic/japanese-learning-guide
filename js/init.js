@@ -216,9 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bgClear.addEventListener('click', () => {
         localStorage.removeItem('jp_bgImage');
-        bgOverlay.style.backgroundImage = '';
-        document.body.classList.remove('has-bg');
-        bgClear.style.display = 'none';
+        applyBgFull();
         if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
@@ -230,21 +228,52 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof Auth !== 'undefined') Auth.saveAndSync();
     });
 
+    function toggleBgCredit(show) {
+        let el = document.getElementById('bg-credit');
+        if (show && !el) {
+            el = document.createElement('div');
+            el.id = 'bg-credit';
+            el.style.cssText = 'position:fixed;bottom:8px;right:12px;font-size:0.65rem;opacity:0.55;z-index:1001;pointer-events:auto;';
+            el.innerHTML = 'BG: <a href="https://otographicmusic.com" target="_blank" rel="noopener" style="color:inherit">Otographic</a> \u00b7 <a href="https://open.spotify.com/album/1qmgLILPd22BpsmPgqbV55" target="_blank" rel="noopener" style="color:inherit">Kalos Eidos \u2014 Masanori Yasuda</a>';
+            document.body.appendChild(el);
+        } else if (!show && el) {
+            el.remove();
+        }
+    }
+
+    function applyBgFull() {
+        const data = localStorage.getItem('jp_bgImage');
+        const opacity = parseInt(localStorage.getItem('jp_bgOpacity') || '15') / 100;
+        if (data) {
+            bgOverlay.style.backgroundImage = 'url(' + data + ')';
+            bgOverlay.style.opacity = opacity;
+            document.body.classList.add('has-bg');
+            bgClear.style.display = '';
+            toggleBgCredit(false);
+        } else {
+            const defOpacity = localStorage.getItem('jp_bgOpacity') ? opacity : 0.80;
+            bgOverlay.style.backgroundImage = 'url(assets/default-bg.jpg)';
+            bgOverlay.style.opacity = defOpacity;
+            document.body.classList.add('has-bg');
+            bgClear.style.display = 'none';
+            toggleBgCredit(true);
+        }
+    }
+
     function applyBg(url) {
         bgOverlay.style.backgroundImage = 'url(' + url + ')';
         document.body.classList.add('has-bg');
         bgClear.style.display = '';
+        toggleBgCredit(false);
     }
 
-    // Restore saved bg
-    const savedBg = localStorage.getItem('jp_bgImage');
-    if (savedBg) applyBg(savedBg);
+    // Restore saved bg or apply default
+    applyBgFull();
 
     const savedOpacity = localStorage.getItem('jp_bgOpacity');
     if (savedOpacity) {
         bgOpacity.value = savedOpacity;
         bgOpacityVal.textContent = savedOpacity + '%';
-        bgOverlay.style.opacity = savedOpacity / 100;
     }
 
     // Font selector
