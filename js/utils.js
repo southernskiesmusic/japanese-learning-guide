@@ -17,36 +17,41 @@ function showView(id) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     const el = document.getElementById('view-' + id);
     if (el) el.classList.add('active');
+    // Clear search when navigating
+    const si = document.getElementById('search-input');
+    const sr = document.getElementById('search-results');
+    if (si) si.value = '';
+    if (sr) { sr.classList.remove('show'); sr.innerHTML = ''; }
     window.scrollTo(0, 0);
 }
 
 // -- Progressive Hint System -------------------------------------------------
-function handleHint(trainer, boxId, btnId) {
+function handleHint(activity, boxId, btnId) {
     const box = document.getElementById(boxId);
     const btn = document.getElementById(btnId);
-    const q = trainer.currentQ;
+    const q = activity.currentQ;
     if (!q) return;
     let hints = q.hints;
     if (!hints) return;
     if (typeof hints === 'string') hints = [hints];
 
-    if (trainer.hintIdx >= hints.length) {
+    if (activity.hintIdx >= hints.length) {
         box.classList.toggle('show');
         return;
     }
 
-    if (trainer.hintIdx === 0) box.innerHTML = '';
+    if (activity.hintIdx === 0) box.innerHTML = '';
     const div = document.createElement('div');
     div.style.margin = '6px 0';
     div.innerHTML = hints.length > 1
-        ? '<strong>Hint ' + (trainer.hintIdx + 1) + ':</strong> ' + hints[trainer.hintIdx]
-        : hints[trainer.hintIdx];
+        ? '<strong>Hint ' + (activity.hintIdx + 1) + ':</strong> ' + hints[activity.hintIdx]
+        : hints[activity.hintIdx];
     box.appendChild(div);
     box.classList.add('show');
-    trainer.hintIdx++;
+    activity.hintIdx++;
 
-    if (trainer.hintIdx < hints.length) {
-        btn.textContent = 'Next Hint (' + trainer.hintIdx + '/' + hints.length + ')';
+    if (activity.hintIdx < hints.length) {
+        btn.textContent = 'Next Hint (' + activity.hintIdx + '/' + hints.length + ')';
     } else {
         btn.textContent = hints.length > 1 ? 'All Hints Shown' : 'Hint';
     }
@@ -156,19 +161,19 @@ const SRS = {
 const TIMED = {
     active: false,
     prefix: null,
-    trainer: null,
+    activity: null,
     score: 0, total: 0,
     _startScore: 0, _startTotal: 0,
     timeLeft: 60,
     interval: null,
     best: {},
 
-    start(prefix, trainer) {
+    start(prefix, activity) {
         this.active = true;
         this.prefix = prefix;
-        this.trainer = trainer;
-        this._startScore = trainer.score;
-        this._startTotal = trainer.total;
+        this.activity = activity;
+        this._startScore = activity.score;
+        this._startTotal = activity.total;
         this.score = 0;
         this.total = 0;
         this.timeLeft = 60;
@@ -193,7 +198,7 @@ const TIMED = {
         document.getElementById('timed-timer-text').textContent = '60s';
 
         this.interval = setInterval(() => this.tick(), 1000);
-        trainer.load();
+        activity.load();
     },
 
     tick() {
@@ -208,11 +213,11 @@ const TIMED = {
     },
 
     recordAnswer() {
-        this.score = this.trainer.score - this._startScore;
-        this.total = this.trainer.total - this._startTotal;
+        this.score = this.activity.score - this._startScore;
+        this.total = this.activity.total - this._startTotal;
         if (this.active) {
             setTimeout(() => {
-                if (this.active && this.trainer) this.trainer.load();
+                if (this.active && this.activity) this.activity.load();
             }, 800);
         }
     },
@@ -222,8 +227,8 @@ const TIMED = {
         clearInterval(this.interval);
         this.interval = null;
 
-        this.score = this.trainer.score - this._startScore;
-        this.total = this.trainer.total - this._startTotal;
+        this.score = this.activity.score - this._startScore;
+        this.total = this.activity.total - this._startTotal;
 
         const timerBar = document.getElementById('timed-timer');
         if (timerBar) timerBar.style.display = 'none';
@@ -266,7 +271,7 @@ const TIMED = {
 
     retry() {
         this.close();
-        this.start(this.prefix, this.trainer);
+        this.start(this.prefix, this.activity);
     },
 
     loadBest() {
@@ -331,35 +336,51 @@ function savePracticeSession(prefix, score, total) {
     } catch (e) {}
 }
 
-// -- Trainer Score Persistence -----------------------------------------------
-function saveTrainerStats(prefix, trainer, ok) {
+// -- Activity Score Persistence -----------------------------------------------
+// One-time migration: jp_trainerStats → jp_activityStats
+(function() {
     try {
-        const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+        const old = localStorage.getItem('jp_trainerStats');
+        if (old && !localStorage.getItem('jp_activityStats')) {
+            localStorage.setItem('jp_activityStats', old);
+        }
+        if (old) localStorage.removeItem('jp_trainerStats');
+    } catch (e) {}
+})();
+
+function saveActivityStats(prefix, activity, ok) {
+    try {
+        const all = JSON.parse(localStorage.getItem('jp_activityStats') || '{}');
         all[prefix] = {
-            score: trainer.score, total: trainer.total, streak: trainer.streak,
-            bestStreak: Math.max(trainer.streak, (all[prefix]?.bestStreak || 0)),
+            score: activity.score, total: activity.total, streak: activity.streak,
+            bestStreak: Math.max(activity.streak, (all[prefix]?.bestStreak || 0)),
             lastTs: Date.now()
         };
-        localStorage.setItem('jp_trainerStats', JSON.stringify(all));
+        localStorage.setItem('jp_activityStats', JSON.stringify(all));
         updateDailyStreak();
         // Gem reward per correct answer (streak-scaled, capped at 5)
-        if (ok === true) addGems(Math.min(trainer.streak || 1, 5));
-        if (ok === false && trainer.currentQ) saveWrongAnswer(prefix, trainer.currentQ);
-        if (ok === true && trainer.currentQ) removeWrongAnswer(prefix, trainer.currentQ);
-        savePracticeSession(prefix, trainer.score, trainer.total);
+        if (ok === true) addGems(Math.min(activity.streak || 1, 5));
+        // Streak celebrations every 5
+        if (ok === true && activity.streak > 0 && activity.streak % 5 === 0) {
+            showStreakToast(activity.streak);
+            fireConfetti(Math.min(activity.streak, 80));
+        }
+        if (ok === false && activity.currentQ) saveWrongAnswer(prefix, activity.currentQ);
+        if (ok === true && activity.currentQ) removeWrongAnswer(prefix, activity.currentQ);
+        savePracticeSession(prefix, activity.score, activity.total);
         if (TIMED.active) TIMED.recordAnswer();
         if (typeof Auth !== 'undefined') Auth.saveAndSync();
     } catch (e) {}
 }
-function loadTrainerStats(prefix, trainer) {
+function loadActivityStats(prefix, activity) {
     try {
-        const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+        const all = JSON.parse(localStorage.getItem('jp_activityStats') || '{}');
         const s = all[prefix];
-        if (s) { trainer.score = s.score || 0; trainer.total = s.total || 0; trainer.streak = s.streak || 0; }
+        if (s) { activity.score = s.score || 0; activity.total = s.total || 0; activity.streak = s.streak || 0; }
     } catch (e) {}
 }
-function getAllTrainerStats() {
-    try { return JSON.parse(localStorage.getItem('jp_trainerStats') || '{}'); } catch (e) { return {}; }
+function getAllActivityStats() {
+    try { return JSON.parse(localStorage.getItem('jp_activityStats') || '{}'); } catch (e) { return {}; }
 }
 
 // -- Gems -----------------------------------------------------------------
@@ -543,6 +564,212 @@ document.addEventListener('keydown', e => {
     }
 });
 
+// -- Weekly Leaderboard Rewards -------------------------------------------
+const WEEKLY_REWARD = {
+    _key: 'jp_weeklyRewardState',
+    _collections: { japanese: 'japanese-leaderboard' },
+
+    _weekStart(d) {
+        const dt = d ? new Date(d) : new Date();
+        dt.setHours(0, 0, 0, 0);
+        dt.setDate(dt.getDate() - ((dt.getDay() + 6) % 7));
+        return dt.toISOString().slice(0, 10);
+    },
+    _prevWeekStart() {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+        d.setDate(d.getDate() - ((d.getDay() + 6) % 7) - 7);
+        return d.toISOString().slice(0, 10);
+    },
+    _getState() {
+        try { return JSON.parse(localStorage.getItem(this._key) || '{}'); }
+        catch (e) { return {}; }
+    },
+    _saveState(state) { localStorage.setItem(this._key, JSON.stringify(state)); },
+
+    async check(subject) {
+        if (typeof Auth === 'undefined' || !Auth.user || !Auth.db) return;
+        const country = localStorage.getItem('jp_country');
+        if (!country) return;
+        const col = this._collections[subject];
+        if (!col) return;
+        const week = this._weekStart();
+        const state = this._getState();
+        const sub = state[subject] || {};
+        if (sub.lastChecked === week) return;
+        try {
+            const snap = await Auth.db.collection(col)
+                .where('country', '==', country)
+                .where('totalQuestions', '>=', 20)
+                .get();
+            if (snap.empty) return;
+            const entries = [];
+            snap.forEach(doc => {
+                const d = doc.data();
+                entries.push({
+                    uid: doc.id,
+                    accuracy: d.totalQuestions > 0 ? d.totalCorrect / d.totalQuestions : 0,
+                    totalQuestions: d.totalQuestions || 0
+                });
+            });
+            entries.sort((a, b) => b.accuracy - a.accuracy || b.totalQuestions - a.totalQuestions);
+            const isFirst = entries.length > 0 && entries[0].uid === Auth.user.uid;
+            sub.lastChecked = week;
+            if (isFirst) {
+                const prevWeek = this._prevWeekStart();
+                if (sub.lastAwarded === prevWeek) {
+                    sub.consecutiveWeeks = (sub.consecutiveWeeks || 0) + 1;
+                } else { sub.consecutiveWeeks = 1; }
+                sub.lastAwarded = week;
+                addGems(500);
+                this._showRewardBanner(subject, false);
+                if (sub.consecutiveWeeks >= 4 && sub.lastMonthlyBonus !== week) {
+                    sub.lastMonthlyBonus = week;
+                    addGems(1500);
+                    setTimeout(() => this._showRewardBanner(subject, true), 3000);
+                }
+            } else { sub.consecutiveWeeks = 0; }
+            state[subject] = sub;
+            this._saveState(state);
+            Auth.saveAndSync();
+        } catch (e) { console.error('Weekly reward check failed:', e.message); }
+    },
+
+    _showRewardBanner(subject, isMonthly) {
+        let banner = document.getElementById('lb-reward-banner');
+        if (banner) banner.remove();
+        banner = document.createElement('div');
+        banner.id = 'lb-reward-banner';
+        banner.className = 'lb-reward-banner';
+        const name = subject.charAt(0).toUpperCase() + subject.slice(1);
+        if (isMonthly) {
+            banner.innerHTML = '<span><strong>+1500 gems!</strong> 4-week #1 streak in ' + name + '!</span>' +
+                '<button class="lb-reward-close" onclick="this.parentElement.classList.remove(\'show\');setTimeout(()=>this.parentElement.remove(),300)">&times;</button>';
+        } else {
+            banner.innerHTML = '<span><strong>+500 gems!</strong> You\'re #1 in ' + name + ' this week!</span>' +
+                '<button class="lb-reward-close" onclick="this.parentElement.classList.remove(\'show\');setTimeout(()=>this.parentElement.remove(),300)">&times;</button>';
+        }
+        document.body.prepend(banner);
+        requestAnimationFrame(() => banner.classList.add('show'));
+        setTimeout(() => {
+            if (banner.parentElement) { banner.classList.remove('show'); setTimeout(() => banner.remove(), 300); }
+        }, 6000);
+    }
+};
+
+// -- Streak Celebrations --------------------------------------------------
+function showStreakToast(streak) {
+    const msgs = ['Nice!', 'On fire!', 'Unstoppable!', 'Legendary!', 'Godlike!'];
+    const tier = Math.min(Math.floor(streak / 5) - 1, msgs.length - 1);
+    const toast = document.createElement('div');
+    toast.className = 'streak-toast';
+    toast.textContent = streak + ' streak \u2014 ' + msgs[tier];
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.classList.add('out'); setTimeout(() => toast.remove(), 500); }, 2500);
+}
+
+function fireConfetti(intensity) {
+    const count = intensity || 40;
+    const colors = ['#e63946', '#06d6a0', '#f72585', '#ffc107', '#4cc9f0', '#ff6b6b', '#845ec2'];
+    const container = document.createElement('div');
+    container.style.cssText = 'position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden;';
+    document.body.appendChild(container);
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        const size = 4 + Math.random() * 6;
+        const x = 30 + Math.random() * 40;
+        const drift = (Math.random() - 0.5) * 200;
+        const dur = 1.2 + Math.random() * 1.5;
+        const delay = Math.random() * 0.3;
+        const shape = Math.random() > 0.5 ? '50%' : (Math.random() > 0.5 ? '2px' : '0');
+        p.style.cssText = 'position:absolute;bottom:50%;left:' + x + '%;width:' + size + 'px;height:' + size + 'px;border-radius:' + shape + ';background:' + colors[i % colors.length] + ';opacity:1;animation:confetti-pop ' + dur + 's ease-out ' + delay + 's forwards;--drift:' + drift + 'px;';
+        container.appendChild(p);
+    }
+    setTimeout(() => container.remove(), 3500);
+}
+(function () {
+    var s = document.createElement('style');
+    s.textContent = '@keyframes confetti-pop{0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:1;}100%{transform:translateY(-' + (window.innerHeight || 700) + 'px) translateX(var(--drift)) rotate(720deg);opacity:0;}}';
+    document.head.appendChild(s);
+})();
+
+// -- Streak Reminder Banner -----------------------------------------------
+function checkStreakReminder() {
+    if (typeof Auth === 'undefined' || !Auth.user) return;
+    try {
+        const ds = JSON.parse(localStorage.getItem('jp_dailyStreak') || '{}');
+        const today = new Date().toISOString().slice(0, 10);
+        if (!ds.current || ds.current < 1) return;
+        if (ds.lastDate === today) return;
+        const dismissed = localStorage.getItem('jp_reminderDismissed');
+        if (dismissed === today) return;
+        const now = new Date();
+        const midnight = new Date(now); midnight.setHours(24, 0, 0, 0);
+        const minsLeft = Math.floor((midnight - now) / 60000);
+        if (minsLeft > 120) return;
+        showStreakReminder(ds.current, minsLeft);
+    } catch (e) {}
+}
+function showStreakReminder(streak, minsLeft) {
+    let banner = document.getElementById('streak-reminder');
+    if (banner) return;
+    banner = document.createElement('div');
+    banner.id = 'streak-reminder';
+    banner.className = 'streak-reminder';
+    const timeText = minsLeft >= 60 ? Math.floor(minsLeft / 60) + 'h ' + (minsLeft % 60) + 'm' : minsLeft + ' minutes';
+    banner.innerHTML = '<span>Don\'t lose your <strong>' + streak + '-day streak</strong>! Answer 1 question in the next ' + timeText + '</span>' +
+        '<button class="streak-reminder-close" onclick="dismissStreakReminder()">&times;</button>';
+    document.body.prepend(banner);
+    requestAnimationFrame(() => banner.classList.add('show'));
+}
+function dismissStreakReminder() {
+    const banner = document.getElementById('streak-reminder');
+    if (banner) { banner.classList.remove('show'); setTimeout(() => banner.remove(), 300); }
+    localStorage.setItem('jp_reminderDismissed', new Date().toISOString().slice(0, 10));
+}
+
+// -- Feedback Widget ------------------------------------------------------
+const FEEDBACK = {
+    submit() {
+        const msg = document.getElementById('fb-message').value.trim();
+        const type = document.getElementById('fb-type').value;
+        if (!msg) { alert('Please enter a message.'); return; }
+        const btn = document.getElementById('fb-submit');
+        btn.disabled = true;
+        btn.textContent = 'Sending\u2026';
+        if (typeof Auth !== 'undefined' && Auth.db) {
+            Auth.db.collection('feedback').add({
+                type: type,
+                message: msg,
+                source: 'japanese',
+                user: Auth.user ? Auth.user.email : 'anonymous',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => this._success()).catch(e => {
+                console.error('Feedback error:', e.message);
+                this._saveFallback(type, msg);
+                this._success();
+            });
+        } else {
+            this._saveFallback(type, msg);
+            this._success();
+        }
+    },
+    _saveFallback(type, msg) {
+        try {
+            const all = JSON.parse(localStorage.getItem('jp_pendingFeedback') || '[]');
+            all.push({ type, message: msg, ts: Date.now() });
+            localStorage.setItem('jp_pendingFeedback', JSON.stringify(all));
+        } catch (e) {}
+    },
+    _success() {
+        document.getElementById('fb-message').value = '';
+        document.getElementById('fb-submit').disabled = false;
+        document.getElementById('fb-submit').textContent = 'Send Feedback';
+        document.getElementById('fb-confirmation').classList.add('show');
+        setTimeout(() => document.getElementById('fb-confirmation').classList.remove('show'), 3000);
+    }
+};
+
 // -- Gem Shop (Missions) --------------------------------------------------
 const GEM_SHOP = {
     _key: 'jp_gemShopClaimed',
@@ -585,7 +812,7 @@ const GEM_SHOP = {
     },
     _bestStreak() {
         try {
-            const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+            const all = JSON.parse(localStorage.getItem('jp_activityStats') || '{}');
             let best = 0;
             for (const k in all) if ((all[k].bestStreak || 0) > best) best = all[k].bestStreak;
             return best;
@@ -593,7 +820,7 @@ const GEM_SHOP = {
     },
     _totalQuestions() {
         try {
-            const all = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+            const all = JSON.parse(localStorage.getItem('jp_activityStats') || '{}');
             let total = 0;
             for (const k in all) total += (all[k].total || 0);
             return total;

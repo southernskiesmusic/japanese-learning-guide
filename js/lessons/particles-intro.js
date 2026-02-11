@@ -215,8 +215,8 @@ var LESSON_PARTICLES_INTRO = {
                 '<li><strong>で</strong> (de) — location of action, means</li>' +
                 '<li><strong>へ, と, も, の, から, まで, よ, ね</strong> — and more!</li>' +
                 '</ul>' +
-                '<p>Now practise using these particles in context with the Grammar Trainer.</p>',
-            nextActivity: 'gram-trainer'
+                '<p>Now practise using these particles in context with the Grammar Activity.</p>',
+            nextActivity: 'gram-activity'
         }
     ]
 };

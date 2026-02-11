@@ -1,5 +1,5 @@
 /* ================================================================
-   CONV — Conversation Trainer
+   CONV — Conversation Activity
    Question types: fillBlank, responseSelect, dialogueOrder, translate
    ================================================================ */
 const CONV = {
@@ -7,7 +7,7 @@ const CONV = {
     currentQ: null, level: 'all',
 
     init() {
-        loadTrainerStats('CONV', this);
+        loadActivityStats('CONV', this);
         this.updateUI();
     },
 
@@ -226,7 +226,7 @@ const CONV = {
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         SRS.review('conv-reorder', correct ? 4 : 2);
         this.updateUI();
-        saveTrainerStats('CONV', this, correct);
+        saveActivityStats('CONV', this, correct);
 
         let expl = '<strong>Correct order:</strong><br>';
         q.dialogue.lines.forEach(l => {
@@ -295,7 +295,7 @@ const CONV = {
                 : 'conv-fill-' + (q.dialogue ? q.dialogue.lines[0].jp.slice(0, 15) : 'q');
         SRS.review(srsKey, correct ? 4 : 1);
         this.updateUI();
-        saveTrainerStats('CONV', this, correct);
+        saveActivityStats('CONV', this, correct);
 
         let expl;
         if (q.response) {

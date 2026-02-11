@@ -285,8 +285,8 @@ var LESSON_COUNTING = {
                 '<li><strong>Counters:</strong> つ (general), 人 (people), 本 (long), 枚 (flat), 匹 (animals), 個 (small)</li>' +
                 '<li><strong>Native つ counter:</strong> ひとつ, ふたつ, みっつ... とお</li>' +
                 '</ul>' +
-                '<p>Test your number skills with the Vocabulary Trainer!</p>',
-            nextActivity: 'vocab-trainer'
+                '<p>Test your number skills with the Vocabulary Activity!</p>',
+            nextActivity: 'vocab-activity'
         }
     ]
 };

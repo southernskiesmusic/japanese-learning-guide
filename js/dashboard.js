@@ -6,7 +6,7 @@ const DASHBOARD = {
         {
             name: 'Writing System',
             color: '#e63946',
-            trainers: [
+            activities: [
                 { key: 'HIRA', label: 'Hiragana' },
                 { key: 'KATA', label: 'Katakana' }
             ],
@@ -15,7 +15,7 @@ const DASHBOARD = {
         {
             name: 'Kanji',
             color: '#457b9d',
-            trainers: [
+            activities: [
                 { key: 'KANJI', label: 'Kanji N5' }
             ],
             lessons: ['kanji-basics']
@@ -23,7 +23,7 @@ const DASHBOARD = {
         {
             name: 'Grammar',
             color: '#2a9d8f',
-            trainers: [
+            activities: [
                 { key: 'GRAM', label: 'Grammar' },
                 { key: 'CONJ', label: 'Conjugation' }
             ],
@@ -32,7 +32,7 @@ const DASHBOARD = {
         {
             name: 'Vocabulary',
             color: '#e9c46a',
-            trainers: [
+            activities: [
                 { key: 'VOCAB', label: 'Vocabulary' },
                 { key: 'NUM', label: 'Numbers' }
             ],
@@ -41,7 +41,7 @@ const DASHBOARD = {
         {
             name: 'Conversation',
             color: '#f77f00',
-            trainers: [
+            activities: [
                 { key: 'CONV', label: 'Conversation' }
             ],
             lessons: ['conversations-intro', 'conversations-daily']
@@ -50,13 +50,13 @@ const DASHBOARD = {
 
     render() {
         const container = document.getElementById('dashboard-content');
-        const allStats = getAllTrainerStats();
+        const allStats = getAllActivityStats();
         const ds = getDailyStreak();
 
         // Overall stats
         let totalScore = 0, totalQuestions = 0, totalLessons = 0, totalLessonsDone = 0;
         this.topics.forEach(t => {
-            t.trainers.forEach(tr => {
+            t.activities.forEach(tr => {
                 const s = allStats[tr.key];
                 if (s) { totalScore += s.score || 0; totalQuestions += s.total || 0; }
             });
@@ -89,7 +89,7 @@ const DASHBOARD = {
                 '<span style="font-size:0.78rem;font-weight:400;color:var(--text-light);margin-left:8px;">' +
                 lessonsDone + '/' + topic.lessons.length + ' lessons</span></div>';
 
-            topic.trainers.forEach(tr => {
+            topic.activities.forEach(tr => {
                 const s = allStats[tr.key] || {};
                 const score = s.score || 0;
                 const total = s.total || 0;

@@ -1,5 +1,5 @@
 /* ================================================================
-   VOCAB — Vocabulary Trainer
+   VOCAB — Vocabulary Activity
    Question types: JP→EN MC, EN→JP MC, type reading, sentence fill
    ================================================================ */
 const VOCAB = {
@@ -7,7 +7,7 @@ const VOCAB = {
     currentQ: null, level: 'n5',
 
     init() {
-        loadTrainerStats('VOCAB', this);
+        loadActivityStats('VOCAB', this);
         this.updateUI();
     },
 
@@ -154,7 +154,7 @@ const VOCAB = {
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         SRS.review('vocab-' + (q.word || q.answer), correct ? 4 : 1);
         this.updateUI();
-        saveTrainerStats('VOCAB', this, correct);
+        saveActivityStats('VOCAB', this, correct);
         const expl = q.word
             ? '<span class="jp-medium">' + q.word + '</span> = ' + (q.meaning || q.answer)
             : 'Answer: <span class="jp-medium">' + q.answer + '</span>';
@@ -172,7 +172,7 @@ const VOCAB = {
         SRS.review('vocab-' + q.word, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('VOCAB', this, correct);
+        saveActivityStats('VOCAB', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             '<span class="jp-large">' + q.word + '</span> = ' + q.reading +
             '<br>Meaning: ' + q.meaning);

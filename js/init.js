@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize SRS
     SRS.load();
 
-    // Initialize trainers
+    // Initialize activities
     HIRA.init();
     KATA.init();
     KANJI.init();
@@ -43,15 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (topic === 'study-guide') { showView('study-guide'); STUDY_GUIDE.render(); }
             else if (topic === 'dashboard') { showView('dashboard'); DASHBOARD.render(); }
             else if (topic === 'leaderboard') { showView('leaderboard'); renderLeaderboard(); }
-            // Folder → trainers
-            else if (topic === 'hira-trainer') { showView('hira-trainer'); HIRA.load(); }
-            else if (topic === 'kata-trainer') { showView('kata-trainer'); KATA.load(); }
-            else if (topic === 'kanji-trainer') { showView('kanji-trainer'); KANJI.load(); }
-            else if (topic === 'gram-trainer') { showView('gram-trainer'); GRAM.load(); }
-            else if (topic === 'vocab-trainer') { showView('vocab-trainer'); VOCAB.load(); }
-            else if (topic === 'conv-trainer') { showView('conv-trainer'); CONV.load(); }
-            else if (topic === 'conj-trainer') { showView('conj-trainer'); CONJ.load(); }
-            else if (topic === 'num-trainer') { showView('num-trainer'); NUM.load(); }
+            // Folder → activities
+            else if (topic === 'hira-activity') { showView('hira-activity'); HIRA.load(); }
+            else if (topic === 'kata-activity') { showView('kata-activity'); KATA.load(); }
+            else if (topic === 'kanji-activity') { showView('kanji-activity'); KANJI.load(); }
+            else if (topic === 'gram-activity') { showView('gram-activity'); GRAM.load(); }
+            else if (topic === 'vocab-activity') { showView('vocab-activity'); VOCAB.load(); }
+            else if (topic === 'conv-activity') { showView('conv-activity'); CONV.load(); }
+            else if (topic === 'conj-activity') { showView('conj-activity'); CONJ.load(); }
+            else if (topic === 'num-activity') { showView('num-activity'); NUM.load(); }
             else if (topic === 'writing-canvas') showView('writing-canvas');
         });
     });
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---- Level selectors ----
-    function setupLevels(containerId, trainer, callback) {
+    function setupLevels(containerId, activity, callback) {
         const container = document.getElementById(containerId);
         if (!container) return;
         container.querySelectorAll('.level-btn').forEach(btn => {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (btn.disabled) return;
                 container.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                trainer.level = btn.dataset.level;
+                activity.level = btn.dataset.level;
                 if (callback) callback();
             });
         });
@@ -120,14 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setupLevels('num-levels', NUM, () => NUM.load());
 
     // ---- Mode toggles (Quiz / Write) ----
-    function setupModes(containerId, trainer, callback) {
+    function setupModes(containerId, activity, callback) {
         const container = document.getElementById(containerId);
         if (!container) return;
         container.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 container.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                trainer.mode = btn.dataset.mode;
+                activity.mode = btn.dataset.mode;
                 if (callback) callback();
             });
         });
@@ -298,19 +298,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('continue-prompt');
         if (!container) return;
 
-        const allStats = getAllTrainerStats();
+        const allStats = getAllActivityStats();
         const CONTINUE_MAP = {
-            HIRA: { name: 'Hiragana Trainer', view: 'hira-trainer', loader: () => { showView('hira-trainer'); HIRA.load(); } },
-            KATA: { name: 'Katakana Trainer', view: 'kata-trainer', loader: () => { showView('kata-trainer'); KATA.load(); } },
-            KANJI: { name: 'Kanji Trainer', view: 'kanji-trainer', loader: () => { showView('kanji-trainer'); KANJI.load(); } },
-            GRAM: { name: 'Grammar Trainer', view: 'gram-trainer', loader: () => { showView('gram-trainer'); GRAM.load(); } },
-            VOCAB: { name: 'Vocabulary Trainer', view: 'vocab-trainer', loader: () => { showView('vocab-trainer'); VOCAB.load(); } },
-            CONV: { name: 'Conversation Trainer', view: 'conv-trainer', loader: () => { showView('conv-trainer'); CONV.load(); } },
-            CONJ: { name: 'Conjugation Drill', view: 'conj-trainer', loader: () => { showView('conj-trainer'); CONJ.load(); } },
-            NUM: { name: 'Numbers Trainer', view: 'num-trainer', loader: () => { showView('num-trainer'); NUM.load(); } }
+            HIRA: { name: 'Hiragana Activity', view: 'hira-activity', loader: () => { showView('hira-activity'); HIRA.load(); } },
+            KATA: { name: 'Katakana Activity', view: 'kata-activity', loader: () => { showView('kata-activity'); KATA.load(); } },
+            KANJI: { name: 'Kanji Activity', view: 'kanji-activity', loader: () => { showView('kanji-activity'); KANJI.load(); } },
+            GRAM: { name: 'Grammar Activity', view: 'gram-activity', loader: () => { showView('gram-activity'); GRAM.load(); } },
+            VOCAB: { name: 'Vocabulary Activity', view: 'vocab-activity', loader: () => { showView('vocab-activity'); VOCAB.load(); } },
+            CONV: { name: 'Conversation Activity', view: 'conv-activity', loader: () => { showView('conv-activity'); CONV.load(); } },
+            CONJ: { name: 'Conjugation Drill', view: 'conj-activity', loader: () => { showView('conj-activity'); CONJ.load(); } },
+            NUM: { name: 'Numbers Activity', view: 'num-activity', loader: () => { showView('num-activity'); NUM.load(); } }
         };
 
-        // Find most recent trainer
+        // Find most recent activity
         let latest = null, latestTs = 0;
         for (const key in allStats) {
             const s = allStats[key];
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'vocab-folder': ['counting', 'numbers-intro', 'numbers-counters'],
             'conv-folder': ['conversations-intro', 'conversations-daily']
         };
-        const trainerIds = {
+        const activityIds = {
             writing: ['HIRA', 'KATA'],
             'kanji-folder': ['KANJI'],
             'grammar-folder': ['GRAM', 'CONJ'],
@@ -390,9 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const topic in tagMap) {
             const el = document.getElementById(tagMap[topic]);
             if (!el) continue;
-            const tCount = (trainerIds[topic] || []).length;
+            const tCount = (activityIds[topic] || []).length;
             const lCount = (lessonIds[topic] || []).length;
-            el.textContent = tCount + ' trainer' + (tCount !== 1 ? 's' : '') +
+            el.textContent = tCount + ' activit' + (tCount !== 1 ? 'ies' : 'y') +
                 ' · ' + lCount + ' lesson' + (lCount !== 1 ? 's' : '');
         }
     }
@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!el) return;
         const gems = getGems();
         const ds = getDailyStreak();
-        const allStats = getAllTrainerStats();
+        const allStats = getAllActivityStats();
         let totalQ = 0, totalCorrect = 0;
         for (const k in allStats) { totalQ += allStats[k].total || 0; totalCorrect += allStats[k].score || 0; }
         const accuracy = totalQ > 0 ? Math.round(totalCorrect / totalQ * 100) : 0;
@@ -562,14 +562,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Build search index
         const index = [];
-        const TRAINER_MAP = {
-            'hira-trainer': 'Hiragana Trainer', 'kata-trainer': 'Katakana Trainer',
-            'kanji-trainer': 'Kanji Trainer', 'gram-trainer': 'Grammar Trainer',
-            'vocab-trainer': 'Vocabulary Trainer', 'conv-trainer': 'Conversation Trainer',
-            'conj-trainer': 'Conjugation Drill', 'num-trainer': 'Numbers Trainer'
+        const ACTIVITY_MAP = {
+            'hira-activity': 'Hiragana Activity', 'kata-activity': 'Katakana Activity',
+            'kanji-activity': 'Kanji Activity', 'gram-activity': 'Grammar Activity',
+            'vocab-activity': 'Vocabulary Activity', 'conv-activity': 'Conversation Activity',
+            'conj-activity': 'Conjugation Drill', 'num-activity': 'Numbers Activity'
         };
-        for (const id in TRAINER_MAP) {
-            index.push({ name: TRAINER_MAP[id], type: 'Trainer', action: () => {
+        for (const id in ACTIVITY_MAP) {
+            index.push({ name: ACTIVITY_MAP[id], type: 'Activity', action: () => {
                 document.querySelector('[data-topic="' + id + '"]').click();
             }});
         }

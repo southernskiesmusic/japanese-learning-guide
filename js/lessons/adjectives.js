@@ -227,8 +227,8 @@ var LESSON_ADJECTIVES = {
                 '<li><strong>な-adjectives:</strong> add じゃない / だった / じゃなかった</li>' +
                 '<li><strong>Exception:</strong> いい (good) → よくない / よかった / よくなかった</li>' +
                 '</ul>' +
-                '<p>Practice more adjective conjugation in the Grammar Trainer!</p>',
-            nextActivity: 'gram-trainer'
+                '<p>Practice more adjective conjugation in the Grammar Activity!</p>',
+            nextActivity: 'gram-activity'
         }
     ]
 };

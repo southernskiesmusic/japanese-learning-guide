@@ -223,7 +223,7 @@
     <div class="hub-stats" id="hub-stats"></div>
     <!-- Search Bar -->
     <div class="search-wrapper">
-        <input type="text" id="search-input" class="search-input" placeholder="Search topics, trainers, lessons... (Ctrl+K)" autocomplete="off">
+        <input type="text" id="search-input" class="search-input" placeholder="Search topics, activities, lessons... (Ctrl+K)" autocomplete="off">
         <div id="search-results" class="search-results"></div>
     </div>
     <div id="continue-prompt"></div>
@@ -295,16 +295,16 @@
             <p>Decode foreign words — learn the sound change rules and common patterns.</p>
             <span class="topic-tag lesson" id="lesson-tag-katakana-loanwords">Lesson</span>
         </div>
-        <div class="section-label">Practice Trainers</div>
-        <div class="topic-card" data-topic="hira-trainer">
-            <h2>Hiragana Trainer</h2>
+        <div class="section-label">Practice Activities</div>
+        <div class="topic-card" data-topic="hira-activity">
+            <h2>Hiragana Activity</h2>
             <p>Recognise, type, and write hiragana characters.</p>
-            <span class="topic-tag writing">Trainer</span>
+            <span class="topic-tag writing">Activity</span>
         </div>
-        <div class="topic-card" data-topic="kata-trainer">
-            <h2>Katakana Trainer</h2>
+        <div class="topic-card" data-topic="kata-activity">
+            <h2>Katakana Activity</h2>
             <p>Recognise, type, and write katakana characters.</p>
-            <span class="topic-tag writing">Trainer</span>
+            <span class="topic-tag writing">Activity</span>
         </div>
         <div class="topic-card" data-topic="writing-canvas">
             <h2>Free Writing Pad</h2>
@@ -328,11 +328,11 @@
             <p>What are kanji? On'yomi vs kun'yomi, radicals, and how to study.</p>
             <span class="topic-tag lesson" id="lesson-tag-kanji-basics">Lesson</span>
         </div>
-        <div class="section-label">Practice Trainers</div>
-        <div class="topic-card" data-topic="kanji-trainer">
-            <h2>Kanji Trainer</h2>
+        <div class="section-label">Practice Activities</div>
+        <div class="topic-card" data-topic="kanji-activity">
+            <h2>Kanji Activity</h2>
             <p>Test meanings, readings, and writing for N5 kanji.</p>
-            <span class="topic-tag kanji">Trainer</span>
+            <span class="topic-tag kanji">Activity</span>
         </div>
     </div>
 </div>
@@ -386,16 +386,16 @@
             <p>Essential interrogatives — なに, だれ, どこ, いつ, どうして, いくら, どう.</p>
             <span class="topic-tag lesson" id="lesson-tag-question-words">Lesson</span>
         </div>
-        <div class="section-label">Practice Trainers</div>
-        <div class="topic-card" data-topic="gram-trainer">
-            <h2>Grammar Trainer</h2>
+        <div class="section-label">Practice Activities</div>
+        <div class="topic-card" data-topic="gram-activity">
+            <h2>Grammar Activity</h2>
             <p>Particles, conjugation, sentence reordering, and translation.</p>
-            <span class="topic-tag grammar">Trainer</span>
+            <span class="topic-tag grammar">Activity</span>
         </div>
-        <div class="topic-card" data-topic="conj-trainer">
+        <div class="topic-card" data-topic="conj-activity">
             <h2>Conjugation Drill</h2>
             <p>Focused verb and adjective conjugation practice.</p>
-            <span class="topic-tag conj">Trainer</span>
+            <span class="topic-tag conj">Activity</span>
         </div>
     </div>
 </div>
@@ -429,16 +429,16 @@
             <p>Learn humble and polite family terms — the uchi/soto distinction.</p>
             <span class="topic-tag lesson" id="lesson-tag-family-vocab">Lesson</span>
         </div>
-        <div class="section-label">Practice Trainers</div>
-        <div class="topic-card" data-topic="vocab-trainer">
-            <h2>Vocabulary Trainer</h2>
+        <div class="section-label">Practice Activities</div>
+        <div class="topic-card" data-topic="vocab-activity">
+            <h2>Vocabulary Activity</h2>
             <p>JP-EN flashcards, reading match, and sentence completion.</p>
-            <span class="topic-tag vocab">Trainer</span>
+            <span class="topic-tag vocab">Activity</span>
         </div>
-        <div class="topic-card" data-topic="num-trainer">
-            <h2>Numbers Trainer</h2>
+        <div class="topic-card" data-topic="num-activity">
+            <h2>Numbers Activity</h2>
             <p>Practice numbers, counters, time, dates, and money.</p>
-            <span class="topic-tag num">Trainer</span>
+            <span class="topic-tag num">Activity</span>
         </div>
     </div>
 </div>
@@ -462,20 +462,20 @@
             <p>Navigate shops, restaurants, and everyday situations with confidence.</p>
             <span class="topic-tag lesson" id="lesson-tag-conversations-daily">Lesson</span>
         </div>
-        <div class="section-label">Practice Trainers</div>
-        <div class="topic-card" data-topic="conv-trainer">
-            <h2>Conversation Trainer</h2>
+        <div class="section-label">Practice Activities</div>
+        <div class="topic-card" data-topic="conv-activity">
+            <h2>Conversation Activity</h2>
             <p>Fill blanks, order dialogues, pick responses, and translate lines.</p>
-            <span class="topic-tag conv">Trainer</span>
+            <span class="topic-tag conv">Activity</span>
         </div>
     </div>
 </div>
 
-<!-- ==================== CONVERSATION TRAINER ==================== -->
-<div id="view-conv-trainer" class="view">
+<!-- ==================== CONVERSATION ACTIVITY ==================== -->
+<div id="view-conv-activity" class="view">
     <button class="back-btn" onclick="showView('conv-folder')">Conversation</button>
     <header>
-        <h1>Conversation Trainer</h1>
+        <h1>Conversation Activity</h1>
         <p>Practice real-life dialogue skills</p>
     </header>
     <div class="level-select" id="conv-levels">
@@ -503,11 +503,11 @@
     </div>
 </div>
 
-<!-- ==================== HIRAGANA TRAINER ==================== -->
-<div id="view-hira-trainer" class="view">
+<!-- ==================== HIRAGANA ACTIVITY ==================== -->
+<div id="view-hira-activity" class="view">
     <button class="back-btn" onclick="showView('writing')">Writing</button>
     <header>
-        <h1>Hiragana Trainer</h1>
+        <h1>Hiragana Activity</h1>
         <p>Master all hiragana characters</p>
     </header>
     <div class="level-select" id="hira-levels">
@@ -542,11 +542,11 @@
     </details>
 </div>
 
-<!-- ==================== KATAKANA TRAINER ==================== -->
-<div id="view-kata-trainer" class="view">
+<!-- ==================== KATAKANA ACTIVITY ==================== -->
+<div id="view-kata-activity" class="view">
     <button class="back-btn" onclick="showView('writing')">Writing</button>
     <header>
-        <h1>Katakana Trainer</h1>
+        <h1>Katakana Activity</h1>
         <p>Master all katakana characters</p>
     </header>
     <div class="level-select" id="kata-levels">
@@ -581,11 +581,11 @@
     </details>
 </div>
 
-<!-- ==================== KANJI TRAINER ==================== -->
-<div id="view-kanji-trainer" class="view">
+<!-- ==================== KANJI ACTIVITY ==================== -->
+<div id="view-kanji-activity" class="view">
     <button class="back-btn" onclick="showView('kanji-folder')">Kanji</button>
     <header>
-        <h1>Kanji Trainer</h1>
+        <h1>Kanji Activity</h1>
         <p>Test your N5 kanji knowledge</p>
     </header>
     <div class="level-select" id="kanji-levels">
@@ -615,11 +615,11 @@
     </div>
 </div>
 
-<!-- ==================== GRAMMAR TRAINER ==================== -->
-<div id="view-gram-trainer" class="view">
+<!-- ==================== GRAMMAR ACTIVITY ==================== -->
+<div id="view-gram-activity" class="view">
     <button class="back-btn" onclick="showView('grammar-folder')">Grammar</button>
     <header>
-        <h1>Grammar Trainer</h1>
+        <h1>Grammar Activity</h1>
         <p>Practice particles, conjugation, and sentence building</p>
     </header>
     <div class="level-select" id="gram-levels">
@@ -645,11 +645,11 @@
     </div>
 </div>
 
-<!-- ==================== VOCABULARY TRAINER ==================== -->
-<div id="view-vocab-trainer" class="view">
+<!-- ==================== VOCABULARY ACTIVITY ==================== -->
+<div id="view-vocab-activity" class="view">
     <button class="back-btn" onclick="showView('vocab-folder')">Vocabulary</button>
     <header>
-        <h1>Vocabulary Trainer</h1>
+        <h1>Vocabulary Activity</h1>
         <p>Build and test your word bank</p>
     </header>
     <div class="level-select" id="vocab-levels">
@@ -681,8 +681,8 @@
     </div>
 </div>
 
-<!-- ==================== CONJUGATION TRAINER ==================== -->
-<div id="view-conj-trainer" class="view">
+<!-- ==================== CONJUGATION ACTIVITY ==================== -->
+<div id="view-conj-activity" class="view">
     <button class="back-btn" onclick="showView('grammar-folder')">Grammar</button>
     <header>
         <h1>Conjugation Drill</h1>
@@ -711,11 +711,11 @@
     </div>
 </div>
 
-<!-- ==================== NUMBERS TRAINER ==================== -->
-<div id="view-num-trainer" class="view">
+<!-- ==================== NUMBERS ACTIVITY ==================== -->
+<div id="view-num-activity" class="view">
     <button class="back-btn" onclick="showView('vocab-folder')">Vocabulary</button>
     <header>
-        <h1>Numbers Trainer</h1>
+        <h1>Numbers Activity</h1>
         <p>Practice numbers, counters, time, and dates</p>
     </header>
     <div class="level-select" id="num-levels">
@@ -900,14 +900,14 @@
 <script src="js/data/conjugations.js"></script>
 <script src="js/data/numbers.js"></script>
 <script src="js/writing-pad.js"></script>
-<script src="js/trainers/hira.js"></script>
-<script src="js/trainers/kata.js"></script>
-<script src="js/trainers/kanji.js"></script>
-<script src="js/trainers/gram.js"></script>
-<script src="js/trainers/vocab.js"></script>
-<script src="js/trainers/conv.js"></script>
-<script src="js/trainers/conj.js"></script>
-<script src="js/trainers/num.js"></script>
+<script src="js/activities/hira.js"></script>
+<script src="js/activities/kata.js"></script>
+<script src="js/activities/kanji.js"></script>
+<script src="js/activities/gram.js"></script>
+<script src="js/activities/vocab.js"></script>
+<script src="js/activities/conv.js"></script>
+<script src="js/activities/conj.js"></script>
+<script src="js/activities/num.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/lessons/lesson-engine.js"></script>
 <script src="js/lessons/hiragana-intro.js"></script>

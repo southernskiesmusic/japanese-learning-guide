@@ -7,10 +7,10 @@ const STUDY_GUIDE = {
             name: 'Writing Foundation', color: '#e63946',
             steps: [
                 { type: 'lesson', id: 'hiragana-intro', title: 'Hiragana Introduction', desc: 'Learn the basic Japanese syllabary' },
-                { type: 'trainer', id: 'HIRA', title: 'Hiragana Practice', desc: '20 questions, 80%+ accuracy', threshold: 20, accuracy: 80 },
+                { type: 'activity', id: 'HIRA', title: 'Hiragana Practice', desc: '20 questions, 80%+ accuracy', threshold: 20, accuracy: 80 },
                 { type: 'lesson', id: 'katakana-intro', title: 'Katakana Introduction', desc: 'Learn katakana for foreign words' },
                 { type: 'lesson', id: 'katakana-loanwords', title: 'Katakana Loan Words', desc: 'Sound change rules and common patterns' },
-                { type: 'trainer', id: 'KATA', title: 'Katakana Practice', desc: '20 questions, 80%+ accuracy', threshold: 20, accuracy: 80 }
+                { type: 'activity', id: 'KATA', title: 'Katakana Practice', desc: '20 questions, 80%+ accuracy', threshold: 20, accuracy: 80 }
             ]
         },
         {
@@ -20,8 +20,8 @@ const STUDY_GUIDE = {
                 { type: 'lesson', id: 'particles-intro', title: 'Particles Introduction', desc: 'Essential particles: wa, ga, wo, ni, de' },
                 { type: 'lesson', id: 'sentence-structure', title: 'Sentence Structure', desc: 'SOV word order and topic-comment' },
                 { type: 'lesson', id: 'question-words', title: 'Question Words', desc: 'Essential interrogatives for N5' },
-                { type: 'trainer', id: 'KANJI', title: 'Kanji Recognition', desc: '15 questions, 70%+ accuracy', threshold: 15, accuracy: 70 },
-                { type: 'trainer', id: 'GRAM', title: 'Grammar Drill', desc: '15 questions, 70%+ accuracy', threshold: 15, accuracy: 70 }
+                { type: 'activity', id: 'KANJI', title: 'Kanji Recognition', desc: '15 questions, 70%+ accuracy', threshold: 15, accuracy: 70 },
+                { type: 'activity', id: 'GRAM', title: 'Grammar Drill', desc: '15 questions, 70%+ accuracy', threshold: 15, accuracy: 70 }
             ]
         },
         {
@@ -31,8 +31,8 @@ const STUDY_GUIDE = {
                 { type: 'lesson', id: 'numbers-intro', title: 'Japanese Numbers', desc: 'Counting from 1 to 10,000' },
                 { type: 'lesson', id: 'numbers-counters', title: 'Counters & Time', desc: 'Counter words, telling time, dates' },
                 { type: 'lesson', id: 'family-vocab', title: 'Family Vocabulary', desc: 'Humble and polite family terms' },
-                { type: 'trainer', id: 'VOCAB', title: 'Vocabulary Drill', desc: '25 questions, 75%+ accuracy', threshold: 25, accuracy: 75 },
-                { type: 'trainer', id: 'NUM', title: 'Numbers Mastery', desc: '20 questions, 75%+ accuracy', threshold: 20, accuracy: 75 }
+                { type: 'activity', id: 'VOCAB', title: 'Vocabulary Drill', desc: '25 questions, 75%+ accuracy', threshold: 25, accuracy: 75 },
+                { type: 'activity', id: 'NUM', title: 'Numbers Mastery', desc: '20 questions, 75%+ accuracy', threshold: 20, accuracy: 75 }
             ]
         },
         {
@@ -43,7 +43,7 @@ const STUDY_GUIDE = {
                 { type: 'lesson', id: 'adjectives', title: 'Adjectives', desc: 'i-adjectives and na-adjectives' },
                 { type: 'lesson', id: 'conjugation-adjectives', title: 'Adjective Conjugation', desc: 'Negative, past, and adverb forms' },
                 { type: 'lesson', id: 'adjectives-n5', title: 'N5 Adjectives', desc: 'Complete N5 adjective vocabulary' },
-                { type: 'trainer', id: 'CONJ', title: 'Conjugation Drill', desc: '20 questions, 75%+ accuracy', threshold: 20, accuracy: 75 }
+                { type: 'activity', id: 'CONJ', title: 'Conjugation Drill', desc: '20 questions, 75%+ accuracy', threshold: 20, accuracy: 75 }
             ]
         },
         {
@@ -51,7 +51,7 @@ const STUDY_GUIDE = {
             steps: [
                 { type: 'lesson', id: 'conversations-intro', title: 'Everyday Conversations', desc: 'Greetings, introductions, and restaurant phrases' },
                 { type: 'lesson', id: 'conversations-daily', title: 'Shopping & Services', desc: 'Navigate shops and everyday situations' },
-                { type: 'trainer', id: 'CONV', title: 'Conversation Practice', desc: '20 questions, 75%+ accuracy', threshold: 20, accuracy: 75 }
+                { type: 'activity', id: 'CONV', title: 'Conversation Practice', desc: '20 questions, 75%+ accuracy', threshold: 20, accuracy: 75 }
             ]
         }
     ],
@@ -60,7 +60,7 @@ const STUDY_GUIDE = {
         if (step.type === 'lesson') {
             return LessonEngine.isComplete(step.id);
         }
-        const stats = getAllTrainerStats();
+        const stats = getAllActivityStats();
         const s = stats[step.id];
         if (!s) return false;
         const pct = s.total > 0 ? Math.round(s.score / s.total * 100) : 0;
@@ -88,9 +88,9 @@ const STUDY_GUIDE = {
 
         if (!available) return 'locked';
 
-        // Check if trainer has some progress but hasn't met threshold
-        if (step.type === 'trainer') {
-            const stats = getAllTrainerStats();
+        // Check if activity has some progress but hasn't met threshold
+        if (step.type === 'activity') {
+            const stats = getAllActivityStats();
             const s = stats[step.id];
             if (s && s.total > 0) return 'in-progress';
         }
@@ -134,17 +134,17 @@ const STUDY_GUIDE = {
             const card = document.querySelector('[data-lesson="' + step.id + '"]');
             if (card) card.click();
         } else {
-            const trainerMap = {
-                HIRA: { view: 'hira-trainer', obj: typeof HIRA !== 'undefined' ? HIRA : null },
-                KATA: { view: 'kata-trainer', obj: typeof KATA !== 'undefined' ? KATA : null },
-                KANJI: { view: 'kanji-trainer', obj: typeof KANJI !== 'undefined' ? KANJI : null },
-                GRAM: { view: 'gram-trainer', obj: typeof GRAM !== 'undefined' ? GRAM : null },
-                VOCAB: { view: 'vocab-trainer', obj: typeof VOCAB !== 'undefined' ? VOCAB : null },
-                CONV: { view: 'conv-trainer', obj: typeof CONV !== 'undefined' ? CONV : null },
-                CONJ: { view: 'conj-trainer', obj: typeof CONJ !== 'undefined' ? CONJ : null },
-                NUM: { view: 'num-trainer', obj: typeof NUM !== 'undefined' ? NUM : null }
+            const activityMap = {
+                HIRA: { view: 'hira-activity', obj: typeof HIRA !== 'undefined' ? HIRA : null },
+                KATA: { view: 'kata-activity', obj: typeof KATA !== 'undefined' ? KATA : null },
+                KANJI: { view: 'kanji-activity', obj: typeof KANJI !== 'undefined' ? KANJI : null },
+                GRAM: { view: 'gram-activity', obj: typeof GRAM !== 'undefined' ? GRAM : null },
+                VOCAB: { view: 'vocab-activity', obj: typeof VOCAB !== 'undefined' ? VOCAB : null },
+                CONV: { view: 'conv-activity', obj: typeof CONV !== 'undefined' ? CONV : null },
+                CONJ: { view: 'conj-activity', obj: typeof CONJ !== 'undefined' ? CONJ : null },
+                NUM: { view: 'num-activity', obj: typeof NUM !== 'undefined' ? NUM : null }
             };
-            const t = trainerMap[step.id];
+            const t = activityMap[step.id];
             if (t) {
                 showView(t.view);
                 if (t.obj) t.obj.load();
@@ -195,7 +195,7 @@ const STUDY_GUIDE = {
     renderTimeline() {
         const el = document.getElementById('sg-timeline');
         if (!el) return;
-        const stats = getAllTrainerStats();
+        const stats = getAllActivityStats();
         let html = '';
 
         this.phases.forEach((phase, pi) => {
@@ -227,14 +227,14 @@ const STUDY_GUIDE = {
                 html += '</div>';
                 html += '<div class="sg-step-desc">' + step.desc + '</div>';
 
-                // Show trainer progress sub-bar
-                if (step.type === 'trainer') {
+                // Show activity progress sub-bar
+                if (step.type === 'activity') {
                     const s = stats[step.id];
                     const answered = s ? s.total : 0;
                     const pct = s && s.total > 0 ? Math.round(s.score / s.total * 100) : 0;
-                    html += '<div class="sg-trainer-progress">';
-                    html += '<div class="sg-trainer-bar"><div class="sg-trainer-fill" style="width:' + Math.min(100, Math.round(answered / step.threshold * 100)) + '%;background:' + phase.color + '"></div></div>';
-                    html += '<div class="sg-trainer-stat">' + answered + '/' + step.threshold + ' answered &middot; ' + pct + '% accuracy</div>';
+                    html += '<div class="sg-activity-progress">';
+                    html += '<div class="sg-activity-bar"><div class="sg-activity-fill" style="width:' + Math.min(100, Math.round(answered / step.threshold * 100)) + '%;background:' + phase.color + '"></div></div>';
+                    html += '<div class="sg-activity-stat">' + answered + '/' + step.threshold + ' answered &middot; ' + pct + '% accuracy</div>';
                     html += '</div>';
                 }
 

@@ -11,7 +11,7 @@ const Auth = {
 
     // All jp_* localStorage keys to sync
     SYNC_KEYS: [
-        'jp_srsData', 'jp_trainerStats', 'jp_practiceHistory',
+        'jp_srsData', 'jp_activityStats', 'jp_practiceHistory',
         'jp_wrongAnswers', 'jp_dailyStreak', 'jp_timedChallenges',
         'jp_lessonProgress', 'jp_darkMode', 'jp_bgImage',
         'jp_bgOpacity', 'jp_selectedFont',
@@ -194,7 +194,7 @@ const Auth = {
     async pushLeaderboard() {
         if (!this.db || !this.user) return;
         try {
-            const ts = JSON.parse(localStorage.getItem('jp_trainerStats') || '{}');
+            const ts = JSON.parse(localStorage.getItem('jp_activityStats') || '{}');
             const lp = JSON.parse(localStorage.getItem('jp_lessonProgress') || '{}');
             const srs = JSON.parse(localStorage.getItem('jp_srsData') || '{}');
             let totalQ = 0, totalCorrect = 0, bestStreak = 0;

@@ -149,7 +149,7 @@ var LESSON_KATAKANA_LOANWORDS = {
                 '<li>Some words are <strong>abbreviated</strong> (パソコン, コンビニ)</li>' +
                 '</ul>' +
                 '<p>Try reading katakana signs and menus — you\'ll be surprised how much you can decode!</p>',
-            nextActivity: 'kata-trainer'
+            nextActivity: 'kata-activity'
         }
     ]
 };

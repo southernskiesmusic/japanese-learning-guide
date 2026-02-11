@@ -312,8 +312,8 @@ var LESSON_NUMBERS_COUNTERS = {
                 '<li><strong>Minutes ～ふん/ぷん:</strong> 1, 3, 4, 6, 8, 10 are irregular (ぷん)</li>' +
                 '<li><strong>Days of the month:</strong> 1st-10th are all irregular native readings</li>' +
                 '</ul>' +
-                '<p>The key is practice! Use the <strong>Numbers Trainer</strong> in "Counters" and "Time" modes to drill these.</p>',
-            nextActivity: 'num-trainer'
+                '<p>The key is practice! Use the <strong>Numbers Activity</strong> in "Counters" and "Time" modes to drill these.</p>',
+            nextActivity: 'num-activity'
         }
     ]
 };

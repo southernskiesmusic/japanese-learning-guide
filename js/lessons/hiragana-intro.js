@@ -216,9 +216,9 @@ const LESSON_HIRAGANA_INTRO = {
                     <li><strong>Irregular readings</strong>: し (shi), ち (chi), つ (tsu), ふ (fu)</li>
                     <li>How hiragana is used for native words, particles, and verb endings</li>
                 </ul>
-                <p>Next steps: practice reading and recognising hiragana quickly with the <strong>Hiragana Trainer</strong>!</p>
+                <p>Next steps: practice reading and recognising hiragana quickly with the <strong>Hiragana Activity</strong>!</p>
             `,
-            nextActivity: 'hira-trainer'
+            nextActivity: 'hira-activity'
         }
     ]
 };

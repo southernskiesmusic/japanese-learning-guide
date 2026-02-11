@@ -156,8 +156,8 @@ var LESSON_QUESTION_WORDS = {
                 '<li><span class="jp"><strong>いくら</strong></span> — how much</li>' +
                 '<li><span class="jp"><strong>どう</strong></span> — how</li>' +
                 '</ul>' +
-                '<p>Remember: just add <span class="jp"><strong>か</strong></span> at the end to make any sentence a question. Practice with the Grammar Trainer!</p>',
-            nextActivity: 'gram-trainer'
+                '<p>Remember: just add <span class="jp"><strong>か</strong></span> at the end to make any sentence a question. Practice with the Grammar Activity!</p>',
+            nextActivity: 'gram-activity'
         }
     ]
 };

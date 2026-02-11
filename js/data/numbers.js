@@ -1,6 +1,6 @@
 /* ============================================================
    Japanese Numbers, Counters, Time & Date Data
-   Comprehensive reference for the NUM trainer and lessons
+   Comprehensive reference for the NUM activity and lessons
    ============================================================ */
 
 const NUMBERS_DATA = {

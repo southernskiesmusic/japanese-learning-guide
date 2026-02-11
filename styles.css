@@ -76,7 +76,7 @@ body {
 .topic-tag.conj { background: #7209b7; color: #fff; }
 .topic-tag.num { background: #4895ef; color: #fff; }
 
-/* ---- Shared trainer styles ---- */
+/* ---- Shared activity styles ---- */
 header { text-align: center; margin-bottom: 24px; }
 header h1 { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
 header p  { color: var(--text-light); font-size: 0.95rem; }
@@ -660,7 +660,7 @@ body.dark-mode.has-bg .feedback.incorrect { background: rgba(239,71,111,0.2); bo
 .music-btn:hover { transform: scale(1.1); opacity: 1; }
 .music-btn.playing { background: #06d6a0; box-shadow: 0 2px 12px rgba(6,214,160,0.4); }
 
-/* ---- Conversation Trainer ---- */
+/* ---- Conversation Activity ---- */
 .dialogue-box {
     background: var(--card);
     border: 1px solid var(--border);
@@ -1001,11 +1001,11 @@ body.has-bg .fb-float-panel { background: rgba(255,255,255,var(--bg-card-alpha,0
 .sg-badge-available { background: var(--primary-light); color: var(--primary); }
 .sg-badge-locked { background: #e8e8e8; color: #999; }
 
-/* Trainer progress sub-bar */
-.sg-trainer-progress { margin-top: 8px; }
-.sg-trainer-bar { height: 5px; background: #e0e0e0; border-radius: 3px; overflow: hidden; }
-.sg-trainer-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
-.sg-trainer-stat { font-size: 0.72rem; color: var(--text-light); margin-top: 3px; }
+/* Activity progress sub-bar */
+.sg-activity-progress { margin-top: 8px; }
+.sg-activity-bar { height: 5px; background: #e0e0e0; border-radius: 3px; overflow: hidden; }
+.sg-activity-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.sg-activity-stat { font-size: 0.72rem; color: var(--text-light); margin-top: 3px; }
 
 /* Milestone toast */
 .sg-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-80px); z-index: 9999; background: linear-gradient(135deg, #06d6a0, #2a9d8f); color: #fff; padding: 12px 28px; border-radius: 30px; font-weight: 700; font-size: 1rem; white-space: nowrap; box-shadow: 0 4px 20px rgba(6,214,160,0.4); transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), opacity 0.4s; }
@@ -1014,7 +1014,7 @@ body.has-bg .fb-float-panel { background: rgba(255,255,255,var(--bg-card-alpha,0
 
 /* Dark mode */
 body.dark-mode .sg-step-card { background: var(--card); box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
-body.dark-mode .sg-overall-bar, body.dark-mode .sg-phase-bar, body.dark-mode .sg-trainer-bar { background: #2a2a4a; }
+body.dark-mode .sg-overall-bar, body.dark-mode .sg-phase-bar, body.dark-mode .sg-activity-bar { background: #2a2a4a; }
 body.dark-mode .sg-next-card { background: var(--card); }
 body.dark-mode .sg-step-dot { background: var(--card); }
 body.dark-mode .sg-dot-complete { background: var(--success); }

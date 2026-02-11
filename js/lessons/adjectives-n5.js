@@ -165,8 +165,8 @@ var LESSON_ADJECTIVES_N5 = {
                 '<li><strong>Irregular:</strong> いい conjugates with よ stem (よくない, よかった)</li>' +
                 '<li><strong>Trap:</strong> きれい ends in い but is a な-adjective!</li>' +
                 '</ul>' +
-                '<p>Practice these with the Grammar Trainer to lock them in!</p>',
-            nextActivity: 'gram-trainer'
+                '<p>Practice these with the Grammar Activity to lock them in!</p>',
+            nextActivity: 'gram-activity'
         }
     ]
 };

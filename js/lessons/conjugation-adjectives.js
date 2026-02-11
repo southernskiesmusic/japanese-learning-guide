@@ -212,8 +212,8 @@ var LESSON_CONJUGATION_ADJECTIVES = {
                 '<li><strong>Exception:</strong> いい (good) → よくない / よかった / よくなかった / よくて / よく</li>' +
                 '<li><strong>Watch out:</strong> きれい and きらい look like い-adjectives but are な-adjectives!</li>' +
                 '</ul>' +
-                '<p>Now practise adjective conjugation in the Conjugation Trainer!</p>',
-            nextActivity: 'conj-trainer'
+                '<p>Now practise adjective conjugation in the Conjugation Activity!</p>',
+            nextActivity: 'conj-activity'
         }
     ]
 };

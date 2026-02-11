@@ -206,9 +206,9 @@ const LESSON_KATAKANA_INTRO = {
                     <li>Common confusing pairs: <span class="jp-medium">シ</span> (shi) vs <span class="jp-medium">ツ</span> (tsu), <span class="jp-medium">ソ</span> (so) vs <span class="jp-medium">ン</span> (n)</li>
                     <li>Loan words like <span class="jp-medium">コーヒー</span> (coffee), <span class="jp-medium">テレビ</span> (TV), <span class="jp-medium">ラーメン</span> (ramen)</li>
                 </ul>
-                <p>Ready to practise? Head to the <strong>Katakana Trainer</strong> to build speed and accuracy!</p>
+                <p>Ready to practise? Head to the <strong>Katakana Activity</strong> to build speed and accuracy!</p>
             `,
-            nextActivity: 'kata-trainer'
+            nextActivity: 'kata-activity'
         }
     ]
 };

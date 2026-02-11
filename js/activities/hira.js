@@ -1,5 +1,5 @@
 /* ================================================================
-   HIRA — Hiragana Trainer
+   HIRA — Hiragana Activity
    Question types: kana→romaji MC, romaji→kana MC,
                    kana→type romaji, romaji→type kana (JP keyboard),
                    kana→write (canvas)
@@ -9,7 +9,7 @@ const HIRA = {
     currentQ: null, level: 'basic', mode: 'quiz',
 
     init() {
-        loadTrainerStats('HIRA', this);
+        loadActivityStats('HIRA', this);
         this.updateUI();
     },
 
@@ -202,7 +202,7 @@ const HIRA = {
         if (correct) { this.score++; this.streak++; }
         else this.streak = 0;
         this.updateUI();
-        saveTrainerStats('HIRA', this, correct);
+        saveActivityStats('HIRA', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Keep practising!',
             '<span class="jp-large">' + this.currentQ.answer + '</span> = ' + this.currentQ.romaji);
     },
@@ -228,7 +228,7 @@ const HIRA = {
         SRS.review(srsKey, correct ? 4 : 1);
 
         this.updateUI();
-        saveTrainerStats('HIRA', this, correct);
+        saveActivityStats('HIRA', this, correct);
 
         const explanation = q.kana
             ? '<span class="jp-medium">' + q.kana + '</span> = ' + (q.romaji || q.answer)
@@ -254,7 +254,7 @@ const HIRA = {
 
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('HIRA', this, correct);
+        saveActivityStats('HIRA', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             '<span class="jp-large">' + q.kana + '</span> = ' + q.answer);
     },
@@ -277,7 +277,7 @@ const HIRA = {
 
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('HIRA', this, correct);
+        saveActivityStats('HIRA', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             q.romaji + ' = <span class="jp-large">' + q.answer + '</span>');
     },

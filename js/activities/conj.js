@@ -1,5 +1,5 @@
 /* ================================================================
-   CONJ — Conjugation Trainer
+   CONJ — Conjugation Activity
    Question types: type conjugation, MC conjugation, identify form,
                    MC meaning, type adj conjugation, MC adj conjugation,
                    identify adj type
@@ -9,7 +9,7 @@ const CONJ = {
     currentQ: null, level: 'verbs', // 'verbs', 'adjectives', 'all'
 
     init() {
-        loadTrainerStats('CONJ', this);
+        loadActivityStats('CONJ', this);
         this.updateUI();
     },
 
@@ -271,7 +271,7 @@ const CONJ = {
         SRS.review(srsKey, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('CONJ', this, correct);
+        saveActivityStats('CONJ', this, correct);
 
         const display = q.kanji || q.verb || q.adjective;
         const formLabel = CONJUGATION_DATA.formNames[q.form] || q.form;
@@ -296,7 +296,7 @@ const CONJ = {
         const srsKey = 'conj-' + (q.verb || q.adjective) + '-' + (q.form || q.adjType || 'mc');
         SRS.review(srsKey, correct ? 4 : 1);
         this.updateUI();
-        saveTrainerStats('CONJ', this, correct);
+        saveActivityStats('CONJ', this, correct);
 
         const display = q.kanji || q.verb || q.adjective || '';
         const formLabel = q.form ? (CONJUGATION_DATA.formNames[q.form] || q.form) : '';

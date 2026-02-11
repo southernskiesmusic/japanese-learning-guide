@@ -1,5 +1,5 @@
 /* ================================================================
-   NUM — Numbers & Counting Trainer
+   NUM — Numbers & Counting Activity
    Question types: numberToJp, jpToNumber, counterMC, timeMC,
                    daysMC, moneyType
    ================================================================ */
@@ -8,7 +8,7 @@ const NUM = {
     currentQ: null, level: 'basic', // 'basic', 'counters', 'time', 'all'
 
     init() {
-        loadTrainerStats('NUM', this);
+        loadActivityStats('NUM', this);
         this.updateUI();
     },
 
@@ -397,7 +397,7 @@ const NUM = {
 
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('NUM', this, correct);
+        saveActivityStats('NUM', this, correct);
 
         let expl = '';
         if (q.type === 'typedNumber') {
@@ -432,7 +432,7 @@ const NUM = {
         SRS.review(srsKey, correct ? 4 : 1);
 
         this.updateUI();
-        saveTrainerStats('NUM', this, correct);
+        saveActivityStats('NUM', this, correct);
 
         let expl = '';
         if (q.counter) {

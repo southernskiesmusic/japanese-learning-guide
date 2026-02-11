@@ -1,5 +1,5 @@
 /* ================================================================
-   KANJI — Kanji Trainer
+   KANJI — Kanji Activity
    Question types: kanji→meaning MC, meaning→kanji MC,
                    kanji→type reading, reading→kanji MC,
                    kanji→write, example word recognition
@@ -9,7 +9,7 @@ const KANJI = {
     currentQ: null, level: 'n5', mode: 'quiz',
 
     init() {
-        loadTrainerStats('KANJI', this);
+        loadActivityStats('KANJI', this);
         this.updateUI();
     },
 
@@ -204,7 +204,7 @@ const KANJI = {
         this.total++;
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         this.updateUI();
-        saveTrainerStats('KANJI', this, correct);
+        saveActivityStats('KANJI', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Keep practising!',
             '<span class="jp-large">' + this.currentQ.answer + '</span> = ' + this.currentQ.meaning);
     },
@@ -223,7 +223,7 @@ const KANJI = {
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         SRS.review('kanji-' + (q.kanji || q.answer), correct ? 4 : 1);
         this.updateUI();
-        saveTrainerStats('KANJI', this, correct);
+        saveActivityStats('KANJI', this, correct);
         const expl = q.kanji
             ? '<span class="jp-large">' + q.kanji + '</span> = ' + (q.meaning || q.answer)
             : '<span class="jp-large">' + q.answer + '</span> = ' + (q.meaning || '');
@@ -241,7 +241,7 @@ const KANJI = {
         SRS.review('kanji-' + q.kanji, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('KANJI', this, correct);
+        saveActivityStats('KANJI', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             '<span class="jp-large">' + q.kanji + '</span> — ' + q.readingType + ': ' + q.fullReading +
             '<br>Meaning: ' + q.meaning);

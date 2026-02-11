@@ -233,8 +233,8 @@ var LESSON_SENTENCE_STRUCTURE = {
                 '<li><strong>Questions</strong> — add か; use 何, どこ, いつ, だれ</li>' +
                 '<li><strong>Connecting sentences</strong> — て (and then), から (because), が (but)</li>' +
                 '</ul>' +
-                '<p>Keep practising sentence building with the Grammar Trainer!</p>',
-            nextActivity: 'gram-trainer'
+                '<p>Keep practising sentence building with the Grammar Activity!</p>',
+            nextActivity: 'gram-activity'
         }
     ]
 };

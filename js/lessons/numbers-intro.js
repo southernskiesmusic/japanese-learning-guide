@@ -285,8 +285,8 @@ var LESSON_NUMBERS_INTRO = {
                 '<li><strong>Thousands:</strong> ～せん (irregulars: 3000=さんぜん, 8000=はっせん)</li>' +
                 '<li><strong>Money:</strong> Number + えん (e.g. ¥500 = ごひゃくえん)</li>' +
                 '</ul>' +
-                '<p>Practice these numbers with the <strong>Numbers Trainer</strong> to build speed and confidence!</p>',
-            nextActivity: 'num-trainer'
+                '<p>Practice these numbers with the <strong>Numbers Activity</strong> to build speed and confidence!</p>',
+            nextActivity: 'num-activity'
         }
     ]
 };

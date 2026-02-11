@@ -248,8 +248,8 @@ var LESSON_CONVERSATIONS_DAILY = {
                 '<li><strong>Set phrases</strong> — wait, repeat, slow down, help</li>' +
                 '<li><strong>Payment vocabulary</strong> — cash, card, change, receipt</li>' +
                 '</ul>' +
-                '<p>Keep practising these conversations with the <strong>Conversation Trainer</strong> to build fluency!</p>',
-            nextActivity: 'conv-trainer'
+                '<p>Keep practising these conversations with the <strong>Conversation Activity</strong> to build fluency!</p>',
+            nextActivity: 'conv-activity'
         }
     ]
 };

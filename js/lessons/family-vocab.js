@@ -165,8 +165,8 @@ var LESSON_FAMILY_VOCAB = {
                 '<li><strong>Humble forms</strong> (ちち, はは, あに, あね, おとうと, いもうと) — for your own family</li>' +
                 '<li><strong>Polite forms</strong> (おとうさん, おかあさん, おにいさん, おねえさん) — for someone else\'s family</li>' +
                 '</ul>' +
-                '<p>Remember: humble forms are shorter, polite forms usually have お or さん. Practice with the Vocabulary Trainer!</p>',
-            nextActivity: 'vocab-trainer'
+                '<p>Remember: humble forms are shorter, polite forms usually have お or さん. Practice with the Vocabulary Activity!</p>',
+            nextActivity: 'vocab-activity'
         }
     ]
 };

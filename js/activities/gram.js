@@ -1,5 +1,5 @@
 /* ================================================================
-   GRAM — Grammar Trainer
+   GRAM — Grammar Activity
    Question types: particle fill-in, verb conjugation,
                    sentence reordering, JP→EN translation MC
    ================================================================ */
@@ -8,7 +8,7 @@ const GRAM = {
     currentQ: null, level: 'n5',
 
     init() {
-        loadTrainerStats('GRAM', this);
+        loadActivityStats('GRAM', this);
         this.updateUI();
     },
 
@@ -62,7 +62,7 @@ const GRAM = {
         SRS.review('gram-particle-' + q.answer, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('GRAM', this, correct);
+        saveActivityStats('GRAM', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             'The correct particle is: <span class="jp-medium">' + q.answer + '</span>');
     },
@@ -105,7 +105,7 @@ const GRAM = {
         SRS.review('gram-conj-' + q.verb + '-' + q.form, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('GRAM', this, correct);
+        saveActivityStats('GRAM', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             q.verb + ' → ' + q.form + ' form: <span class="jp-medium">' + q.answer + '</span>');
     },
@@ -246,7 +246,7 @@ const GRAM = {
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         SRS.review('gram-reorder', correct ? 4 : 2);
         this.updateUI();
-        saveTrainerStats('GRAM', this, correct);
+        saveActivityStats('GRAM', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             'Correct order: <span class="jp-medium">' + q.answer.join('') + '</span>');
     },
@@ -263,7 +263,7 @@ const GRAM = {
         SRS.review('gram-reorder', correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('GRAM', this, correct);
+        saveActivityStats('GRAM', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             'Correct order: <span class="jp-medium">' + q.answer.join(' ') + '</span>');
     },
@@ -306,7 +306,7 @@ const GRAM = {
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         SRS.review('gram-translate', correct ? 4 : 1);
         this.updateUI();
-        saveTrainerStats('GRAM', this, correct);
+        saveActivityStats('GRAM', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             '<span class="jp-medium">' + (q.jp || '') + '</span> = ' + q.answer);
     },

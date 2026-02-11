@@ -240,8 +240,8 @@ var LESSON_VERB_FORMS = {
                 '<li><strong>Te-form</strong> — requests, progressive, connecting</li>' +
                 '<li><strong>Ta-form</strong> — past tense ("did")</li>' +
                 '</ul>' +
-                '<p>Now test your conjugation skills with the Grammar Trainer!</p>',
-            nextActivity: 'gram-trainer'
+                '<p>Now test your conjugation skills with the Grammar Activity!</p>',
+            nextActivity: 'gram-activity'
         }
     ]
 };

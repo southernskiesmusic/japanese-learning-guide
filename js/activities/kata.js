@@ -1,5 +1,5 @@
 /* ================================================================
-   KATA — Katakana Trainer
+   KATA — Katakana Activity
    Same structure as HIRA but uses KATAKANA_DATA
    ================================================================ */
 const KATA = {
@@ -7,7 +7,7 @@ const KATA = {
     currentQ: null, level: 'basic', mode: 'quiz',
 
     init() {
-        loadTrainerStats('KATA', this);
+        loadActivityStats('KATA', this);
         this.updateUI();
     },
 
@@ -164,7 +164,7 @@ const KATA = {
         this.total++;
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         this.updateUI();
-        saveTrainerStats('KATA', this, correct);
+        saveActivityStats('KATA', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Keep practising!',
             '<span class="jp-large">' + this.currentQ.answer + '</span> = ' + this.currentQ.romaji);
     },
@@ -183,7 +183,7 @@ const KATA = {
         if (correct) { this.score++; this.streak++; } else this.streak = 0;
         SRS.review('kata-' + (q.romaji || q.kana), correct ? 4 : 1);
         this.updateUI();
-        saveTrainerStats('KATA', this, correct);
+        saveActivityStats('KATA', this, correct);
         const explanation = q.kana
             ? '<span class="jp-medium">' + q.kana + '</span> = ' + (q.romaji || q.answer)
             : '<span class="jp-medium">' + q.answer + '</span> = ' + q.romaji;
@@ -201,7 +201,7 @@ const KATA = {
         SRS.review('kata-' + q.answer, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('KATA', this, correct);
+        saveActivityStats('KATA', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             '<span class="jp-large">' + q.kana + '</span> = ' + q.answer);
     },
@@ -217,7 +217,7 @@ const KATA = {
         SRS.review('kata-' + q.romaji, correct ? 5 : 1);
         inp.disabled = true;
         this.updateUI();
-        saveTrainerStats('KATA', this, correct);
+        saveActivityStats('KATA', this, correct);
         this.showFeedback(correct, correct ? 'Correct!' : 'Not quite',
             q.romaji + ' = <span class="jp-large">' + q.answer + '</span>');
     },

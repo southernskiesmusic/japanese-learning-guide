@@ -225,8 +225,8 @@ var LESSON_CONVERSATIONS_INTRO = {
                 '<li><strong>Restaurant phrases</strong> — ordering, asking for the menu, requesting the bill</li>' +
                 '<li><strong>Direction phrases</strong> — asking where, left/right/straight, distance questions</li>' +
                 '</ul>' +
-                '<p>Now practise these dialogues with the <strong>Conversation Trainer</strong>!</p>',
-            nextActivity: 'conv-trainer'
+                '<p>Now practise these dialogues with the <strong>Conversation Activity</strong>!</p>',
+            nextActivity: 'conv-activity'
         }
     ]
 };

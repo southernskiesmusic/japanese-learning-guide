@@ -226,8 +226,8 @@ var LESSON_CONJUGATION_VERBS = {
                 '<li><strong>Group 3</strong> — する and くる must be memorised</li>' +
                 '<li><strong>Key forms:</strong> masu (polite), nai (negative), te (requests/connecting), ta (past)</li>' +
                 '</ul>' +
-                '<p>Now practise verb conjugation in the Conjugation Trainer!</p>',
-            nextActivity: 'conj-trainer'
+                '<p>Now practise verb conjugation in the Conjugation Activity!</p>',
+            nextActivity: 'conj-activity'
         }
     ]
 };

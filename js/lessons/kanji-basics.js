@@ -176,9 +176,9 @@ const LESSON_KANJI_BASICS = {
                     <li>The number kanji: <span class="jp-medium">一 二 三 四 五</span> (1-5)</li>
                     <li>Effective study strategies: write, learn in context, use SRS, make mnemonics</li>
                 </ul>
-                <p>You're ready to start learning N5 kanji! Head to the <strong>Kanji Trainer</strong> to practise recognition and readings.</p>
+                <p>You're ready to start learning N5 kanji! Head to the <strong>Kanji Activity</strong> to practise recognition and readings.</p>
             `,
-            nextActivity: 'kanji-trainer'
+            nextActivity: 'kanji-activity'
         }
     ]
 };
