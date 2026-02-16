@@ -22,6 +22,12 @@ function showView(id) {
     const sr = document.getElementById('search-results');
     if (si) si.value = '';
     if (sr) { sr.classList.remove('show'); sr.innerHTML = ''; }
+    // Reset tab teleport when returning to hub
+    if (id === 'hub') {
+        document.querySelectorAll('.tab-tp-btn').forEach(b => b.classList.remove('active'));
+        var allTab = document.querySelector('.tab-tp-btn[data-tp="hub"]');
+        if (allTab) allTab.classList.add('active');
+    }
     window.scrollTo(0, 0);
 }
 

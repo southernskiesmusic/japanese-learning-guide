@@ -764,6 +764,28 @@ body.font-mono { font-family: 'JetBrains Mono', monospace; }
 .search-result-type { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text-light); margin-left: 8px; }
 .search-hidden { display: none !important; }
 
+/* ---- Tab Teleport Bar ---- */
+.tab-teleport {
+    display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    padding: 4px 0 12px; margin-bottom: 8px; scrollbar-width: none;
+}
+.tab-teleport::-webkit-scrollbar { display: none; }
+.tab-tp-btn {
+    flex-shrink: 0; padding: 8px 16px; border: 2px solid rgba(128,128,128,0.15);
+    border-radius: 20px; background: var(--card); color: var(--text-light);
+    font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+}
+.tab-tp-btn:hover { border-color: var(--primary); color: var(--primary); }
+.tab-tp-btn.active {
+    background: var(--primary); color: #fff; border-color: var(--primary);
+}
+body.dark-mode .tab-tp-btn { background: #0f1a30; border-color: #2a2a4a; color: #8892a4; }
+body.dark-mode .tab-tp-btn:hover { border-color: var(--primary); color: var(--primary); }
+body.dark-mode .tab-tp-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+body.has-bg .tab-tp-btn { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+body.has-bg.dark-mode .tab-tp-btn { background: rgba(15,26,48,0.85); }
+
 /* ---- Leaderboard ---- */
 .topic-tag.lb { background: #ffc107; color: #333; }
 .lb-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }

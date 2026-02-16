@@ -56,6 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ---- Tab teleport bar ----
+    document.querySelectorAll('.tab-tp-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-tp-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const tp = btn.dataset.tp;
+            if (tp === 'hub') return; // already on hub
+            const card = document.querySelector('.topic-card[data-topic="' + tp + '"]');
+            if (card) card.click();
+        });
+    });
+
     // ---- Lesson card navigation ----
     const LESSONS = {
         'hiragana-intro': typeof LESSON_HIRAGANA_INTRO !== 'undefined' ? LESSON_HIRAGANA_INTRO : null,
