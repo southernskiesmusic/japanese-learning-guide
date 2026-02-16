@@ -767,9 +767,11 @@ body.font-mono { font-family: 'JetBrains Mono', monospace; }
 /* ---- Tab Teleport Bar ---- */
 .tab-teleport {
     display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
-    padding: 4px 0 12px; margin-bottom: 8px; scrollbar-width: none;
+    padding: 4px 0 12px; margin-bottom: 8px; scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.3) transparent;
 }
-.tab-teleport::-webkit-scrollbar { display: none; }
+.tab-teleport::-webkit-scrollbar { height: 4px; }
+.tab-teleport::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 2px; }
+.tab-teleport::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 .tab-tp-btn {
     flex-shrink: 0; padding: 8px 16px; border: 2px solid rgba(128,128,128,0.15);
     border-radius: 20px; background: var(--card); color: var(--text-light);
