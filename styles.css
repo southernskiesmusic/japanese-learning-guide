@@ -767,7 +767,8 @@ body.font-mono { font-family: 'JetBrains Mono', monospace; }
 /* ---- Tab Teleport Bar ---- */
 .tab-teleport {
     display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
-    padding: 4px 0 12px; margin-bottom: 8px; scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.3) transparent;
+    padding: 8px 20px 8px; margin: 0 -20px 8px; scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.3) transparent;
+    position: sticky; top: 0; z-index: 100; background: var(--bg);
 }
 .tab-teleport::-webkit-scrollbar { height: 4px; }
 .tab-teleport::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 2px; }
@@ -782,10 +783,13 @@ body.font-mono { font-family: 'JetBrains Mono', monospace; }
 .tab-tp-btn.active {
     background: var(--primary); color: #fff; border-color: var(--primary);
 }
+body.dark-mode .tab-teleport { background: var(--bg); }
 body.dark-mode .tab-tp-btn { background: #0f1a30; border-color: #2a2a4a; color: #8892a4; }
 body.dark-mode .tab-tp-btn:hover { border-color: var(--primary); color: var(--primary); }
 body.dark-mode .tab-tp-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+body.has-bg .tab-teleport { background: rgba(240,242,245,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 body.has-bg .tab-tp-btn { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+body.has-bg.dark-mode .tab-teleport { background: rgba(26,26,46,0.85); }
 body.has-bg.dark-mode .tab-tp-btn { background: rgba(15,26,48,0.85); }
 
 /* ---- Leaderboard ---- */
