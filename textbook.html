@@ -288,6 +288,28 @@ p { margin-bottom: 10px; }
 ul, ol { margin-bottom: 12px; padding-left: 22px; }
 li { margin-bottom: 4px; }
 strong { color: var(--text); }
+
+/* ===== Tab Navigation ===== */
+.tab-nav {
+    display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    padding: 10px 18mm; margin: 0 -18mm;
+    position: sticky; top: 0; z-index: 100; background: #fff;
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.3) transparent;
+}
+.tab-nav::-webkit-scrollbar { height: 4px; }
+.tab-nav::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 2px; }
+.tab-btn {
+    flex-shrink: 0; padding: 6px 14px; border-radius: 18px;
+    background: var(--gray); color: var(--text-light); text-decoration: none;
+    font-size: 0.82rem; font-weight: 600; transition: all 0.2s; white-space: nowrap;
+}
+.tab-btn:hover { background: var(--red-light); color: var(--red); }
+.tab-btn.active { background: var(--red); color: #fff; }
+.tab-app { background: var(--blue-light); color: var(--blue); }
+.tab-app:hover { background: var(--blue); color: #fff; }
+.tab-app.active { background: var(--blue); color: #fff; }
+@media print { .tab-nav { display: none; } }
 </style>
 </head>
 <body>
@@ -334,8 +356,28 @@ strong { color: var(--text); }
     </ul>
 </div>
 
+<!-- Tab Navigation -->
+<nav class="tab-nav" id="tab-nav">
+    <a class="tab-btn" href="#ch1">1</a>
+    <a class="tab-btn" href="#ch2">2</a>
+    <a class="tab-btn" href="#ch3">3</a>
+    <a class="tab-btn" href="#ch4">4</a>
+    <a class="tab-btn" href="#ch5">5</a>
+    <a class="tab-btn" href="#ch6">6</a>
+    <a class="tab-btn" href="#ch7">7</a>
+    <a class="tab-btn" href="#ch8">8</a>
+    <a class="tab-btn" href="#ch9">9</a>
+    <a class="tab-btn" href="#ch10">10</a>
+    <a class="tab-btn" href="#ch11">11</a>
+    <a class="tab-btn" href="#ch12">12</a>
+    <a class="tab-btn" href="#ch13">13</a>
+    <a class="tab-btn tab-app" href="#appA">A</a>
+    <a class="tab-btn tab-app" href="#appB">B</a>
+    <a class="tab-btn tab-app" href="#appC">C</a>
+</nav>
+
 <!-- ═══════════════════════════════════════ CHAPTER 1 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch1">
     <div class="chapter-header">
         <div class="ch-num">Chapter 1</div>
         <h2>Hiragana — The Foundation</h2>
@@ -456,7 +498,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 2 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch2">
     <div class="chapter-header">
         <div class="ch-num">Chapter 2</div>
         <h2>Katakana — Foreign Words &amp; More</h2>
@@ -551,7 +593,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 3 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch3">
     <div class="chapter-header">
         <div class="ch-num">Chapter 3</div>
         <h2>Kanji — Chinese Characters in Japanese</h2>
@@ -632,7 +674,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 4 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch4">
     <div class="chapter-header">
         <div class="ch-num">Chapter 4</div>
         <h2>Sentence Structure &amp; Particles</h2>
@@ -790,7 +832,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 5 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch5">
     <div class="chapter-header">
         <div class="ch-num">Chapter 5</div>
         <h2>Verbs &amp; Conjugation</h2>
@@ -888,7 +930,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 6 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch6">
     <div class="chapter-header">
         <div class="ch-num">Chapter 6</div>
         <h2>Adjectives &amp; Descriptions</h2>
@@ -993,7 +1035,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 7 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch7">
     <div class="chapter-header">
         <div class="ch-num">Chapter 7</div>
         <h2>Essential Vocabulary</h2>
@@ -1060,7 +1102,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 8 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch8">
     <div class="chapter-header">
         <div class="ch-num">Chapter 8</div>
         <h2>Everyday Conversations</h2>
@@ -1171,7 +1213,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 9 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch9">
     <div class="chapter-header">
         <div class="ch-num">Chapter 9</div>
         <h2>Existence &amp; Demonstratives</h2>
@@ -1476,7 +1518,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 10 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch10">
     <div class="chapter-header">
         <div class="ch-num">Chapter 10</div>
         <h2>Expressing Wants, Suggestions &amp; Obligations</h2>
@@ -1668,7 +1710,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 11 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch11">
     <div class="chapter-header">
         <div class="ch-num">Chapter 11</div>
         <h2>Giving Reasons, Making Comparisons &amp; Connecting Ideas</h2>
@@ -1827,7 +1869,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 12 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch12">
     <div class="chapter-header">
         <div class="ch-num">Chapter 12</div>
         <h2>Counters &amp; Expanded Vocabulary</h2>
@@ -2011,7 +2053,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ CHAPTER 13 ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="ch13">
     <div class="chapter-header">
         <div class="ch-num">Chapter 13</div>
         <h2>Giving &amp; Receiving, Plain Form &amp; More Expressions</h2>
@@ -2186,7 +2228,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ APPENDIX A ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="appA">
     <div class="chapter-header" style="background: var(--blue);">
         <div class="ch-num">Appendix A</div>
         <h2>Complete Kana Charts</h2>
@@ -2246,7 +2288,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ APPENDIX B ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="appB">
     <div class="chapter-header" style="background: var(--blue);">
         <div class="ch-num">Appendix B</div>
         <h2>N5 Kanji List (103 Characters)</h2>
@@ -2398,7 +2440,7 @@ strong { color: var(--text); }
 </div>
 
 <!-- ═══════════════════════════════════════ APPENDIX C ═══════════════════════════════════════ -->
-<div class="chapter">
+<div class="chapter" id="appC">
     <div class="chapter-header" style="background: var(--blue);">
         <div class="ch-num">Appendix C</div>
         <h2>What's Next?</h2>
@@ -2429,5 +2471,37 @@ strong { color: var(--text); }
     </p>
 </div>
 
+<script>
+// Highlight active chapter tab on scroll
+(function() {
+    var tabs = document.querySelectorAll('.tab-btn');
+    var chapters = [];
+    tabs.forEach(function(t) {
+        var id = t.getAttribute('href').slice(1);
+        var el = document.getElementById(id);
+        if (el) chapters.push({ el: el, tab: t });
+    });
+    function update() {
+        var scrollY = window.scrollY + 60;
+        var active = chapters[0];
+        for (var i = 0; i < chapters.length; i++) {
+            if (chapters[i].el.offsetTop <= scrollY) active = chapters[i];
+        }
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        if (active) active.tab.classList.add('active');
+    }
+    window.addEventListener('scroll', update);
+    update();
+    // Smooth scroll
+    tabs.forEach(function(t) {
+        t.addEventListener('click', function(e) {
+            e.preventDefault();
+            var id = t.getAttribute('href').slice(1);
+            var el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+})();
+</script>
 </body>
 </html>
